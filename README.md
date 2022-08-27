@@ -1,15 +1,84 @@
-# ktdmq
-课堂点名器
 关于
-课堂点名器3.X 是由Python制作的，可以每次单人抽取也可以自己选择连抽人数进行多人连抽，并将这些随机抽取的学生姓名历史数据显示，能够活跃课堂氛围，排除主观因素，真正做到随机点名。
+这个点名器源码来自Dragon少年 基于Python：pyqt5，我和QQB对其ui和bug进行了调整和修复。
+
+可以每次单人抽取也可以自己选择连抽人数进行多人连抽，并将这些随机抽取的学生姓名历史数据显示，能够活跃课堂氛围，排除主观因素，真正做到随机点名。
 
 但由于技术原因，在连续抽取模式下，暂时无法做到不重复。
 
 制作：翰林实验学校2023届高三13班Yish_ (杨奕璇)2022.7.29于暑假期间
 
+一起用Python做个上课点名器，好玩又实用！_Dragon少年的博客-CSDN博客_python点名器
+
+课堂点名器 – QQB's Blog (hltool.top)
+
+Yish1/ktdmq: 课堂点名器 (github.com)
+
 ----------------------------------------------
 
-3.99最新版本发布说明 3.99Release Notes&Fixed Issues
+4.0版本发布说明 4.0Release Notes&Fixed Issues
+1.修复高DPI模式下，字体不能完全展示的bug 由QQB修复
+
+2.修复连抽模式下输入非数字导致崩溃的问题 由QQB修复
+
+3.修复32位系统兼容性问题 由QQB修复
+
+4.目前没有发现其他bug
+
+5. 4.0版本稍后上传
+
+6. 5.0版本或将完全重写界面，以后再说...
+
+通用版本下载
+https://yish.lanzouw.com/iWpvS09h32gd这是3.99
+
+使用说明
+名单：只有通用版本可以修改名单，打开后将自动在目录下生成名单.txt，您需要手动将里面的文字替换成点名的名单，格式为一行一个名字！！！
+
+定制版本下载
+定制版本名单封装至程序内，无法修改名单！！！
+
+不再提供定制版下载，如有名单定制需求，可自行修改代码，或联系我。
+
+
+----------------------------------------------
+
+功能介绍
+3.5使用视频
+
+部分源码展示
+    def ten(self):
+        num = self.lineEdit.text()
+        print (num)
+        num = int(num)
+        if not num =='' and not num<=0 and not num>43:
+            if num > 20:
+                reply = QtWidgets.QMessageBox.warning(self, u'警告', u'认真的吗，这么多', QtWidgets.QMessageBox.Yes)
+            self.listWidget_2.clear()
+            for i in range (0,int(num)):
+                name = name_list[randint(0, len(name_list) - 1)]
+                self.listWidget_2.addItem(name)
+                self.listWidget.addItem(name)
+        elif num =='':
+            reply = QtWidgets.QMessageBox.warning(self, u'警告', u'请输入数字', QtWidgets.QMessageBox.Yes)
+            self.listWidget_2.clear()
+        elif num<0:
+            reply = QtWidgets.QMessageBox.warning(self, u'警告', u'你见过负数个人么???????', QtWidgets.QMessageBox.Yes)
+            self.listWidget_2.clear()
+        elif num==0:
+          reply = QtWidgets.QMessageBox.warning(self, u'警告', u'人都被你吃了？？？', QtWidgets.QMessageBox.Yes)
+            self.listWidget_2.clear()
+        elif num>100:
+ 
+            reply = QtWidgets.QMessageBox.warning(self, u'警告'想玩？就不让你抽！~', QtWidgets.QMessageBox.Yes)
+            self.listWidget_2.clear()
+ 
+    def ren(self):
+        os.system('start ./名单.txt')
+----------------------------------------------
+
+Yish1/ktdmq: 课堂点名器 (github.com)
+
+以下为过时的内容
 2022.8.13更新3.99
 
 此更新3.99仅限13班定制版点名器，其余版本仍为3.90-3.95（3.90到3.95内容完全一样）
@@ -52,25 +121,3 @@
 ⑤在连抽模式下，抽取人数在44-100区间内不会有提示，也无法抽取（因为我忘记改了，懒得修复，应该也不会抽这么多）
 
 目前没有发现更多的问题。
-
-通用版本下载
-https://yish.lanzouw.com/iWpvS09h32gd
-
-使用说明
-名单：只有通用版本可以修改名单，打开后将自动在目录下生成名单.txt，您需要手动将里面的文字替换成点名的名单，格式为一行一个名字！！！
-
-定制版本下载
-定制版本名单封装至程序内，无法修改名单！！！
-
-除通用版外，存在以下定制版本
-
-5班生物课堂点名器（生物） https://yish.lanzouw.com/i166k09h30gb
-
-5班课堂点名器（全班）https://yish.lanzouw.com/iGpTs09h2ywf
-
-8班课堂点名器https://yish.lanzouw.com/iddJt09h30te
-
-13班课堂点名器https://yish.lanzouw.com/iwvkN09h312d
-
-13班课堂点名器-锟哥50倍概率版本https://yish.lanzouw.com/imZSH09h31ij
-
