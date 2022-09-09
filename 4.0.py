@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-#颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-#ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
-from multiprocessing.resource_sharer import stop
-import sys,os
-from random import randint
-from zlib import Z_TREES
+# 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+# ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
+import sys, random
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt, QTimer
@@ -14,10 +11,10 @@ from win32con import MB_OK, MB_ICONWARNING
 from win32 import win32api, win32gui, win32print
 from win32.lib import win32con
 
-#屏幕检测
+# 屏幕检测
 """获取缩放后的分辨率"""
-sX = win32api.GetSystemMetrics(0)   #获得屏幕分辨率X轴
-sY = win32api.GetSystemMetrics(1)   #获得屏幕分辨率Y轴
+sX = win32api.GetSystemMetrics(0)  # 获得屏幕分辨率X轴
+sY = win32api.GetSystemMetrics(1)  # 获得屏幕分辨率Y轴
 """获取真实的分辨率"""
 hDC = win32gui.GetDC(0)
 w = win32print.GetDeviceCaps(hDC, win32con.DESKTOPHORZRES)  # 横向分辨率
@@ -32,9 +29,8 @@ elif dpi == 1.25:
 
 big = False
 running = False
-
 name = True
-a = '''胡杰峰
+a = """胡杰峰
 黄嘉庆
 龙飞
 文理奥
@@ -76,40 +72,125 @@ a = '''胡杰峰
 刘海鹏
 谢作怡
 陈泽钜
-王俊'''
+王俊"""
 
 seed = False
 choud = False
 
+
 def name():
-    with open('名单.txt', 'w') as f:
+    with open("名单.txt", "w") as f:
         print(f.truncate())
         print(f.write(a))
 
 
 try:
-    wordlist3 = ['胡杰峰','黄嘉庆','龙飞','文理奥','柳一龙','罗欣悦','胡炳宏','孙博略','曾虹蜜','周子越','罗佳将','邹俊洋','薛明健','谢诚志','苏紫航','陈天意','邱泽',
-'欧帆','罗正锟','戎智涵','刘泽楠','丁杰林','卢萱煊','胡宏伟','张世杰','尹傲为','王尊','祝祯鸿','劳汉文','杨奕璇','谭湘莹','胡淇','张家鑫','沈艳玲','陈丙峰','肖景元',
-'黄炜杰','陈涛','钟涓','刘海鹏','谢作怡','陈泽钜','王俊']
+    wordlist3 = [
+        "胡杰峰",
+        "黄嘉庆",
+        "龙飞",
+        "文理奥",
+        "柳一龙",
+        "罗欣悦",
+        "胡炳宏",
+        "孙博略",
+        "曾虹蜜",
+        "周子越",
+        "罗佳将",
+        "邹俊洋",
+        "薛明健",
+        "谢诚志",
+        "苏紫航",
+        "陈天意",
+        "邱泽",
+        "欧帆",
+        "罗正锟",
+        "戎智涵",
+        "刘泽楠",
+        "丁杰林",
+        "卢萱煊",
+        "胡宏伟",
+        "张世杰",
+        "尹傲为",
+        "王尊",
+        "祝祯鸿",
+        "劳汉文",
+        "杨奕璇",
+        "谭湘莹",
+        "胡淇",
+        "张家鑫",
+        "沈艳玲",
+        "陈丙峰",
+        "肖景元",
+        "黄炜杰",
+        "陈涛",
+        "钟涓",
+        "刘海鹏",
+        "谢作怡",
+        "陈泽钜",
+        "王俊",
+    ]
     name_list = wordlist3
 except:
 
     name()
     name = False
 
-    name_list = ['胡杰峰','黄嘉庆','龙飞','文理奥','柳一龙','罗欣悦','胡炳宏','孙博略','曾虹蜜','周子越','罗佳将','邹俊洋','薛明健','谢诚志','苏紫航','陈天意','邱泽',
-'欧帆','罗正锟','戎智涵','刘泽楠','丁杰林','卢萱煊','胡宏伟','张世杰','尹傲为','王尊','祝祯鸿','劳汉文','杨奕璇','谭湘莹','胡淇','张家鑫','沈艳玲','陈丙峰','肖景元',
-'黄炜杰','陈涛','钟涓','刘海鹏','谢作怡','陈泽钜','王俊']
+    name_list = [
+        "胡杰峰",
+        "黄嘉庆",
+        "龙飞",
+        "文理奥",
+        "柳一龙",
+        "罗欣悦",
+        "胡炳宏",
+        "孙博略",
+        "曾虹蜜",
+        "周子越",
+        "罗佳将",
+        "邹俊洋",
+        "薛明健",
+        "谢诚志",
+        "苏紫航",
+        "陈天意",
+        "邱泽",
+        "欧帆",
+        "罗正锟",
+        "戎智涵",
+        "刘泽楠",
+        "丁杰林",
+        "卢萱煊",
+        "胡宏伟",
+        "张世杰",
+        "尹傲为",
+        "王尊",
+        "祝祯鸿",
+        "劳汉文",
+        "杨奕璇",
+        "谭湘莹",
+        "胡淇",
+        "张家鑫",
+        "沈艳玲",
+        "陈丙峰",
+        "肖景元",
+        "黄炜杰",
+        "陈涛",
+        "钟涓",
+        "刘海鹏",
+        "谢作怡",
+        "陈泽钜",
+        "王俊",
+    ]
 
 
 class Ui_MainWindow(QMainWindow):
-
     def __init__(self):
         super().__init__()
         self.RowLength = 0
         try:
             from os import path as pathq
-            icon_path = pathq.join(pathq.dirname(__file__), './123.ico')       #任务栏的ico
+
+            icon_path = pathq.join(pathq.dirname(__file__), "./123.ico")  # 任务栏的ico
 
             icon = QIcon()
             icon.addPixmap(QPixmap(icon_path))  # 这是对的。
@@ -119,27 +200,27 @@ class Ui_MainWindow(QMainWindow):
         # self.setupUi(MainWindow())
 
     def setupUi(self, MainWindow):
-        #以下课直接粘贴生成的setupui代码
+        # 以下课直接粘贴生成的setupui代码
         MainWindow.setObjectName("13班点名器By Yish_")
         MainWindow.resize(460, 400)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(30,45, 470, 150))#主体
+        self.label.setGeometry(QtCore.QRect(30, 45, 470, 150))  # 主体
         font = QtGui.QFont()
         font.setFamily("宋体")
-        font.setPointSize(zt)#主体大小#字体大小
+        font.setPointSize(zt)  # 主体大小#字体大小
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(75, 220, 111, 61))#开始按钮
+        self.pushButton.setGeometry(QtCore.QRect(75, 220, 111, 61))  # 开始按钮
         font = QtGui.QFont()
         font.setFamily("宋体")
         font.setPointSize(20)
         self.pushButton.setFont(font)
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(283, 220, 111, 61))#结束按钮
+        self.pushButton_2.setGeometry(QtCore.QRect(283, 220, 111, 61))  # 结束按钮
         font = QtGui.QFont()
         font.setFamily("宋体")
         font.setPointSize(20)
@@ -147,7 +228,7 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_2.setObjectName("pushButton_2")
 
         self.pushButton_9 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_9.setGeometry(QtCore.QRect(10, 10, 50, 30))#关于
+        self.pushButton_9.setGeometry(QtCore.QRect(10, 10, 50, 30))  # 关于
         font = QtGui.QFont()
         font.setFamily("宋体")
         font.setPointSize(11)
@@ -155,7 +236,7 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_9.setObjectName("pushButton_9")
 
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget.setGeometry(QtCore.QRect(12, 420, 435, 250))#统计
+        self.listWidget.setGeometry(QtCore.QRect(12, 420, 435, 250))  # 统计
         self.listWidget.setObjectName("listWidget")
         font = QtGui.QFont()
         font.setPointSize(15)
@@ -163,19 +244,20 @@ class Ui_MainWindow(QMainWindow):
         self.listWidget.setFocusPolicy(QtCore.Qt.WheelFocus)
 
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(20, 375, 210, 21))#文字
+        self.label_2.setGeometry(QtCore.QRect(20, 375, 210, 21))  # 文字
         self.label_2.setObjectName("label_2")
         self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_5.setGeometry(QtCore.QRect(20, 320, 111, 35))#查看点过的名字
+        self.pushButton_5.setGeometry(QtCore.QRect(20, 320, 111, 35))  # 查看点过的名字
         self.pushButton_5.setObjectName("pushButton_5")
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_6.setGeometry(QtCore.QRect(360, 320, 75, 35))#连抽模式
+        self.pushButton_6.setGeometry(QtCore.QRect(360, 320, 75, 35))  # 连抽模式
         self.pushButton_6.setObjectName("pushButton_6")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(580, 260, 89, 20))#连抽输入框
+        self.lineEdit.setGeometry(QtCore.QRect(580, 260, 89, 20))  # 连抽输入框
         self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit.setText('2')
-        self.lineEdit.setStyleSheet('''
+        self.lineEdit.setText("2")
+        self.lineEdit.setStyleSheet(
+            """
         QListView, QLineEdit { 
             color: #D2D2D2; 
             background-color:#29292C;
@@ -192,27 +274,30 @@ class Ui_MainWindow(QMainWindow):
             padding: 2px 4px; 
         } 
         
-                ''')
+                """
+        )
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(525, 260, 56, 21))#连抽人数
+        self.label_3.setGeometry(QtCore.QRect(525, 260, 56, 21))  # 连抽人数
         self.label_3.setObjectName("label_3")
-        self.label_3.setStyleSheet('color:white;background:#222225')
+        self.label_3.setStyleSheet("color:white;background:#222225")
         self.pushButton_7 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_7.setGeometry(QtCore.QRect(679, 250, 111,40))#连抽开始
+        self.pushButton_7.setGeometry(QtCore.QRect(679, 250, 111, 40))  # 连抽开始
         font = QtGui.QFont()
         font.setFamily("宋体")
         font.setPointSize(20)
         self.pushButton_7.setFont(font)
         self.pushButton_7.setObjectName("pushButton_7")
         self.listWidget_2 = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget_2.setGeometry(QtCore.QRect(503, 20, 353, 221))#连抽列表
+        self.listWidget_2.setGeometry(QtCore.QRect(503, 20, 353, 221))  # 连抽列表
         font = QtGui.QFont()
         font.setPointSize(20)
         self.listWidget_2.setFont(font)
         self.listWidget_2.setFocusPolicy(QtCore.Qt.WheelFocus)
         self.listWidget_2.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.listWidget_2.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.listWidget_2.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.listWidget_2.setSizeAdjustPolicy(
+            QtWidgets.QAbstractScrollArea.AdjustToContents
+        )
         self.listWidget_2.setObjectName("listWidget_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -226,28 +311,35 @@ class Ui_MainWindow(QMainWindow):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-
         self.pushButton.clicked.connect(self.start)
 
         self.pushButton_2.clicked.connect(self.stop)
         self.pushButton_5.clicked.connect(self.showHistory)
 
-
         self.pushButton_7.setStyleSheet(
-            '''QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}''')            #连抽开始
+            """QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}"""
+        )  # 连抽开始
         self.pushButton_6.clicked.connect(self.showContinue)
         self.pushButton_7.clicked.connect(self.ten)
         self.pushButton_6.setStyleSheet(
-            '''QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}''')           #连抽模式
-        self.pushButton.setStyleSheet('''QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}''')  #单抽开始
-        self.pushButton_2.setStyleSheet('''QPushButton{background:#F76677;border-radius:5px;}QPushButton:hover{background:red;}''')  #单抽停止
+            """QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}"""
+        )  # 连抽模式
+        self.pushButton.setStyleSheet(
+            """QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}"""
+        )  # 单抽开始
+        self.pushButton_2.setStyleSheet(
+            """QPushButton{background:#F76677;border-radius:5px;}QPushButton:hover{background:red;}"""
+        )  # 单抽停止
         self.pushButton_9.setStyleSheet(
-            '''QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}''')           #关于
-        #以上可以修改
+            """QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}"""
+        )  # 关于
+        # 以上可以修改
         self.pushButton_5.setStyleSheet(
-            '''QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}''')           #查看点过的名字
-        #以上可以修改
-        self.centralwidget.setStyleSheet('''
+            """QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}"""
+        )  # 查看点过的名字
+        # 以上可以修改
+        self.centralwidget.setStyleSheet(
+            """
              QWidget#centralwidget{
              color:#222225;
              background:#222225;
@@ -261,7 +353,8 @@ class Ui_MainWindow(QMainWindow):
              border-bottom-right-radius:10px;
              }
 
-             ''')                                                    #上面是总（背景）
+             """
+        )  # 上面是总（背景）
         self.close_widget = QtWidgets.QWidget(self.centralwidget)
         self.close_widget.setGeometry(QtCore.QRect(365, 0, 90, 30))
         self.close_widget.setObjectName("close_widget")
@@ -281,15 +374,18 @@ class Ui_MainWindow(QMainWindow):
         self.left_visit.setFixedSize(20, 20)  # 设置按钮大小
         self.left_mini.setFixedSize(20, 20)  # 设置最小化按钮大小
         self.left_close.setStyleSheet(
-            '''QPushButton{background:#F76677;border-radius:5px;}QPushButton:hover{background:red;}''')    #右上角叉叉
+            """QPushButton{background:#F76677;border-radius:5px;}QPushButton:hover{background:red;}"""
+        )  # 右上角叉叉
         self.left_visit.setStyleSheet(
-            '''QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}''') 
+            """QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}"""
+        )
         self.left_mini.setStyleSheet(
-            '''QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}''')
+            """QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}"""
+        )
         self.pushButton_9.clicked.connect(self.cmxz)
-        self.label_2.setStyleSheet('color:white')
+        self.label_2.setStyleSheet("color:white")
 
-        self.scc = '''
+        self.scc = """
          QListWidget{background-color:#2B2B2B;color:white}
          /*垂直滚动条*/
          QScrollBar:vertical{
@@ -385,7 +481,7 @@ class Ui_MainWindow(QMainWindow):
          QScrollBar::sub-page:horizontal{
                      background:#2B2B2B;
          }
-        '''
+        """
         self.listWidget.setStyleSheet(self.scc)
         self.listWidget_2.setStyleSheet(self.scc)
 
@@ -393,77 +489,81 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setAttribute(Qt.WA_TranslucentBackground)
         MainWindow.setWindowFlag(Qt.FramelessWindowHint)  # 隐藏边框
 
-
-
     def ten(self):
         num = self.lineEdit.text()
-        print (num)
-        while True:               #检验数字
-            t=num   
-            try:        
-                num=eval(t)
-                if type(num)==int:
-                    break
-            except:
-                reply = QtWidgets.QMessageBox.warning(self, u'警告', u'啥玩意呀？请输入数字!!!', QtWidgets.QMessageBox.Yes)
-                return
-        num = int(num)
-        if not num =='' and not num<=0 and not num>114520:
+        print(num)
+        try:
+            num = int(num)
+        except ValueError:
+            reply = QtWidgets.QMessageBox.warning(
+                self, "警告", "啥玩意呀？请输入数字!!!", QtWidgets.QMessageBox.Yes
+            )
+            return
+        if not num <= 0 and not num > 114520:
             if num > 20:
-                reply = QtWidgets.QMessageBox.warning(self, u'警告', u'认真的吗，这么多？', QtWidgets.QMessageBox.Yes)
+                reply = QtWidgets.QMessageBox.warning(
+                    self, "警告", "认真的吗，这么多？", QtWidgets.QMessageBox.Yes
+                )
             self.listWidget_2.clear()
-            for i in range (0,int(num)):
-                name = name_list[randint(0, len(name_list) - 1)]
+            name_set = set()
+            while len(name_set) != num:
+                name_set.add(random.choice(name_list))
+            for name in name_set:
                 self.listWidget_2.addItem(name)
                 self.listWidget.addItem(name)
-        elif num =='':
-            reply = QtWidgets.QMessageBox.warning(self, u'警告', u'请输入数字', QtWidgets.QMessageBox.Yes)
+        elif num < 0:
+            # win32api.MessageBox(0, "你见过负数个人么???????", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
+            reply = QtWidgets.QMessageBox.warning(
+                self, "警告", "你见过负数个人么???????", QtWidgets.QMessageBox.Yes
+            )
             self.listWidget_2.clear()
-        elif num<0:
-            #win32api.MessageBox(0, "你见过负数个人么???????", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
-            reply = QtWidgets.QMessageBox.warning(self, u'警告', u'你见过负数个人么???????', QtWidgets.QMessageBox.Yes)
+        elif num == 0:
+            # win32api.MessageBox(0, "人都被你吃了？？？", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
+            reply = QtWidgets.QMessageBox.warning(
+                self, "警告", "人都被你吃了？？？", QtWidgets.QMessageBox.Yes
+            )
             self.listWidget_2.clear()
-        elif num==0:
-            #win32api.MessageBox(0, "人都被你吃了？？？", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
-            reply = QtWidgets.QMessageBox.warning(self, u'警告', u'人都被你吃了？？？', QtWidgets.QMessageBox.Yes)
+        elif num == 114514:
+            # win32api.MessageBox(0, "人都被你吃了？？？", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
+            reply = QtWidgets.QMessageBox.warning(
+                self, "警告", "喜欢这么臭的数字？", QtWidgets.QMessageBox.Yes
+            )
             self.listWidget_2.clear()
-        elif num==114514:
-            #win32api.MessageBox(0, "人都被你吃了？？？", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
-            reply = QtWidgets.QMessageBox.warning(self, u'警告', u'喜欢这么臭的数字？', QtWidgets.QMessageBox.Yes)
+        elif num > 114515:
+            # win32api.MessageBox(0, "想玩？就不让你抽！", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
+            reply = QtWidgets.QMessageBox.warning(
+                self, "警告", "想玩？就不让你抽！！~", QtWidgets.QMessageBox.Yes
+            )
             self.listWidget_2.clear()
-        elif num>114515:
-            #win32api.MessageBox(0, "想玩？就不让你抽！", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
-            reply = QtWidgets.QMessageBox.warning(self, u'警告', u'想玩？就不让你抽！！~', QtWidgets.QMessageBox.Yes)
-            self.listWidget_2.clear()
-
 
     def cmxz(self):
         import webbrowser as web
-        url = 'https://classone.top/ktdmq'
+
+        url = "https://classone.top/ktdmq"
         web.open_new(url)
 
     def retranslateUi(self, MainWindow):
-            self.wide = 420
-            self.high = 360
-            _translate = QtCore.QCoreApplication.translate
-            _translate = QtCore.QCoreApplication.translate
-            MainWindow.setWindowTitle(_translate("MainWindow", "13班点名器By Yish_"))     #任务栏名称
-            self.label.setText(_translate("MainWindow", "幸运儿是 {}"))
-            self.label.setStyleSheet('color:white')
-            self.pushButton.setText(_translate("MainWindow", "开始"))
-            self.pushButton_2.setText(_translate("MainWindow", "结束"))
-            self.label_2.setText(_translate("MainWindow", "点过的姓名："))
-            self.pushButton_5.setText(_translate("MainWindow", "查看点过的名字"))
-            self.pushButton_6.setText(_translate("MainWindow", "连抽模式"))
-            self.label_3.setText(_translate("MainWindow", "连抽人数"))
-            self.pushButton_7.setText(_translate("MainWindow", "开始"))
-            self.pushButton_9.setText(_translate("MainWindow", "关于"))
+        self.wide = 420
+        self.high = 360
+        _translate = QtCore.QCoreApplication.translate
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "13班点名器By Yish_"))  # 任务栏名称
+        self.label.setText(_translate("MainWindow", "幸运儿是 {}"))
+        self.label.setStyleSheet("color:white")
+        self.pushButton.setText(_translate("MainWindow", "开始"))
+        self.pushButton_2.setText(_translate("MainWindow", "结束"))
+        self.label_2.setText(_translate("MainWindow", "点过的姓名："))
+        self.pushButton_5.setText(_translate("MainWindow", "查看点过的名字"))
+        self.pushButton_6.setText(_translate("MainWindow", "连抽模式"))
+        self.label_3.setText(_translate("MainWindow", "连抽人数"))
+        self.pushButton_7.setText(_translate("MainWindow", "开始"))
+        self.pushButton_9.setText(_translate("MainWindow", "关于"))
 
     def showHistory(self):
         global seed
         if not seed:
             self.high = 705
-            MainWindow.resize(self.wide,self.high)
+            MainWindow.resize(self.wide, self.high)
             seed = True
             self.wide = 460
             MainWindow.resize(self.wide, self.high)
@@ -475,7 +575,7 @@ class Ui_MainWindow(QMainWindow):
             MainWindow.resize(self.wide, self.high)
 
     def showContinue(self):
-        global choud
+        global choud, seed
         if not choud:
             self.wide = 874
             MainWindow.resize(self.wide, self.high)
@@ -483,7 +583,6 @@ class Ui_MainWindow(QMainWindow):
             self.high = 705
             MainWindow.resize(self.wide, self.high)
             seed = False
-            
         else:
             self.wide = 460
             MainWindow.resize(self.wide, self.high)
@@ -495,33 +594,37 @@ class Ui_MainWindow(QMainWindow):
     def gua(self):
         MessageBox(0, "就你也想开挂？？？", "~~~", MB_OK | MB_ICONWARNING)
 
-
     def setname(self):
         global running
         global name
         try:
 
-            name = name_list[randint(0, len(name_list) - 1)]
+            name = random.choice(name_list)
             self.label.setText("恭喜 {}！".format(name))
-            #print (running)
+            # print (running)
         except:
             self.name()
-            reply = QtWidgets.QMessageBox.warning(self, u'警告', u'发生错误，请检查name文件的学号后再重新打开本软件', QtWidgets.QMessageBox.Yes)
+            reply = QtWidgets.QMessageBox.warning(
+                self, "警告", "发生错误，请检查name文件的学号后再重新打开本软件", QtWidgets.QMessageBox.Yes
+            )
             sys.exit()
 
     def rename(self):
-        reply = QtWidgets.QMessageBox.question(self, u'警告', u'确定重置name文件?', QtWidgets.QMessageBox.Yes,
-                                               QtWidgets.QMessageBox.No)
+        reply = QtWidgets.QMessageBox.question(
+            self,
+            "警告",
+            "确定重置name文件?",
+            QtWidgets.QMessageBox.Yes,
+            QtWidgets.QMessageBox.No,
+        )
         if reply == QtWidgets.QMessageBox.Yes:
-            with open('名单.txt', 'w') as f:
+            with open("名单.txt", "w") as f:
                 print(f.truncate())
                 print(f.write(a))
             MessageBox(0, "重置完成,", "通知", MB_OK | MB_ICONWARNING)
-        else:
-            pass
 
     def name(self):
-        with open('名单.txt', 'w') as f:
+        with open("名单.txt", "w") as f:
             print(f.truncate())
             print(f.write(a))
         # win32api.MessageBox(0,"已将name文件重置，请及时修改","MessageBox",win32con.MB_OK | win32con.MB_ICONWARNING)
@@ -529,13 +632,13 @@ class Ui_MainWindow(QMainWindow):
     def start(self):
         global running
         if running:
-            print('running')
+            print("running")
             pass
         else:
             self.timer = QTimer(self)
             self.timer.timeout.connect(self.setname)
             self.timer.start(50)
-            running = 'True'
+            running = True
 
     def stop(self):
         global running, a
@@ -544,21 +647,23 @@ class Ui_MainWindow(QMainWindow):
             running = False
             self.listWidget.addItem(name)
         else:
-
-            reply = QtWidgets.QMessageBox.warning(self, u'警告', u'还没开始就想结束？', QtWidgets.QMessageBox.Yes)
+            reply = QtWidgets.QMessageBox.warning(
+                self, "警告", "还没开始就想结束？", QtWidgets.QMessageBox.Yes
+            )
 
     # 识别
 
 
-
 # 重写MainWindow类
 class MainWindow(QtWidgets.QMainWindow):
-
     def closeEvent(self, event):
-        reply = QtWidgets.QMessageBox.question(self, '提示',
-                                               "是否要退出13班课堂点名器4.0 By Yish_？",
-                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                               QtWidgets.QMessageBox.No)
+        reply = QtWidgets.QMessageBox.question(
+            self,
+            "提示",
+            "是否要退出13班课堂点名器4.0 By Yish_？",
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+            QtWidgets.QMessageBox.No,
+        )
         if reply == QtWidgets.QMessageBox.Yes:
             event.accept()
         else:
@@ -590,7 +695,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def big(self):
         global big
-        print('最大化：{}'.format(big))
+        print("最大化：{}".format(big))
         if not big:
             self.setWindowState(Qt.WindowMaximized)
             big = True
@@ -599,38 +704,21 @@ class MainWindow(QtWidgets.QMainWindow):
             big = False
 
     def close(self):
-        reply = QtWidgets.QMessageBox.question(self, '提示',
-                                               "是否要退出13班课堂点名器4.0 By Yish_？",
-                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                               QtWidgets.QMessageBox.No)
+        reply = QtWidgets.QMessageBox.question(
+            self,
+            "提示",
+            "是否要退出13班课堂点名器4.0 By Yish_？",
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+            QtWidgets.QMessageBox.No,
+        )
         if reply == QtWidgets.QMessageBox.Yes:
             sys.exit()
         else:
             pass
 
-
     def mini(self):
-
         self.showMinimized()
-from PyQt5 import QtCore, QtGui, QtWidgets
-import sys
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(645, 500)
-        self.label = QtWidgets.QLabel(Form)
-        self.label.setGeometry(QtCore.QRect(140, 100, 381, 291))
-        self.label.setStyleSheet("yish.png);")
-        self.label.setText("")
-        self.label.setObjectName("label")
-
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
-
-    def retranslateUi(self, Form):
-        _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
 
 if __name__ == "__main__":
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
@@ -640,6 +728,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
-
-
