@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
+
 import sys, random
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
