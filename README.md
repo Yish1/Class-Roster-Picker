@@ -64,9 +64,8 @@
 <p>5.新增历史抽取记录，在目录下生成点名器中奖记录.txt</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:image {"width":595,"height":391,"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://www.classone.top/images/dm/recode.jpg" alt="" width="595" height="391"/></figure>
-<!-- /wp:image -->
+<img src="https://www.classone.top/images/dm/recode.jpg" alt="" title="https://www.classone.top/images/dm/recode.jpg"
+width="595" height="391" border="">
 
 <!-- wp:paragraph {"fontSize":"medium"} -->
 <p class="has-medium-font-size"><strong>6.停更说明：由于学业繁忙，且点名器已无明显Bug，所以不再更新点名器，当然，如果你有更好的想法，可以在github里提下pr，不过由于两周回一次家，没法立即通过你的合并请求。</strong></p>
