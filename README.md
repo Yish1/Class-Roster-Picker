@@ -9,7 +9,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>这个点名器源码来自<a rel="noreferrer noopener" href="https://blog.csdn.net/hhladminhhl" target="_blank">Dragon少年</a> 基于Python：pyqt5，我和<a href="https://hltool.top/ktdmq-yish/">QQB</a>对其ui和bug进行了调整和修复。</p>
+<p>这个点名器源码来自<a rel="noreferrer noopener" href="https://blog.csdn.net/hhladminhhl" target="_blank">Dragon少年</a> 基于Python：pyqt5，我和<a href="https://hltool.top/ktdmq-yish/">QQB</a>对其ui和bug进行了调整和修复，<a href="https://github.com/limuy2022">limuy2022</a>对连抽模式下的重复问题进行了修复</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -17,11 +17,11 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>但由于技术原因，在连续抽取模式下，暂时无法做到不重复。</p>
+<p><s>但由于技术原因，在连续抽取模式下，暂时无法做到不重复。</s>已被limuy2022修复</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>制作：翰林实验学校2023届高三13班Yish_ (杨奕璇)2022.7.29于暑假期间 </p>
+<p>制作：Yish_ ，QQB，limuy2022</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -41,7 +41,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"style":{"typography":{"fontSize":"28px"}}} -->
-<h2 style="font-size:28px">4.0版本发布说明 4.0Release Notes&amp;Fixed Issues</h2>
+<h2 style="font-size:28px">4.2版本发布说明 4.2Release Notes&amp;Fixed Issues</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -56,16 +56,12 @@
 <p>3.修复32位系统兼容性问题 由QQB修复</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph -->
-<p>4.目前没有发现其他bug</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>5.   4.0版本稍后上传</p>
+<!-- wp:paragraph {"fontSize":"medium"} -->
+<p class="has-medium-font-size">4.修复连抽模式下重复的问题 By limuy2022</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"fontSize":"medium"} -->
-<p class="has-medium-font-size">6.  5.0版本或将完全重写界面，以后再说...</p>
+<p class="has-medium-font-size"><strong>5.停更说明：由于学业繁忙，且点名器已无明显Bug，所以不再更新点名器，当然，如果你有更好的想法，可以在github里提下pr，不过由于两周回一次家，没法立即通过你的合并请求。</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"fontSize":"large"} -->
@@ -73,7 +69,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p><a href="https://yish.lanzouw.com/iWpvS09h32gd">https://yish.lanzouw.com/iWpvS09h32gd</a>这是3.99</p>
+<p>稍后上传</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
