@@ -15,6 +15,7 @@ from win32 import win32api, win32gui, win32print
 from win32.lib import win32con
 from datetime import datetime
 
+dmversion = 4.6
 
 # 屏幕检测
 """获取缩放后的分辨率"""
@@ -31,6 +32,9 @@ if dpi == 1.0:
     zt = 50
 elif dpi == 1.25:
     zt = 40
+elif dpi > 1.25:
+    zt = 35
+    MessageBox(0, "暂未适配当前分辨率或缩放模式，可尝试降低分辨率和缩放模式再打开，否则程序可能显示异常", "MessageBox", MB_OK | MB_ICONWARNING)
 
 big = False
 running = False
@@ -38,7 +42,7 @@ seed = False
 choud = False
 
 def make_name_list():
-    for i in range(1, 101):
+    for i in range(1, 21):
         yield str(i).rjust(2, '0')
 
 def init_name(name_list):
@@ -56,7 +60,8 @@ try:
 except FileNotFoundError:
     name_list = list(make_name_list())
     init_name(name_list)
-    MessageBox(0, "请及时修改目录下的名单文件，请确保格式正确（一行一个名字），需要帮助请点击关于。     \n 沉梦课堂点名器4.5\n 制作：Yish_ ，QQB，limuy2022   2022.7", "MessageBox", MB_OK | MB_ICONWARNING)
+    MessageBox(0, "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n小明\n小红\n小蓝\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7", "MessageBox", MB_OK | MB_ICONWARNING)
+    os.system('start ./名单.txt')
 
 print ("读取到的有效名单长度 : ", len(name_list))
 
@@ -75,7 +80,7 @@ class Ui_MainWindow(QMainWindow):
 
     def setupUi(self, MainWindow):
         # 以下可直接粘贴生成的setupui代码
-        MainWindow.setObjectName("13班点名器By Yish_")
+        MainWindow.setObjectName("沉梦课堂点名器")
         MainWindow.resize(460, 400)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -165,8 +170,11 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_7.setFont(font)
         self.pushButton_7.setObjectName("pushButton_7")
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(335, 380, 100, 25))
+        self.pushButton_3.setGeometry(QtCore.QRect(550, 600, 100, 25))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setGeometry(QtCore.QRect(690, 600, 100, 25))
+        self.pushButton_4.setObjectName("pushButton_4")
         self.listWidget_2 = QtWidgets.QListWidget(self.centralwidget)
         self.listWidget_2.setGeometry(QtCore.QRect(503, 20, 353, 221))  # 连抽列表
         font = QtGui.QFont()
@@ -213,6 +221,9 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_3.setStyleSheet(
             '''QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}''')
             #查看点过的名字
+        self.pushButton_4.setStyleSheet(
+            '''QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}''')
+            #查看历史记录
         self.pushButton_9.setStyleSheet(
             """QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}"""
         )  # 关于
@@ -267,6 +278,7 @@ class Ui_MainWindow(QMainWindow):
         )
         self.pushButton_9.clicked.connect(self.cmxz)
         self.pushButton_3.clicked.connect(self.ren)
+        self.pushButton_4.clicked.connect(self.dmhistory)
         self.label_2.setStyleSheet("color:white")
         self.label_4.setStyleSheet("color:white")
  
@@ -396,7 +408,7 @@ class Ui_MainWindow(QMainWindow):
             name_set = list(name_set)
             random.shuffle(name_set)
             today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            print(today,"（沉梦课堂点名器4.5）幸运儿是： %s " % name_set, file=open('点名器中奖名单.txt', 'a'))
+            print(today,"沉梦课堂点名器%.1f" %(dmversion) + ' : 幸运儿是： %s '  % name_set, file=open('点名器中奖名单.txt', 'a') )
             print(today,"幸运儿是： %s " % name_set)
             for name in name_set:
                 self.listWidget_2.addItem(name)
@@ -427,8 +439,12 @@ class Ui_MainWindow(QMainWindow):
         web.open_new(url)
 
     def ren(self):
-        MessageBox(0, "请关闭点名器再修改名单，否则改动可能不会生效", "MessageBox", MB_OK | MB_ICONWARNING)
+        MessageBox(0, "接下来将自动关闭点名器确保名单文件能被正常修改", "MessageBox", MB_OK | MB_ICONWARNING)
         os.system('start ./名单.txt')
+        sys.exit()
+
+    def dmhistory(self):
+        os.system('start ./点名器中奖名单.txt')
         
 
     def retranslateUi(self, MainWindow):
@@ -436,14 +452,15 @@ class Ui_MainWindow(QMainWindow):
         self.high = 360
         _translate = QtCore.QCoreApplication.translate
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "沉梦课堂点名器4.5"))  # 任务栏名称
+        MainWindow.setWindowTitle(_translate("MainWindow", "沉梦课堂点名器%.1f")%dmversion)  # 任务栏名称
         self.label.setText(_translate("MainWindow", "幸运儿是 {}"))
         self.label.setStyleSheet("color:white")
         self.pushButton.setText(_translate("MainWindow", "开始"))
         self.pushButton_2.setText(_translate("MainWindow", "结束"))
         self.pushButton_3.setText(_translate("MainWindow", "修改名单文件"))
+        self.pushButton_4.setText(_translate("MainWindow", "查看历史记录"))
         self.label_2.setText(_translate("MainWindow", "点过的姓名："))
-        self.label_4.setText(_translate("MainWindow", "制作：Yish_，QQB，limuy2022  v4.5"))
+        self.label_4.setText(_translate("MainWindow", "制作：Yish_，QQB，limuy2022  v%.1f") %dmversion)
         self.pushButton_5.setText(_translate("MainWindow", "查看点过的名字"))
         self.pushButton_6.setText(_translate("MainWindow", "连抽模式"))
         self.label_3.setText(_translate("MainWindow", "连抽人数"))
@@ -527,7 +544,7 @@ class Ui_MainWindow(QMainWindow):
             running = False
             self.listWidget.addItem(name)
             today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            print(today,"（沉梦课堂点名器4.5）幸运儿是： %s " % name, file=open('点名器中奖名单.txt', 'a'))
+            print(today,"沉梦课堂点名器%.1f" %(dmversion) + ' : 幸运儿是： %s '  % name, file=open('点名器中奖名单.txt', 'a') )
             print(today,"幸运儿是： %s " % name)
         else:
             reply = QtWidgets.QMessageBox.warning(
@@ -537,19 +554,6 @@ class Ui_MainWindow(QMainWindow):
 
 # 重写MainWindow类
 class MainWindow(QtWidgets.QMainWindow):
-    def closeEvent(self, event):
-        reply = QtWidgets.QMessageBox.question(
-            self,
-            "提示",
-          "是否要退出沉梦课堂点名器4.5 ？",
-            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-            QtWidgets.QMessageBox.No,
-        )
-        if reply == QtWidgets.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
     def mousePressEvent(self, event):
         global big
         big = False
@@ -585,14 +589,6 @@ class MainWindow(QtWidgets.QMainWindow):
             big = False
 
     def close(self):
-        reply = QtWidgets.QMessageBox.question(
-            self,
-            "提示",
-            "是否要退出沉梦课堂点名器4.5 ？",
-            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-            QtWidgets.QMessageBox.No,
-        )
-        if reply == QtWidgets.QMessageBox.Yes:
             sys.exit()
 
     def mini(self):
