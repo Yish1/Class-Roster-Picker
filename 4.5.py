@@ -2,7 +2,9 @@
 # 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
 # 源码需要沉淀，下面的源码就是时间的沉淀
+
 import sys, random,os
+from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt, QTimer
@@ -32,150 +34,38 @@ elif dpi == 1.25:
 
 big = False
 running = False
-name = True
-a = """01
-02
-03
-04
-05
-06
-07
-08
-09
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-"""
-
 seed = False
 choud = False
 
+def make_name_list():
+    for i in range(1, 101):
+        yield str(i).rjust(2, '0')
 
-def name():
+def init_name(name_list):
     with open("名单.txt", "w") as f:
-        print(f.truncate())
-        print(f.write(a))
-
+        for i in name_list:
+            print(f.write(i))
+            f.write('\n')
 
 
 try:
-    wordlist3 = []
     with open('名单.txt', encoding='utf8') as f:
-        for line in f.readlines():
-            wordlist3.append(line.strip('\n'))  # strip('\n')去掉字符串中的'\n'
-    print(wordlist3)
-    name_list = wordlist3
-except:
-
-    name()
-    name = False
+        # strip('\n')去掉字符串中的'\n'
+        name_list = [line.strip('\n') for line in f.readlines()]  
+    print(name_list)
+except FileNotFoundError:
+    name_list = list(make_name_list())
+    init_name(name_list)
     MessageBox(0, "请及时修改目录下的名单文件，请确保格式正确（一行一个名字），需要帮助请点击关于。     \n 沉梦课堂点名器4.5\n 制作：Yish_ ，QQB，limuy2022   2022.7", "MessageBox", MB_OK | MB_ICONWARNING)
 
-    name_list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18',
-                 '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35',
-                 '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', ]
-
-print ("读取到的有效名单长度 : ", len(wordlist3))
-
-
+print ("读取到的有效名单长度 : ", len(name_list))
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.RowLength = 0
         try:
-            from os import path as pathq
-
             icon_path = pathq.join(pathq.dirname(__file__), "./123.ico")  # 任务栏的ico
-
             icon = QIcon()
             icon.addPixmap(QPixmap(icon_path))  # 这是对的。
             MainWindow.setWindowIcon(icon)
@@ -484,11 +374,7 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setAttribute(Qt.WA_TranslucentBackground)
         MainWindow.setWindowFlag(Qt.FramelessWindowHint)  # 隐藏边框
     def ten(self):
-        lenth = len(wordlist3)
-        warn =("首次使用请重新启动点名器")
-        if lenth == 0:
-                self.listWidget_2.addItem(warn)
-                self.listWidget.addItem(warn)
+        lenth = len(name_list)
         num = self.lineEdit.text()
         print(num)
         try:
@@ -600,19 +486,16 @@ class Ui_MainWindow(QMainWindow):
         MessageBox(0, "就你也想开挂？？？", "~~~", MB_OK | MB_ICONWARNING)
 
     def setname(self):
-        global running
         global name
-        try:
-
-            name = random.choice(name_list)
-            self.label.setText("恭喜 {}！".format(name))
-            # print (running)
-        except:
-            self.name()
+        if len(name_list) == 0:
+            init_name(make_name_list())
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "名单文件为空，请输入名字（一行一个）后再重新打开本软件", QtWidgets.QMessageBox.Yes
             )
             sys.exit()
+        name = random.choice(name_list)
+        self.label.setText("恭喜 {}！".format(name))
+
 
     def rename(self):
         reply = QtWidgets.QMessageBox.question(
@@ -623,16 +506,8 @@ class Ui_MainWindow(QMainWindow):
             QtWidgets.QMessageBox.No,
         )
         if reply == QtWidgets.QMessageBox.Yes:
-            with open("名单.txt", "w") as f:
-                print(f.truncate())
-                print(f.write(a))
+            init_name(make_name_list())
             MessageBox(0, "重置完成,", "通知", MB_OK | MB_ICONWARNING)
-
-    def name(self):
-        with open("名单.txt", "w") as f:
-            print(f.truncate())
-            print(f.write(a))
-        # win32api.MessageBox(0,"已将name文件重置，请及时修改","MessageBox",win32con.MB_OK | win32con.MB_ICONWARNING)
 
     def start(self):
         global running
@@ -654,13 +529,10 @@ class Ui_MainWindow(QMainWindow):
             today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             print(today,"（沉梦课堂点名器4.5）幸运儿是： %s " % name, file=open('点名器中奖名单.txt', 'a'))
             print(today,"幸运儿是： %s " % name)
-
         else:
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "还没开始就想结束？", QtWidgets.QMessageBox.Yes
             )
-
-    # 识别
 
 
 # 重写MainWindow类
@@ -708,7 +580,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if not big:
             self.setWindowState(Qt.WindowMaximized)
             big = True
-        elif big:
+        else:
             self.setWindowState(Qt.WindowNoState)
             big = False
 
@@ -722,8 +594,6 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         if reply == QtWidgets.QMessageBox.Yes:
             sys.exit()
-        else:
-            pass
 
     def mini(self):
         self.showMinimized()
