@@ -3,7 +3,9 @@
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
 # 源码需要沉淀，下面的源码就是时间的沉淀
 
-import sys, random,os
+from cProfile import run
+import sys, random,os,requests
+from turtle import update
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
@@ -15,7 +17,7 @@ from win32 import win32api, win32gui, win32print
 from win32.lib import win32con
 from datetime import datetime
 
-dmversion = 4.6
+dmversion = 4.7
 
 # 屏幕检测
 """获取缩放后的分辨率"""
@@ -64,6 +66,7 @@ except FileNotFoundError:
     os.system('start ./名单.txt')
 
 print ("读取到的有效名单长度 : ", len(name_list))
+
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -385,6 +388,23 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setWindowOpacity(0.95)  # 设置窗口透明度
         MainWindow.setAttribute(Qt.WA_TranslucentBackground)
         MainWindow.setWindowFlag(Qt.FramelessWindowHint)  # 隐藏边框
+        try:
+            updatecheck = 'https://classone.top/programs/dm/api/check.html'
+            page=requests.get(updatecheck, verify=False,timeout=2)
+            dmversion1 = float(page.text)
+            print("云端版本号为:",dmversion1)
+            findnewversion = ('检测到新版本！请点击关于下载新版')
+            if dmversion1 > dmversion:                            #if:条件
+                print('检测到新版本:',dmversion1,'当前版本为:',dmversion)
+                MessageBox(0, "检测到新版本，请稍后点击'关于'按钮下载新版", "MessageBox", MB_OK | MB_ICONWARNING)
+                self.listWidget.addItem(findnewversion)
+            else:
+                print('当前已经是最新版本:')
+        except:
+            print("网络异常,无法检测更新")
+            noconnect = ('网络连接异常，检查更新失败')
+            self.listWidget.addItem(noconnect)
+
     def ten(self):
         lenth = len(name_list)
         num = self.lineEdit.text()
@@ -442,6 +462,8 @@ class Ui_MainWindow(QMainWindow):
         MessageBox(0, "接下来将自动关闭点名器确保名单文件能被正常修改", "MessageBox", MB_OK | MB_ICONWARNING)
         os.system('start ./名单.txt')
         sys.exit()
+    
+        
 
     def dmhistory(self):
         os.system('start ./点名器中奖名单.txt')
@@ -550,6 +572,7 @@ class Ui_MainWindow(QMainWindow):
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "还没开始就想结束？", QtWidgets.QMessageBox.Yes
             )
+            
 
 
 # 重写MainWindow类
@@ -593,6 +616,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def mini(self):
         self.showMinimized()
+    
+
 
 
 if __name__ == "__main__":
