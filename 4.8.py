@@ -4,7 +4,7 @@
 # 源码需要沉淀，下面的源码就是时间的沉淀
 
 from cProfile import run
-import sys, random,os,requests
+import sys, random,os,requests,ctypes
 from turtle import update
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -17,7 +17,16 @@ from win32 import win32api, win32gui, win32print
 from win32.lib import win32con
 from datetime import datetime
 
-dmversion = 4.7
+dmversion = 4.8
+
+#此处获取管理员权限，打包成安装包，用户可能会默认安装在C:\Program Files (x86)里，这会造成安装后点名器没有权限创建名单而崩溃，因此需要获取管理员权限。
+if ctypes.windll.shell32.IsUserAnAdmin():#如果已经有管理员权限
+    pass
+    #什么都不做
+else:
+    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable,__file__, None, 1)
+    #如果没有管理员权限，则获取并重新运行代码
+    sys.exit()#编辑器里先把这句删掉，否则编译后会自动关闭，但编译完后需要加上这句，否则打包后会启动两次点名器    
 
 # 屏幕检测
 """获取缩放后的分辨率"""
@@ -32,11 +41,10 @@ screen_scale_rate = round(w / sX, 2)
 dpi = screen_scale_rate
 if dpi == 1.0:
     zt = 50
-elif dpi == 1.25:
-    zt = 40
-elif dpi > 1.25:
-    zt = 35
-    MessageBox(0, "暂未适配当前分辨率或缩放模式，可尝试降低分辨率和缩放模式再打开，否则程序可能显示异常", "MessageBox", MB_OK | MB_ICONWARNING)
+elif dpi > 1.0:
+    zt = int(50/dpi)
+    print (zt)
+    MessageBox(0, "暂未适配当前分辨率或缩放模式，可能出现字体大小异常的情况", "MessageBox", MB_OK | MB_ICONWARNING)
 
 big = False
 running = False
@@ -122,21 +130,39 @@ class Ui_MainWindow(QMainWindow):
         self.listWidget.setObjectName("listWidget")
         font = QtGui.QFont()
         font.setPointSize(15)
+        font.setFamily("宋体")
         self.listWidget.setFont(font)
         self.listWidget.setFocusPolicy(QtCore.Qt.WheelFocus)
 
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(20, 380, 210, 21))  # 文字
         self.label_2.setObjectName("label_2")
+        font = QtGui.QFont()
+        font.setFamily("宋体")
+        self.label_2.setFont(font)
+
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(570, 640, 210, 30))  # 文字
         self.label_4.setObjectName("label_4")
+        font = QtGui.QFont()
+        font.setFamily("宋体")
+        self.label_4.setFont(font)
+
         self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_5.setGeometry(QtCore.QRect(20, 320, 111, 35))  # 查看点过的名字
+        font = QtGui.QFont()
+        font.setFamily("宋体")
+        self.pushButton_5.setFont(font)
         self.pushButton_5.setObjectName("pushButton_5")
+
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_6.setGeometry(QtCore.QRect(360, 320, 75, 35))  # 连抽模式
+        font = QtGui.QFont()
+        font.setFamily("宋体")
+        font.setPointSize(10)
+        self.pushButton_6.setFont(font)
         self.pushButton_6.setObjectName("pushButton_6")
+
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(580, 260, 89, 20))  # 连抽输入框
         self.lineEdit.setObjectName("lineEdit")
@@ -388,20 +414,47 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setWindowOpacity(0.95)  # 设置窗口透明度
         MainWindow.setAttribute(Qt.WA_TranslucentBackground)
         MainWindow.setWindowFlag(Qt.FramelessWindowHint)  # 隐藏边框
+        
+    def retranslateUi(self, MainWindow):
+        self.wide = 420
+        self.high = 360
+        _translate = QtCore.QCoreApplication.translate
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "沉梦课堂点名器%.1f")%dmversion)  # 任务栏名称
+        self.label.setText(_translate("MainWindow", "幸运儿是 {}"))
+        self.label.setStyleSheet("color:white")
+        self.pushButton.setText(_translate("MainWindow", "开始"))
+        self.pushButton_2.setText(_translate("MainWindow", "结束"))
+        self.pushButton_3.setText(_translate("MainWindow", "修改名单文件"))
+        self.pushButton_4.setText(_translate("MainWindow", "查看历史记录"))
+        self.label_2.setText(_translate("MainWindow", "点过的姓名："))
+        self.label_4.setText(_translate("MainWindow", "制作：Yish_，QQB，limuy2022  v%.1f") %dmversion)
+        self.pushButton_5.setText(_translate("MainWindow", "查看点过的名字"))
+        self.pushButton_6.setText(_translate("MainWindow", "连抽模式"))
+        self.label_3.setText(_translate("MainWindow", "连抽人数"))
+        self.pushButton_7.setText(_translate("MainWindow", "开始"))
+
         try:
             updatecheck = 'https://classone.top/programs/dm/api/check.html'
             page=requests.get(updatecheck, verify=False,timeout=2)
             dmversion1 = float(page.text)
             print("云端版本号为:",dmversion1)
-            findnewversion = ('检测到新版本！请点击关于下载新版')
+            findnewversion = ('检测到新版本！请点击左上角“更新”下载新版')
             if dmversion1 > dmversion:                            #if:条件
                 print('检测到新版本:',dmversion1,'当前版本为:',dmversion)
-                MessageBox(0, "检测到新版本，请稍后点击'关于'按钮下载新版", "MessageBox", MB_OK | MB_ICONWARNING)
+                self.pushButton_9.setText(_translate("MainWindow", "更新"))
+                self.wide = 460
+                MainWindow.resize(self.wide, self.high)
+                self.high = 705
+                MainWindow.resize(self.wide, self.high)
+                MessageBox(0, "检测到新版本，请稍后点击左上角'更新'按钮下载新版", "MessageBox", MB_OK | MB_ICONWARNING)
                 self.listWidget.addItem(findnewversion)
             else:
                 print('当前已经是最新版本:')
+                self.pushButton_9.setText(_translate("MainWindow", "关于"))
         except:
             print("网络异常,无法检测更新")
+            self.pushButton_9.setText(_translate("MainWindow", "关于"))
             noconnect = ('网络连接异常，检查更新失败')
             self.listWidget.addItem(noconnect)
 
@@ -454,7 +507,6 @@ class Ui_MainWindow(QMainWindow):
 
     def cmxz(self):
         import webbrowser as web
-
         url = "https://classone.top/ktdmq"
         web.open_new(url)
 
@@ -466,28 +518,7 @@ class Ui_MainWindow(QMainWindow):
         
 
     def dmhistory(self):
-        os.system('start ./点名器中奖名单.txt')
-        
-
-    def retranslateUi(self, MainWindow):
-        self.wide = 420
-        self.high = 360
-        _translate = QtCore.QCoreApplication.translate
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "沉梦课堂点名器%.1f")%dmversion)  # 任务栏名称
-        self.label.setText(_translate("MainWindow", "幸运儿是 {}"))
-        self.label.setStyleSheet("color:white")
-        self.pushButton.setText(_translate("MainWindow", "开始"))
-        self.pushButton_2.setText(_translate("MainWindow", "结束"))
-        self.pushButton_3.setText(_translate("MainWindow", "修改名单文件"))
-        self.pushButton_4.setText(_translate("MainWindow", "查看历史记录"))
-        self.label_2.setText(_translate("MainWindow", "点过的姓名："))
-        self.label_4.setText(_translate("MainWindow", "制作：Yish_，QQB，limuy2022  v%.1f") %dmversion)
-        self.pushButton_5.setText(_translate("MainWindow", "查看点过的名字"))
-        self.pushButton_6.setText(_translate("MainWindow", "连抽模式"))
-        self.label_3.setText(_translate("MainWindow", "连抽人数"))
-        self.pushButton_7.setText(_translate("MainWindow", "开始"))
-        self.pushButton_9.setText(_translate("MainWindow", "关于"))
+        os.system('start ./点名器中奖名单.txt')        
 
     def showHistory(self):
         global seed
