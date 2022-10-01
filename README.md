@@ -2,9 +2,6 @@
 <p class="has-vivid-red-color has-text-color has-large-font-size"><strong>当前最新版本为4.8</strong></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
-<p style="font-size:28px"><a href="https://classone.top/programs/dm/4.8.exe"><strong>下载通用版本4.8 </strong></a></p>
-<!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"textColor":"vivid-red"} -->
 <p class="has-vivid-red-color has-text-color">提示：4.8更换了打包方式，改成安装包的形式，因此你可以在安装4.8后删除4.7，也可以安装到u盘里面便携使用</p>
