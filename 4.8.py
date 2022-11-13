@@ -16,8 +16,9 @@ from win32con import MB_OK, MB_ICONWARNING
 from win32 import win32api, win32gui, win32print
 from win32.lib import win32con
 from datetime import datetime
+import webbrowser as web
 
-dmversion = 4.8
+dmversion = 4.9
 
 #此处获取管理员权限，打包成安装包，用户可能会默认安装在C:\Program Files (x86)里，这会造成安装后点名器没有权限创建名单而崩溃，因此需要获取管理员权限。
 if ctypes.windll.shell32.IsUserAnAdmin():#如果已经有管理员权限
@@ -45,7 +46,7 @@ elif dpi > 1.0:
     zt = int(50/dpi)
     print (zt)
     MessageBox(0, "暂未适配当前分辨率或缩放模式，可能出现字体大小异常的情况", "MessageBox", MB_OK | MB_ICONWARNING)
-
+    
 big = False
 running = False
 seed = False
@@ -72,9 +73,8 @@ except FileNotFoundError:
     init_name(name_list)
     MessageBox(0, "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n小明\n小红\n小蓝\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7", "MessageBox", MB_OK | MB_ICONWARNING)
     os.system('start ./名单.txt')
-
-print ("读取到的有效名单长度 : ", len(name_list))
-
+mdcd = len(name_list)
+print ("读取到的有效名单长度 :", mdcd)
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -190,7 +190,7 @@ class Ui_MainWindow(QMainWindow):
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(525, 260, 56, 21))  # 连抽人数
         self.label_3.setObjectName("label_3")
-        self.label_3.setStyleSheet("color:white;background:#222225")
+        self.label_3.setStyleSheet("color:white;background:#323232")
         self.pushButton_7 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_7.setGeometry(QtCore.QRect(679, 250, 111, 40))  # 连抽开始
         font = QtGui.QFont()
@@ -264,12 +264,12 @@ class Ui_MainWindow(QMainWindow):
         self.centralwidget.setStyleSheet(
             """
              QWidget#centralwidget{
-             color:#222225;
-             background:#222225;
-             border-top:1px solid #222225;
-             border-bottom:1px solid #222225;
-             border-right:1px solid #222225;
-             border-left:1px solid #444444;
+             color:#323232;
+             background:#323232;
+             border-top:1px solid #323232;
+             border-bottom:1px solid #323232;
+             border-right:1px solid #323232;
+             border-left:1px solid #323232;
              border-top-left-radius:10px;
              border-top-right-radius:10px;
              border-bottom-left-radius:10px;
@@ -337,7 +337,7 @@ class Ui_MainWindow(QMainWindow):
          }
          QScrollBar::sub-line:vertical:hover{
              height:0px;
-             background:#222225;
+             background:#323232;
              subcontrol-position:top;
          }
          QScrollBar::add-line:vertical{
@@ -411,7 +411,7 @@ class Ui_MainWindow(QMainWindow):
         self.listWidget.setStyleSheet(self.scc)
         self.listWidget_2.setStyleSheet(self.scc)
 
-        MainWindow.setWindowOpacity(0.95)  # 设置窗口透明度
+        MainWindow.setWindowOpacity(0.98)  # 设置窗口透明度
         MainWindow.setAttribute(Qt.WA_TranslucentBackground)
         MainWindow.setWindowFlag(Qt.FramelessWindowHint)  # 隐藏边框
         
@@ -437,17 +437,21 @@ class Ui_MainWindow(QMainWindow):
         try:
             updatecheck = 'https://classone.top/programs/dm/api/check.html'
             page=requests.get(updatecheck, verify=False,timeout=2)
-            dmversion1 = float(page.text)
-            print("云端版本号为:",dmversion1)
+            newversion = float(page.text)
+            print("云端版本号为:",newversion)
             findnewversion = ('检测到新版本！请点击左上角“更新”下载新版')
-            if dmversion1 > dmversion:                            #if:条件
-                print('检测到新版本:',dmversion1,'当前版本为:',dmversion)
+            if newversion > dmversion:                            #if:条件
+                print('检测到新版本:',newversion,'当前版本为:',dmversion)
                 self.pushButton_9.setText(_translate("MainWindow", "更新"))
                 self.wide = 460
                 MainWindow.resize(self.wide, self.high)
                 self.high = 705
                 MainWindow.resize(self.wide, self.high)
-                MessageBox(0, "检测到新版本，请稍后点击左上角'更新'按钮下载新版", "MessageBox", MB_OK | MB_ICONWARNING)
+                updatabutton = QMessageBox.question(self, "检测到新版本", "云端最新版本为%s，要现在下载新版本吗？<br>您也可以稍后点击点名器左上角'更新'按钮升级新版本"% newversion, QMessageBox.Ok | QMessageBox.No, QMessageBox.Ok)
+                if updatabutton == QMessageBox.Ok:
+                    web.open_new("https://classone.top/ktdmq")
+                else:
+                    pass
                 self.listWidget.addItem(findnewversion)
             else:
                 print('当前已经是最新版本:')
@@ -470,10 +474,6 @@ class Ui_MainWindow(QMainWindow):
             )
             return
         if not num <= 0 and not num > lenth:
-            if num > lenth:
-                reply = QtWidgets.QMessageBox.warning(
-                    self, "警告", "连抽模式下名单不重复，请不要超过名单最大人数！", QtWidgets.QMessageBox.Yes
-                )
             self.listWidget_2.clear()
             name_set = set()
             while len(name_set) != num:
@@ -501,22 +501,22 @@ class Ui_MainWindow(QMainWindow):
         elif num > lenth:
             # win32api.MessageBox(0, "想玩？就不让你抽！", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
             reply = QtWidgets.QMessageBox.warning(
-                self, "警告", "超过名单最大人数！", QtWidgets.QMessageBox.Yes
+                self, "警告", "你的名单中只有 %s 人 <br>连抽模式下不会重复抽取，请不要超过名单最大人数！"% lenth, QtWidgets.QMessageBox.Yes
             )
             self.listWidget_2.clear()
 
     def cmxz(self):
-        import webbrowser as web
         url = "https://classone.top/ktdmq"
         web.open_new(url)
 
     def ren(self):
-        MessageBox(0, "接下来将自动关闭点名器确保名单文件能被正常修改", "MessageBox", MB_OK | MB_ICONWARNING)
-        os.system('start ./名单.txt')
-        sys.exit()
-    
+        button = QMessageBox.question(self, "确定要修改名单？", "读取到名单中有 %s 人 <br> 接下来将关闭点名器确保名单能被正常修改，要继续吗？" % mdcd, QMessageBox.Ok | QMessageBox.No, QMessageBox.Ok)
+        if button == QMessageBox.Ok:
+            os.system('start ./名单.txt')
+            sys.exit()
+        else:
+            pass
         
-
     def dmhistory(self):
         os.system('start ./点名器中奖名单.txt')        
 
@@ -552,9 +552,6 @@ class Ui_MainWindow(QMainWindow):
             MainWindow.resize(self.wide, self.high)
             seed = False
 
-    def gua(self):
-        MessageBox(0, "就你也想开挂？？？", "~~~", MB_OK | MB_ICONWARNING)
-
     def setname(self):
         global name
         if len(name_list) == 0:
@@ -565,19 +562,6 @@ class Ui_MainWindow(QMainWindow):
             sys.exit()
         name = random.choice(name_list)
         self.label.setText("恭喜 {}！".format(name))
-
-
-    def rename(self):
-        reply = QtWidgets.QMessageBox.question(
-            self,
-            "警告",
-            "确定重置name文件?",
-            QtWidgets.QMessageBox.Yes,
-            QtWidgets.QMessageBox.No,
-        )
-        if reply == QtWidgets.QMessageBox.Yes:
-            init_name(make_name_list())
-            MessageBox(0, "重置完成,", "通知", MB_OK | MB_ICONWARNING)
 
     def start(self):
         global running
@@ -647,6 +631,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def mini(self):
         self.showMinimized()
+
     
 
 
