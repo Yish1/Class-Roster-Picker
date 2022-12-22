@@ -2,9 +2,10 @@
 # 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
 # 源码需要沉淀，下面的源码就是时间的沉淀
+# 请在目录下新建music文件夹，并随便放入几个mp3，否则会报错，没做相关判断程序
 
 from cProfile import run
-import sys, random,os,requests,ctypes
+import sys, random,os,requests,ctypes,pygame
 from turtle import update
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -18,16 +19,12 @@ from win32.lib import win32con
 from datetime import datetime
 import webbrowser as web
 
-dmversion = 4.9
+dmversion = 5.0
 
-#此处获取管理员权限，打包成安装包，用户可能会默认安装在C:\Program Files (x86)里，这会造成安装后点名器没有权限创建名单而崩溃，因此需要获取管理员权限。
-if ctypes.windll.shell32.IsUserAnAdmin():#如果已经有管理员权限
-    pass
-    #什么都不做
-else:
-    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable,__file__, None, 1)
-    #如果没有管理员权限，则获取并重新运行代码
-    sys.exit()#编辑器里先把这句删掉，否则编译后会自动关闭，但编译完后需要加上这句，否则打包后会启动两次点名器    
+if not ctypes.windll.shell32.IsUserAnAdmin():
+    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable,__file__, None, 1) 
+    #获取并重新运行代码 
+    sys.exit()#编译完后需要加上这句，否则打包后会启动两次点名器
 
 # 屏幕检测
 """获取缩放后的分辨率"""
@@ -45,8 +42,8 @@ if dpi == 1.0:
 elif dpi > 1.0:
     zt = int(50/dpi)
     print (zt)
-    MessageBox(0, "暂未适配当前分辨率或缩放模式，可能出现字体大小异常的情况", "MessageBox", MB_OK | MB_ICONWARNING)
-    
+    MessageBox(0, "您的屏幕没有使用默认的缩放比例，因此可能出现字体大小异常的情况", "MessageBox", MB_OK | MB_ICONWARNING)
+
 big = False
 running = False
 seed = False
@@ -81,7 +78,7 @@ class Ui_MainWindow(QMainWindow):
         super().__init__()
         self.RowLength = 0
         try:
-            icon_path = pathq.join(pathq.dirname(__file__), "./123.ico")  # 任务栏的ico
+            icon_path = pathq.join(pathq.dirname(__file__), "./yish.ico")  # 任务栏的ico
             icon = QIcon()
             icon.addPixmap(QPixmap(icon_path))  # 这是对的。
             MainWindow.setWindowIcon(icon)
@@ -96,7 +93,7 @@ class Ui_MainWindow(QMainWindow):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(30, 45, 470, 150))  # 主体
+        self.label.setGeometry(QtCore.QRect(30, 45, 700, 150))  # 主体
         font = QtGui.QFont()
         font.setFamily("宋体")
         font.setPointSize(zt)  # 主体大小#字体大小
@@ -142,16 +139,24 @@ class Ui_MainWindow(QMainWindow):
         self.label_2.setFont(font)
 
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(570, 640, 210, 30))  # 文字
+        self.label_4.setGeometry(QtCore.QRect(570, 646, 210, 30))  # 文字
         self.label_4.setObjectName("label_4")
         font = QtGui.QFont()
         font.setFamily("宋体")
         self.label_4.setFont(font)
 
+        self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setGeometry(QtCore.QRect(600, 10, 210, 30))  # 文字
+        self.label_5.setObjectName("label_4")
+        font = QtGui.QFont()
+        font.setFamily("宋体")
+        self.label_5.setFont(font)
+
         self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_5.setGeometry(QtCore.QRect(20, 320, 111, 35))  # 查看点过的名字
         font = QtGui.QFont()
         font.setFamily("宋体")
+        font.setPointSize(9)
         self.pushButton_5.setFont(font)
         self.pushButton_5.setObjectName("pushButton_5")
 
@@ -164,7 +169,7 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_6.setObjectName("pushButton_6")
 
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(580, 260, 89, 20))  # 连抽输入框
+        self.lineEdit.setGeometry(QtCore.QRect(580, 370, 89, 20))  # 连抽输入框
         self.lineEdit.setObjectName("lineEdit")
         self.lineEdit.setText("2")
         self.lineEdit.setStyleSheet(
@@ -188,24 +193,24 @@ class Ui_MainWindow(QMainWindow):
                 """
         )
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(525, 260, 56, 21))  # 连抽人数
+        self.label_3.setGeometry(QtCore.QRect(525, 370, 56, 21))  # 连抽人数
         self.label_3.setObjectName("label_3")
         self.label_3.setStyleSheet("color:white;background:#323232")
         self.pushButton_7 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_7.setGeometry(QtCore.QRect(679, 250, 111, 40))  # 连抽开始
+        self.pushButton_7.setGeometry(QtCore.QRect(679, 360, 111, 40))  # 连抽开始
         font = QtGui.QFont()
         font.setFamily("宋体")
         font.setPointSize(20)
         self.pushButton_7.setFont(font)
         self.pushButton_7.setObjectName("pushButton_7")
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(550, 600, 100, 25))
+        self.pushButton_3.setGeometry(QtCore.QRect(550, 300, 100, 25))#修改名单按钮
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(690, 600, 100, 25))
+        self.pushButton_4.setGeometry(QtCore.QRect(690, 300, 100, 25))#历史记录按钮
         self.pushButton_4.setObjectName("pushButton_4")
         self.listWidget_2 = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget_2.setGeometry(QtCore.QRect(503, 20, 353, 221))  # 连抽列表
+        self.listWidget_2.setGeometry(QtCore.QRect(503, 420, 353, 221))  # 连抽列表
         font = QtGui.QFont()
         font.setPointSize(20)
         self.listWidget_2.setFont(font)
@@ -310,6 +315,7 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_4.clicked.connect(self.dmhistory)
         self.label_2.setStyleSheet("color:white")
         self.label_4.setStyleSheet("color:white")
+        self.label_5.setStyleSheet("color:white")
  
         self.scc = """
          QListWidget{background-color:#2B2B2B;color:white}
@@ -429,6 +435,7 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_4.setText(_translate("MainWindow", "查看历史记录"))
         self.label_2.setText(_translate("MainWindow", "点过的姓名："))
         self.label_4.setText(_translate("MainWindow", "制作：Yish_，QQB，limuy2022  v%.1f") %dmversion)
+        self.label_5.setText(_translate("MainWindow", "名单中共有:%s人") %mdcd)
         self.pushButton_5.setText(_translate("MainWindow", "查看点过的名字"))
         self.pushButton_6.setText(_translate("MainWindow", "连抽模式"))
         self.label_3.setText(_translate("MainWindow", "连抽人数"))
@@ -573,6 +580,20 @@ class Ui_MainWindow(QMainWindow):
             self.timer.timeout.connect(self.setname)
             self.timer.start(50)
             running = True
+            # 定义文件夹的相对路径
+            folder_name = 'music'
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            folder_path = os.path.join(current_dir, folder_name)
+            # 获取文件夹中的文件列表
+            file_list = os.listdir(folder_path)
+            # # 从列表中随机选择一个文件
+            random_file = random.choice(file_list)
+            # # 生成完整的文件路径
+            file_path = os.path.join(folder_path, random_file)
+            print(file_path)
+            pygame.init()
+            pygame.mixer.music.load(file_path)
+            pygame.mixer.music.play()
 
     def stop(self):
         global running, a
@@ -583,6 +604,7 @@ class Ui_MainWindow(QMainWindow):
             today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             print(today,"沉梦课堂点名器%.1f" %(dmversion) + ' : 幸运儿是： %s '  % name, file=open('点名器中奖名单.txt', 'a') )
             print(today,"幸运儿是： %s " % name)
+            pygame.quit()
         else:
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "还没开始就想结束？", QtWidgets.QMessageBox.Yes
