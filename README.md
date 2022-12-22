@@ -3,15 +3,23 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"textColor":"vivid-red","fontSize":"large"} -->
-<p class="has-vivid-red-color has-text-color has-large-font-size"><strong>当前最新版本为4.9</strong></p>
+<p class="has-vivid-red-color has-text-color has-large-font-size"><strong>当前最新版本为5.0</strong></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
-<p style="font-size:28px"><a href="https://yish.lanzouw.com/iCuYu0fv976j" data-type="URL" data-id="https://yish.lanzouw.com/iCuYu0fv976j" target="_blank" rel="noreferrer noopener"><strong>下载通用版本4.9 （安装包）</strong></a></p>
+<p style="font-size:28px"><a rel="noreferrer noopener" href="https://yish.lanzouw.com/i3i970j6sg1g" data-type="URL" data-id="https://yish.lanzouw.com/i3i970j6sg1g" target="_blank"><strong>下载通用版本5.0 （安装包）</strong></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
-<p style="font-size:28px"><strong><a href="https://yish.lanzoui.com/iCuYu0fv976j" data-type="URL" data-id="https://yish.lanzoui.com/iCuYu0fv976j" target="_blank" rel="noreferrer noopener">下载链接2（安装包）</a></strong></p>
+<p style="font-size:28px"><a rel="noreferrer noopener" href="https://yish.lanzoui.com/i3i970j6sg1g" data-type="URL" data-id="https://yish.lanzoui.com/i3i970j6sg1g" target="_blank"><strong>5.0下载链接2（安装包）</strong></a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
+<p class="has-vivid-red-color has-text-color has-medium-font-size">因单文件存在功能限制，后续版本只提供安装包版</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
+<p class="has-vivid-red-color has-text-color has-medium-font-size">更新时请备份名单，然后卸载旧版本重新安装，否则可能出现错误</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
@@ -20,6 +28,14 @@
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
 <p style="font-size:28px"><strong><a rel="noreferrer noopener" href="https://yish.lanzoui.com/izsZF0fv96jg" data-type="URL" data-id="https://yish.lanzoui.com/izsZF0fv96jg" target="_blank">下载链接2（单文件版）</a></strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>旧版版4.8下载<a href="https://yish.lanzouw.com/ix0lx0etjsgh" target="_blank" rel="noreferrer noopener">https://yish.lanzouw.com/ix0lx0etjsgh</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>收到反馈4.9部分设备打不开，可尝试4.8版本</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"textColor":"vivid-red","fontSize":"large"} -->
@@ -47,11 +63,19 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"style":{"typography":{"fontSize":"28px"}}} -->
-<h2 style="font-size:28px">4.9版本发布说明 4.9Release Notes&amp;Fixed Issues</h2>
+<h2 style="font-size:28px">5.0版本发布说明 5.0Release Notes&amp;Fixed Issues</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>4.9版本更新内容2022.11.13<br>1.调整UI颜色<br>2.优化部分弹窗提示效果<br>3.优化更新提示<br>4.优化连抽体验<br>5.精简代码</p>
+<p>5.0版本更新内容2022.12.22（高三党因阳性请假回家休息时制作）<br>1.调整UI布局以便显示更长名字<br>2.优化弹窗<br>3.新增单抽时背景音乐，开启方式请查看文件目录下的说明<br>4.新增名单长度读取<br>5.精简代码<br>软件完全免费并开源，意味着任何人都能查看这个工具的源代码，如果你是付费购买的，那说明你已经被骗了，请尝试立即退款并举报<br>经网友反馈360可能会误杀此工具，请将点名器加入信任区（开源软件，代码供网友随时检查）</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>4.9版本更新内容2022.10.3<br>1.调整UI颜色<br>2.优化部分弹窗提示效果<br>3.优化更新提示<br>4.优化连抽体验<br>5.精简代码</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
