@@ -3,17 +3,12 @@
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
 # 源码需要沉淀，下面的源码就是时间的沉淀
 
-from cProfile import run
 import sys, random,os,requests,ctypes,pygame
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import *
-from win32api import MessageBox
-from win32con import MB_OK, MB_ICONWARNING
-from win32 import win32api, win32gui, win32print
-from win32.lib import win32con
 from datetime import datetime
 import webbrowser as web
 import matplotlib.pyplot as plt
@@ -27,32 +22,15 @@ dmversion = 5.1
         #ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
         #sys.exit()新方法获取管理员权限，缺点是用户要每次手动确定
 
-if not ctypes.windll.shell32.IsUserAnAdmin():
+if sys.platform == "win32" and not ctypes.windll.shell32.IsUserAnAdmin():
     ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable,__file__, None, 1) 
     #sys.exit()#在编辑器中请注释掉这句，否则不能运行调试，编译完后需要加上这句，否则打包后会启动两次点名器
-
-# 屏幕检测
-"""获取缩放后的分辨率"""
-sX = win32api.GetSystemMetrics(0)  # 获得屏幕分辨率X轴
-sY = win32api.GetSystemMetrics(1)  # 获得屏幕分辨率Y轴
-"""获取真实的分辨率"""
-hDC = win32gui.GetDC(0)
-w = win32print.GetDeviceCaps(hDC, win32con.DESKTOPHORZRES)  # 横向分辨率
-h = win32print.GetDeviceCaps(hDC, win32con.DESKTOPVERTRES)  # 纵向分辨率
-# 缩放比率
-screen_scale_rate = round(w / sX, 2)
-dpi = screen_scale_rate
-if dpi == 1.0:
-    zt = 50
-elif dpi > 1.0:
-    zt = int(50/dpi)
-    print (zt)
-    MessageBox(0, "您的屏幕没有使用默认的缩放比例，因此可能出现字体大小异常的情况", "MessageBox", MB_OK | MB_ICONWARNING)
 
 big = False
 running = False
 seed = False
 choud = False
+zt = 50
 
 def make_name_list():
     for i in range(1, 21):
@@ -64,19 +42,15 @@ def init_name(name_list):
             print(f.write(i))
             f.write('\n')
 
+name_list = []
+mdcd = 0
+pygame.init()
 
-try:
-    with open('名单.txt', encoding='utf8') as f:
-        # strip('\n')去掉字符串中的'\n'
-        name_list = [line.strip('\n') for line in f.readlines()]  
-    print(name_list)
-except FileNotFoundError:
-    name_list = list(make_name_list())
-    init_name(name_list)
-    MessageBox(0, "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n小明\n小红\n小蓝\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7", "MessageBox", MB_OK | MB_ICONWARNING)
-    os.system('start ./名单.txt')
-mdcd = len(name_list)
-print ("读取到的有效名单长度 :", mdcd)
+def opentext(path):
+    if sys.platform == "win32":
+        os.system("start %s" % path)
+    else:
+        os.system("vim %s" % path)
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -92,6 +66,25 @@ class Ui_MainWindow(QMainWindow):
         # self.setupUi(MainWindow())
 
     def setupUi(self, MainWindow):
+        global name_list, mdcd
+        try:
+            with open('名单.txt', encoding='utf8') as f:
+                # strip('\n')去掉字符串中的'\n'
+                name_list = [line.strip('\n') for line in f.readlines()]  
+            print(name_list)
+        except FileNotFoundError:
+            name_list = list(make_name_list())
+            init_name(name_list)
+            # tmp = QtWidgets();
+            QtWidgets.QMessageBox.information(self, "欢迎", "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n小明\n小红\n小蓝\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7", QtWidgets.QMessageBox.Ok)
+            opentext("./名单.txt")
+            mdcd = len(name_list)
+            print ("读取到的有效名单长度 :", mdcd)
+        #获取显示器分辨率大小
+        self.desktop = QApplication.desktop()
+        self.screenRect = self.desktop.screenGeometry()
+        self.height = self.screenRect.height()
+        self.width = self.screenRect.width()
         # 以下可直接粘贴生成的setupui代码
         MainWindow.setObjectName("沉梦课堂点名器")
         MainWindow.resize(460, 400)
@@ -500,9 +493,9 @@ class Ui_MainWindow(QMainWindow):
                 name_set.add(random.choice(name_list))
             name_set = list(name_set)
             random.shuffle(name_set)
-            today = datetime.now().strftime('%Y-%m-%d %H:%M:')
+            today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             try:
-                print(today,"幸运儿是： %s "  % name_set, file=open('点名器中奖名单.txt', 'a') )
+                print(today,"沉梦课堂点名器%.1f" %(dmversion) + ' : 幸运儿是： %s '  % name_set, file=open('点名器中奖名单.txt', 'a') )
             except:
                 print("无法写入历史记录")
             print(today,"幸运儿是： %s " % name_set)
@@ -510,19 +503,16 @@ class Ui_MainWindow(QMainWindow):
                 self.listWidget_2.addItem(name)
                 self.listWidget.addItem(name)
         elif num < 0:
-            # win32api.MessageBox(0, "你见过负数个人么???????", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "你见过负数个人么???????", QtWidgets.QMessageBox.Yes
             )
             self.listWidget_2.clear()
         elif num == 0:
-            # win32api.MessageBox(0, "人都被你吃了？？？", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "人都被你吃了？？？", QtWidgets.QMessageBox.Yes
             )
             self.listWidget_2.clear()
         elif num > lenth:
-            # win32api.MessageBox(0, "想玩？就不让你抽！", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "你的名单中只有 %s 人 <br>连抽模式下不会重复抽取，请不要超过名单最大人数！"% lenth, QtWidgets.QMessageBox.Yes
             )
@@ -535,13 +525,13 @@ class Ui_MainWindow(QMainWindow):
     def ren(self):
         button = QMessageBox.question(self, "确定要修改名单？", "读取到名单中有 %s 人 <br> 接下来将关闭点名器确保名单能被正常修改，要继续吗？" % mdcd, QMessageBox.Ok | QMessageBox.No, QMessageBox.Ok)
         if button == QMessageBox.Ok:
-            os.system('start ./名单.txt')
+            opentext("./名单.txt")
             sys.exit()
         else:
             pass
         
     def dmhistory(self):
-        os.system('start ./点名器中奖名单.txt')
+        opentext("./点名器中奖名单.txt")
 
     def countname(self):
         name_counts = {}  # 存储名字出现次数的字典
@@ -661,15 +651,12 @@ class Ui_MainWindow(QMainWindow):
             random_file = random.choice(file_list)
             # 生成完整的文件路径
             file_path = os.path.join(folder_path, random_file)
-            pygame.init()
             try:
-                pygame.mixer.music.stop()
                 print(f"播放音乐：{file_path}")
                 pygame.mixer.music.load(file_path)
                 pygame.mixer.music.play()
-            except pygame.error as e:                
+            except pygame.error as e:
                 print(f"无法播放音乐文件：{file_path}，错误信息：{str(e)}")
-
 
     def stop(self):
         global running, a
@@ -677,9 +664,9 @@ class Ui_MainWindow(QMainWindow):
             self.timer.stop()
             running = False
             self.listWidget.addItem(name)
-            today = datetime.now().strftime('%Y-%m-%d %H:%M:')
+            today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             try:
-                print(today,"幸运儿是： %s "  % name, file=open('点名器中奖名单.txt', 'a') )
+                print(today,"沉梦课堂点名器%.1f" %(dmversion) + ' : 幸运儿是： %s '  % name, file=open('点名器中奖名单.txt', 'a') )
             except:
                 print("无法写入历史记录")
             print(today,"幸运儿是： %s " % name)
@@ -738,7 +725,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showMinimized()
 
 if __name__ == "__main__":
-    QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
+    # QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
+    if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
+        QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+    if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+        QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = MainWindow()  # QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
