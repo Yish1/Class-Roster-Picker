@@ -130,3 +130,7 @@ dmypy.json
 
 点名器中奖名单.txt
 名单.txt
+music/
+build/
+dist/
+main.spec
