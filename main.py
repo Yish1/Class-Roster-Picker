@@ -3,80 +3,66 @@
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
 # 源码需要沉淀，下面的源码就是时间的沉淀
 
-from cProfile import run
-import sys, random,os,requests,ctypes,pygame
+import sys, random, os, requests, ctypes, pygame
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import *
-from win32api import MessageBox
-from win32con import MB_OK, MB_ICONWARNING
-from win32 import win32api, win32gui, win32print
-from win32.lib import win32con
 from datetime import datetime
 import webbrowser as web
+import matplotlib
+
+matplotlib.use("QTAgg")
 import matplotlib.pyplot as plt
 
 dmversion = 5.1
 
-#if not ctypes.windll.shell32.IsUserAnAdmin():
-    #result = MessageBox(0, "需要以管理员身份运行，是否继续？\n无管理员权限可能不能写入历史记录", "需要以管理员身份运行", MB_YESNO | MB_ICONWARNING)
-    #调试时可以选择否
-    #if result == IDYES:
-        #ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
-        #sys.exit()新方法获取管理员权限，缺点是用户要每次手动确定
+# if not ctypes.windll.shell32.IsUserAnAdmin():
+# result = MessageBox(0, "需要以管理员身份运行，是否继续？\n无管理员权限可能不能写入历史记录", "需要以管理员身份运行", MB_YESNO | MB_ICONWARNING)
+# 调试时可以选择否
+# if result == IDYES:
+# ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+# sys.exit()新方法获取管理员权限，缺点是用户要每次手动确定
 
-if not ctypes.windll.shell32.IsUserAnAdmin():
-    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable,__file__, None, 1) 
-    #sys.exit()#在编辑器中请注释掉这句，否则不能运行调试，编译完后需要加上这句，否则打包后会启动两次点名器
-
-# 屏幕检测
-"""获取缩放后的分辨率"""
-sX = win32api.GetSystemMetrics(0)  # 获得屏幕分辨率X轴
-sY = win32api.GetSystemMetrics(1)  # 获得屏幕分辨率Y轴
-"""获取真实的分辨率"""
-hDC = win32gui.GetDC(0)
-w = win32print.GetDeviceCaps(hDC, win32con.DESKTOPHORZRES)  # 横向分辨率
-h = win32print.GetDeviceCaps(hDC, win32con.DESKTOPVERTRES)  # 纵向分辨率
-# 缩放比率
-screen_scale_rate = round(w / sX, 2)
-dpi = screen_scale_rate
-if dpi == 1.0:
-    zt = 50
-elif dpi > 1.0:
-    zt = int(50/dpi)
-    print (zt)
-    MessageBox(0, "您的屏幕没有使用默认的缩放比例，因此可能出现字体大小异常的情况", "MessageBox", MB_OK | MB_ICONWARNING)
+if sys.platform == "win32" and not ctypes.windll.shell32.IsUserAnAdmin():
+    ctypes.windll.shell32.ShellExecuteW(
+        None, "runas", sys.executable, __file__, None, 1
+    )
+    # 在编辑器中请注释掉这句，否则不能运行调试，编译完后需要加上这句，否则打包后会启动两次点名器
+    sys.exit()
 
 big = False
 running = False
 seed = False
 choud = False
+zt = 50
+
 
 def make_name_list():
     for i in range(1, 21):
-        yield str(i).rjust(2, '0')
+        yield str(i).rjust(2, "0")
+
 
 def init_name(name_list):
     with open("名单.txt", "w") as f:
         for i in name_list:
             print(f.write(i))
-            f.write('\n')
+            f.write("\n")
 
 
-try:
-    with open('名单.txt', encoding='utf8') as f:
-        # strip('\n')去掉字符串中的'\n'
-        name_list = [line.strip('\n') for line in f.readlines()]  
-    print(name_list)
-except FileNotFoundError:
-    name_list = list(make_name_list())
-    init_name(name_list)
-    MessageBox(0, "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n小明\n小红\n小蓝\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7", "MessageBox", MB_OK | MB_ICONWARNING)
-    os.system('start ./名单.txt')
-mdcd = len(name_list)
-print ("读取到的有效名单长度 :", mdcd)
+name_list = []
+mdcd = 0
+pygame.init()
+pygame.mixer.init()
+
+
+def opentext(path):
+    if sys.platform == "win32":
+        os.system("start %s" % path)
+    else:
+        os.system("vim %s" % path)
+
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self):
@@ -92,6 +78,24 @@ class Ui_MainWindow(QMainWindow):
         # self.setupUi(MainWindow())
 
     def setupUi(self, MainWindow):
+        global name_list, mdcd
+        try:
+            with open("名单.txt", encoding="utf8") as f:
+                # strip('\n')去掉字符串中的'\n'
+                name_list = [line.strip("\n") for line in f.readlines()]
+            print(name_list)
+        except FileNotFoundError:
+            name_list = list(make_name_list())
+            init_name(name_list)
+            QtWidgets.QMessageBox.information(
+                self,
+                "欢迎",
+                "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n小明\n小红\n小蓝\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7",
+                QtWidgets.QMessageBox.Ok,
+            )
+            opentext("./名单.txt")
+            print("读取到的有效名单长度 :", mdcd)
+        mdcd = len(name_list)
         # 以下可直接粘贴生成的setupui代码
         MainWindow.setObjectName("沉梦课堂点名器")
         MainWindow.resize(460, 400)
@@ -209,16 +213,16 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_7.setFont(font)
         self.pushButton_7.setObjectName("pushButton_7")
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(550, 240, 100, 25))#修改名单按钮
+        self.pushButton_3.setGeometry(QtCore.QRect(550, 240, 100, 25))  # 修改名单按钮
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(690, 240, 100, 25))#历史记录按钮
+        self.pushButton_4.setGeometry(QtCore.QRect(690, 240, 100, 25))  # 历史记录按钮
         self.pushButton_4.setObjectName("pushButton_4")
         self.pushButton_8 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_8.setGeometry(QtCore.QRect(550, 290, 100, 25))#统计按钮
+        self.pushButton_8.setGeometry(QtCore.QRect(550, 290, 100, 25))  # 统计按钮
         self.pushButton_8.setObjectName("pushButton_4")
         self.listWidget_2 = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget_2.setGeometry(QtCore.QRect(503, 420, 353, 221))# 连抽列表
+        self.listWidget_2.setGeometry(QtCore.QRect(503, 420, 353, 221))  # 连抽列表
         font = QtGui.QFont()
         font.setPointSize(20)
         self.listWidget_2.setFont(font)
@@ -261,14 +265,17 @@ class Ui_MainWindow(QMainWindow):
             """QPushButton{background:#F76677;border-radius:5px;}QPushButton:hover{background:red;}"""
         )  # 单抽停止
         self.pushButton_3.setStyleSheet(
-            '''QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}''')
-            #查看点过的名字
+            """QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}"""
+        )
+        # 查看点过的名字
         self.pushButton_4.setStyleSheet(
-            '''QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}''')
-            #查看历史记录
+            """QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}"""
+        )
+        # 查看历史记录
         self.pushButton_8.setStyleSheet(
-            '''QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}''')
-            #查看历史记录        
+            """QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}"""
+        )
+        # 查看历史记录
         self.pushButton_9.setStyleSheet(
             """QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}"""
         )  # 关于
@@ -328,7 +335,7 @@ class Ui_MainWindow(QMainWindow):
         self.label_2.setStyleSheet("color:white")
         self.label_4.setStyleSheet("color:white")
         self.label_5.setStyleSheet("color:white")
- 
+
         self.scc = """
          QListWidget{background-color:#2B2B2B;color:white}
          /*垂直滚动条*/
@@ -432,13 +439,15 @@ class Ui_MainWindow(QMainWindow):
         MainWindow.setWindowOpacity(0.98)  # 设置窗口透明度
         MainWindow.setAttribute(Qt.WA_TranslucentBackground)
         MainWindow.setWindowFlag(Qt.FramelessWindowHint)  # 隐藏边框
-        
+
     def retranslateUi(self, MainWindow):
         self.wide = 420
         self.high = 360
         _translate = QtCore.QCoreApplication.translate
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "沉梦课堂点名器%.1f")%dmversion)  # 任务栏名称
+        MainWindow.setWindowTitle(
+            _translate("MainWindow", "沉梦课堂点名器%.1f") % dmversion
+        )  # 任务栏名称
         self.label.setText(_translate("MainWindow", "幸运儿是 {}"))
         self.label.setStyleSheet("color:white")
         self.pushButton.setText(_translate("MainWindow", "开始"))
@@ -447,39 +456,47 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_4.setText(_translate("MainWindow", "查看历史记录"))
         self.pushButton_8.setText(_translate("MainWindow", "统计中奖人员"))
         self.label_2.setText(_translate("MainWindow", "点过的姓名："))
-        self.label_4.setText(_translate("MainWindow", "制作：Yish_，QQB，limuy2022  v%.1f") %dmversion)
-        self.label_5.setText(_translate("MainWindow", "名单中共有:%s人") %mdcd)
+        self.label_4.setText(
+            _translate("MainWindow", "制作：Yish_，QQB，limuy2022  v%.1f") % dmversion
+        )
+        self.label_5.setText(_translate("MainWindow", "名单中共有:%s人") % mdcd)
         self.pushButton_5.setText(_translate("MainWindow", "查看点过的名字"))
         self.pushButton_6.setText(_translate("MainWindow", "连抽模式"))
         self.label_3.setText(_translate("MainWindow", "连抽人数"))
         self.pushButton_7.setText(_translate("MainWindow", "开始"))
 
         try:
-            updatecheck = 'https://classone.top/programs/dm/api/check.html'
-            page=requests.get(updatecheck, verify=False,timeout=2)
+            updatecheck = "https://classone.top/programs/dm/api/check.html"
+            page = requests.get(updatecheck, verify=False, timeout=2)
             newversion = float(page.text)
-            print("云端版本号为:",newversion)
-            findnewversion = ('检测到新版本！请点击左上角“更新”下载新版')
-            if newversion > dmversion:                            #if:条件
-                print('检测到新版本:',newversion,'当前版本为:',dmversion)
+            print("云端版本号为:", newversion)
+            findnewversion = "检测到新版本！请点击左上角“更新”下载新版"
+            if newversion > dmversion:  # if:条件
+                print("检测到新版本:", newversion, "当前版本为:", dmversion)
                 self.pushButton_9.setText(_translate("MainWindow", "更新"))
                 self.wide = 460
                 MainWindow.resize(self.wide, self.high)
                 self.high = 705
                 MainWindow.resize(self.wide, self.high)
-                updatabutton = QMessageBox.question(self, "检测到新版本", "云端最新版本为%s，要现在下载新版本吗？<br>您也可以稍后点击点名器左上角'更新'按钮升级新版本"% newversion, QMessageBox.Ok | QMessageBox.No, QMessageBox.Ok)
+                updatabutton = QMessageBox.question(
+                    self,
+                    "检测到新版本",
+                    "云端最新版本为%s，要现在下载新版本吗？<br>您也可以稍后点击点名器左上角'更新'按钮升级新版本" % newversion,
+                    QMessageBox.Ok | QMessageBox.No,
+                    QMessageBox.Ok,
+                )
                 if updatabutton == QMessageBox.Ok:
                     web.open_new("https://classone.top/ktdmq")
                 else:
                     pass
                 self.listWidget.addItem(findnewversion)
             else:
-                print('当前已经是最新版本:')
+                print("当前已经是最新版本:")
                 self.pushButton_9.setText(_translate("MainWindow", "关于"))
         except:
             print("网络异常,无法检测更新")
             self.pushButton_9.setText(_translate("MainWindow", "关于"))
-            noconnect = ('网络连接异常，检查更新失败')
+            noconnect = "网络连接异常，检查更新失败"
             self.listWidget.addItem(noconnect)
 
     def ten(self):
@@ -500,12 +517,17 @@ class Ui_MainWindow(QMainWindow):
                 name_set.add(random.choice(name_list))
             name_set = list(name_set)
             random.shuffle(name_set)
-            today = datetime.now().strftime('%Y-%m-%d %H:%M:')
+            today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             try:
-                print(today,"幸运儿是： %s "  % name_set, file=open('点名器中奖名单.txt', 'a') )
+                print(
+                    today,
+                    "沉梦课堂点名器%.1f" % dmversion,
+                    "幸运儿是： %s " % name_set,
+                    file=open("点名器中奖名单.txt", "a"),
+                )
             except:
                 print("无法写入历史记录")
-            print(today,"幸运儿是： %s " % name_set)
+            print(today, "幸运儿是： %s " % name_set)
             for name in name_set:
                 self.listWidget_2.addItem(name)
                 self.listWidget.addItem(name)
@@ -524,7 +546,10 @@ class Ui_MainWindow(QMainWindow):
         elif num > lenth:
             # win32api.MessageBox(0, "想玩？就不让你抽！", "通知", win32con.MB_OK | win32con.MB_ICONWARNING)
             reply = QtWidgets.QMessageBox.warning(
-                self, "警告", "你的名单中只有 %s 人 <br>连抽模式下不会重复抽取，请不要超过名单最大人数！"% lenth, QtWidgets.QMessageBox.Yes
+                self,
+                "警告",
+                "你的名单中只有 %s 人 <br>连抽模式下不会重复抽取，请不要超过名单最大人数！" % lenth,
+                QtWidgets.QMessageBox.Yes,
             )
             self.listWidget_2.clear()
 
@@ -533,41 +558,47 @@ class Ui_MainWindow(QMainWindow):
         web.open_new(url)
 
     def ren(self):
-        button = QMessageBox.question(self, "确定要修改名单？", "读取到名单中有 %s 人 <br> 接下来将关闭点名器确保名单能被正常修改，要继续吗？" % mdcd, QMessageBox.Ok | QMessageBox.No, QMessageBox.Ok)
+        button = QMessageBox.question(
+            self,
+            "确定要修改名单？",
+            "读取到名单中有 %s 人 <br> 接下来将关闭点名器确保名单能被正常修改，要继续吗？" % mdcd,
+            QMessageBox.Ok | QMessageBox.No,
+            QMessageBox.Ok,
+        )
         if button == QMessageBox.Ok:
-            os.system('start ./名单.txt')
+            opentext("./名单.txt")
             sys.exit()
         else:
             pass
-        
+
     def dmhistory(self):
-        os.system('start ./点名器中奖名单.txt')
+        opentext("./点名器中奖名单.txt")
 
     def countname(self):
         name_counts = {}  # 存储名字出现次数的字典
-        with open('点名器中奖名单.txt') as file:
+        with open("点名器中奖名单.txt") as file:
             for line in file:
-                if '幸运儿是：' in line:
-                    cnames = line.split('幸运儿是：')[1].strip().strip("[]'")
+                if "幸运儿是：" in line:
+                    cnames = line.split("幸运儿是：")[1].strip().strip("[]'")
                     cnames = cnames.split("', '")
                     for cname in cnames:
                         if cname not in name_counts:
                             name_counts[cname] = 1
                         else:
-                            name_counts[cname] += 1    
+                            name_counts[cname] += 1
         sorted_counts = sorted(name_counts.items(), key=lambda x: x[1], reverse=True)
         names = [name for name, count in sorted_counts]
         counts = [count for name, count in sorted_counts]
         # 生成柱状图
         plt.rcParams["font.family"] = "Microsoft YaHei"
-        plt.style.use('dark_background')    
-        fig, ax = plt.subplots(figsize=(7680/300, 4320/300), dpi=500)
-        bars = ax.bar(names, counts, color='cyan')
-        ax.bar_label(bars, fmt='%d', fontsize=12)  # 在柱子上方标记数据
-        ax.set_xlabel('名字')
-        ax.set_ylabel('次数')
-        ax.set_title('点名器中奖统计', fontsize=24)  # 设置标题字体大小
-        ax.tick_params(axis='x', rotation=90)           
+        plt.style.use("dark_background")
+        fig, ax = plt.subplots(figsize=(7680 / 300, 4320 / 300))
+        bars = ax.bar(names, counts, color="cyan")
+        ax.bar_label(bars, fmt="%d", fontsize=12)  # 在柱子上方标记数据
+        ax.set_xlabel("名字")
+        ax.set_ylabel("次数")
+        ax.set_title("点名器中奖统计", fontsize=24)  # 设置标题字体大小
+        ax.tick_params(axis="x", rotation=90)
         # 弹窗选择保存选项
         msg_box = QMessageBox()
         msg_box.setWindowTitle("保存选项")
@@ -578,18 +609,18 @@ class Ui_MainWindow(QMainWindow):
         msg_box.exec_()
         if msg_box.clickedButton() == save_button:
             # 保存图表
-            plt.savefig('中奖统计图.png')
+            plt.savefig("中奖统计图.png")
             QMessageBox.information(self, "保存结果", "图表已保存到'中奖统计图.png'")
-            os.system('start ./中奖统计图.png')
+            plt.show()
         elif msg_box.clickedButton() == cancel_button:
             # 保存文本
             cresult = "中奖名单统计(统计会覆盖上一次结果):\n"
             for name, count in sorted_counts:
                 cresult += f"{name} 出现了 {count} 次\n"
-            with open('中奖统计.txt', 'w') as file:
+            with open("中奖统计.txt", "w") as file:
                 file.write(cresult)
             QMessageBox.information(self, "保存结果", "统计结果已保存到'中奖统计.txt'")
-            os.system('start ./中奖统计.txt')
+            opentext("./中奖统计.txt")
 
     def showHistory(self):
         global seed
@@ -645,7 +676,7 @@ class Ui_MainWindow(QMainWindow):
             self.timer.start(50)
             running = True
             # 定义文件夹的相对路径
-            folder_name = 'music'
+            folder_name = "music"
             current_dir = os.path.dirname(os.path.abspath(__file__))
             folder_path = os.path.join(current_dir, folder_name)
             if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
@@ -661,15 +692,12 @@ class Ui_MainWindow(QMainWindow):
             random_file = random.choice(file_list)
             # 生成完整的文件路径
             file_path = os.path.join(folder_path, random_file)
-            pygame.init()
             try:
-                pygame.mixer.music.stop()
                 print(f"播放音乐：{file_path}")
                 pygame.mixer.music.load(file_path)
                 pygame.mixer.music.play()
-            except pygame.error as e:                
+            except pygame.error as e:
                 print(f"无法播放音乐文件：{file_path}，错误信息：{str(e)}")
-
 
     def stop(self):
         global running, a
@@ -677,13 +705,18 @@ class Ui_MainWindow(QMainWindow):
             self.timer.stop()
             running = False
             self.listWidget.addItem(name)
-            today = datetime.now().strftime('%Y-%m-%d %H:%M:')
+            today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             try:
-                print(today,"幸运儿是： %s "  % name, file=open('点名器中奖名单.txt', 'a') )
+                print(
+                    today,
+                    "沉梦课堂点名器%.1f" % dmversion,
+                    "幸运儿是： %s " % name,
+                    file=open("点名器中奖名单.txt", "a"),
+                )
             except:
                 print("无法写入历史记录")
-            print(today,"幸运儿是： %s " % name)
-            try:                
+            print(today, "幸运儿是： %s " % name)
+            try:
                 pygame.mixer.music.fadeout(1000)
             except pygame.error as e:
                 print(f"停止音乐播放时发生错误：{str(e)}")
@@ -692,7 +725,6 @@ class Ui_MainWindow(QMainWindow):
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "还没开始就想结束？", QtWidgets.QMessageBox.Yes
             )
-            
 
 
 # 重写MainWindow类
@@ -732,13 +764,17 @@ class MainWindow(QtWidgets.QMainWindow):
             big = False
 
     def close(self):
-            sys.exit()
+        sys.exit()
 
     def mini(self):
         self.showMinimized()
 
+
 if __name__ == "__main__":
-    QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
+    if hasattr(QtCore.Qt, "AA_EnableHighDpiScaling"):
+        QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+    if hasattr(QtCore.Qt, "AA_UseHighDpiPixmaps"):
+        QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = MainWindow()  # QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
