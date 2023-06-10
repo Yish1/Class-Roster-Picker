@@ -661,13 +661,15 @@ class Ui_MainWindow(QMainWindow):
             random_file = random.choice(file_list)
             # 生成完整的文件路径
             file_path = os.path.join(folder_path, random_file)
+            pygame.init()
             try:
+                pygame.mixer.music.stop()
                 print(f"播放音乐：{file_path}")
-                pygame.init()
                 pygame.mixer.music.load(file_path)
                 pygame.mixer.music.play()
-            except pygame.error as e:
+            except pygame.error as e:                
                 print(f"无法播放音乐文件：{file_path}，错误信息：{str(e)}")
+
 
     def stop(self):
         global running, a
