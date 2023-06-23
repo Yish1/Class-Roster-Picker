@@ -4,51 +4,39 @@
 # 源码需要沉淀，下面的源码就是时间的沉淀
 
 import sys, random, os, requests, ctypes, pygame
-from ctypes import windll
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import *
 from datetime import datetime
-from win32api import MessageBox
-from win32con import MB_ICONWARNING,MB_YESNO,IDYES,MB_OK
 import webbrowser as web
 import matplotlib
 
 matplotlib.use("QTAgg")
 import matplotlib.pyplot as plt
 
-dmversion = 5.2
+dmversion = 5.1
 
-if not ctypes.windll.shell32.IsUserAnAdmin():
-    result = MessageBox(0, "当前安装目录下需要以管理员身份运行才能写入历史记录，是否继续？", "需要以管理员身份运行", MB_YESNO | MB_ICONWARNING)
-    #调试时选择否
-    if result == IDYES:
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
-        sys.exit()#新方法获取管理员权限，缺点是用户要每次手动确定
+# if not ctypes.windll.shell32.IsUserAnAdmin():
+# result = MessageBox(0, "需要以管理员身份运行，是否继续？\n无管理员权限可能不能写入历史记录", "需要以管理员身份运行", MB_YESNO | MB_ICONWARNING)
+# 调试时可以选择否
+# if result == IDYES:
+# ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+# sys.exit()新方法获取管理员权限，缺点是用户要每次手动确定
 
-user32 = windll.user32
-gdi32 = windll.gdi32
-desktop_dc = user32.GetDC(None)
-# 获取屏幕的水平和垂直DPI
-dpi_x = gdi32.GetDeviceCaps(desktop_dc, 88)  # LOGPIXELSX
-dpi_y = gdi32.GetDeviceCaps(desktop_dc, 90)  # LOGPIXELSY
-user32.ReleaseDC(None, desktop_dc)
-# 计算缩放比例
-scaling_factor = dpi_x / 96.0
-print("屏幕缩放倍数:", scaling_factor)
-if scaling_factor == 1.0:
-    zt = 50
-elif scaling_factor > 1.0:
-    zt = int(50/scaling_factor)
-    print (zt)
-    MessageBox(0, "您的屏幕没有使用默认的缩放比例，因此可能出现字体大小异常的情况", "MessageBox", MB_OK | MB_ICONWARNING)
+if sys.platform == "win32" and not ctypes.windll.shell32.IsUserAnAdmin():
+    ctypes.windll.shell32.ShellExecuteW(
+        None, "runas", sys.executable, __file__, None, 1
+    )
+    # 在编辑器中请注释掉这句，否则不能运行调试，编译完后需要加上这句，否则打包后会启动两次点名器
+    sys.exit()
 
 big = False
 running = False
 seed = False
 choud = False
+zt = 50
 
 
 def make_name_list():
@@ -102,7 +90,7 @@ class Ui_MainWindow(QMainWindow):
             QtWidgets.QMessageBox.information(
                 self,
                 "欢迎",
-                "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n王小美\n李华\n钟离\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7-2023.7",
+                "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n小明\n小红\n小蓝\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7",
                 QtWidgets.QMessageBox.Ok,
             )
             opentext("./名单.txt")
@@ -604,13 +592,13 @@ class Ui_MainWindow(QMainWindow):
         # 生成柱状图
         plt.rcParams["font.family"] = "Microsoft YaHei"
         plt.style.use("dark_background")
-        fig, ax = plt.subplots(figsize=(7680 / 200, 4320 / 200))
-        bars = ax.bar(names, counts, color='cyan')
-        ax.bar_label(bars, fmt='%d', fontsize=12)  # 在柱子上方标记数据
-        ax.set_xlabel('名字')
-        ax.set_ylabel('次数')
-        ax.set_title('点名器中奖统计', fontsize=24)  # 设置标题字体大小
-        ax.tick_params(axis='x', rotation=90)           
+        fig, ax = plt.subplots(figsize=(7680 / 300, 4320 / 300))
+        bars = ax.bar(names, counts, color="cyan")
+        ax.bar_label(bars, fmt="%d", fontsize=12)  # 在柱子上方标记数据
+        ax.set_xlabel("名字")
+        ax.set_ylabel("次数")
+        ax.set_title("点名器中奖统计", fontsize=24)  # 设置标题字体大小
+        ax.tick_params(axis="x", rotation=90)
         # 弹窗选择保存选项
         msg_box = QMessageBox()
         msg_box.setWindowTitle("保存选项")
@@ -621,18 +609,18 @@ class Ui_MainWindow(QMainWindow):
         msg_box.exec_()
         if msg_box.clickedButton() == save_button:
             # 保存图表
-            plt.savefig('中奖统计图.png')
+            plt.savefig("中奖统计图.png")
             QMessageBox.information(self, "保存结果", "图表已保存到'中奖统计图.png'")
-            os.system('start ./中奖统计图.png')
+            plt.show()
         elif msg_box.clickedButton() == cancel_button:
             # 保存文本
             cresult = "中奖名单统计(统计会覆盖上一次结果):\n"
             for name, count in sorted_counts:
                 cresult += f"{name} 出现了 {count} 次\n"
-            with open('中奖统计.txt', 'w') as file:
+            with open("中奖统计.txt", "w") as file:
                 file.write(cresult)
             QMessageBox.information(self, "保存结果", "统计结果已保存到'中奖统计.txt'")
-            os.system('start ./中奖统计.txt')
+            opentext("./中奖统计.txt")
 
     def showHistory(self):
         global seed
