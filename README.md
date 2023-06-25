@@ -1,7 +1,5 @@
-<p>https://www.bilibili.com/video/BV1M24y1Q7Jy/?spm_id_from=333.999.0.0</p>
-<p>[noway]当前最新版本为5.3[/noway]</p>
-<p>[ghcard path="Yish1/Class-Roster-Picker"]/pin?username=Yish1&amp;repo=Class-Roster-Picker[/ghcard]</p>
 
+<p>https://www.bilibili.com/video/BV1M24y1Q7Jy/?spm_id_from=333.999.0.0</p>
 <!-- wp:heading -->
 <h2 class="wp-block-heading">5.3版本发布说明</h2>
 <!-- /wp:heading -->
