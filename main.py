@@ -4,6 +4,7 @@
 # 源码需要沉淀，下面的源码就是时间的沉淀
 
 import sys, random, os, requests, ctypes, pygame
+from ctypes import windll
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
@@ -21,7 +22,7 @@ if sys.platform == "win32" and not ctypes.windll.shell32.IsUserAnAdmin():
     ctypes.windll.shell32.ShellExecuteW(
         None, "runas", sys.executable, __file__, None, 1
     )
-    #sys.exit()# 在编辑器中请注释掉这句，否则不能运行调试，编译完后需要加上这句，否则打包后会启动两次点名器
+    sys.exit()# 在编辑器中请注释掉这句，否则不能运行调试，编译完后需要加上这句，否则打包后会启动两次点名器
 
 big = False
 running = False
