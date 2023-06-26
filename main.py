@@ -4,7 +4,6 @@
 # 源码需要沉淀，下面的源码就是时间的沉淀
 
 import sys, random, os, requests, ctypes, pygame
-from ctypes import windll
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
@@ -13,7 +12,6 @@ from PyQt5.QtWidgets import *
 from datetime import datetime
 import webbrowser as web
 import matplotlib
-
 matplotlib.use("QTAgg")
 import matplotlib.pyplot as plt
 
@@ -23,27 +21,7 @@ if sys.platform == "win32" and not ctypes.windll.shell32.IsUserAnAdmin():
     ctypes.windll.shell32.ShellExecuteW(
         None, "runas", sys.executable, __file__, None, 1
     )
-    sys.exit()# 在编辑器中请注释掉这句，否则不能运行调试，编译完后需要加上这句，否则打包后会启动两次点名器
-
-user32 = windll.user32
-gdi32 = windll.gdi32
-desktop_dc = user32.GetDC(None)
-# 获取屏幕的水平和垂直DPI
-dpi_x = gdi32.GetDeviceCaps(desktop_dc, 88)  # LOGPIXELSX
-dpi_y = gdi32.GetDeviceCaps(desktop_dc, 90)  # LOGPIXELSY
-user32.ReleaseDC(None, desktop_dc)
-# 计算缩放比例
-dpi_factor = dpi_x / 96.0
-print("屏幕缩放倍数:", dpi_factor)
-if dpi_factor == 1.0:
-    zt = 50
-elif dpi_factor > 1.0:
-    zt = int(50 / dpi_factor)
-file_path = "dpi_warning.txt"
-if not os.path.exists(file_path):
-    ctypes.windll.user32.MessageBoxW(0, "您的屏幕没有使用默认的缩放比例，因此可能出现字体大小异常的情况", "字体大小警告", 0x40 | 0x30)
-    with open(file_path, "w"):
-        pass
+    #sys.exit()# 在编辑器中请注释掉这句，否则不能运行调试，编译完后需要加上这句，否则打包后会启动两次点名器
 
 big = False
 running = False
@@ -62,7 +40,7 @@ def init_name(name_list):
             print(f.write(i))
             f.write("\n")
 
-
+zt = 50
 name_list = []
 mdcd = 0
 pygame.init()
@@ -478,7 +456,7 @@ class Ui_MainWindow(QMainWindow):
 
         try:
             updatecheck = "https://cdn.classone.top/programs/dm/api/check.html"
-            page = requests.get(updatecheck, verify=False, timeout=2)
+            page = requests.get(updatecheck, timeout=2)
             newversion = float(page.text)
             print("云端版本号为:", newversion)
             findnewversion = "检测到新版本！请点击左上角“更新”下载新版"
