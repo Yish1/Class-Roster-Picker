@@ -1,5 +1,15 @@
+<!-- wp:heading {"style":{"typography":{"fontSize":"28px"}}} -->
+<h2 class="wp-block-heading" style="font-size:28px">5.4 测试版发布说明</h2>
+<!-- /wp:heading -->
 
-<p>https://www.bilibili.com/video/BV1M24y1Q7Jy/?spm_id_from=333.999.0.0</p>
+<!-- wp:paragraph {"fontSize":"medium"} -->
+<p class="has-medium-font-size">2023.9.8<br>1.新增多名单功能<br>已知问题<br>1.首次打开可能报错（9.10已修复）<br>2.首次打开会有一个空的选择名单界面，关闭即可<br>3.每次打开都会出现选择名单的界面（即使只有一个名单）<br>其中2和3由于 self.close代码不起作用而无法修复，正在排查问题，欢迎查看源码协助我们修复</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>https://yish.lanzouw.com/iGTPM17xdceb密码:3b7i</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:heading -->
 <h2 class="wp-block-heading">5.3版本发布说明</h2>
 <!-- /wp:heading -->
@@ -21,7 +31,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
-<p style="font-size:28px"><a href="https://yish.lanzouw.com/ic3Wk10cdlyh" data-type="URL" data-id="https://yish.lanzouw.com/ic3Wk10cdlyh" target="_blank" rel="noreferrer noopener"><strong>5.3下载链接2（安装包）</strong></a></p>
+<p style="font-size:28px"><a href="https://yish.lanzouw.com/ixZmq10g004h" data-type="URL" data-id="https://yish.lanzouw.com/ixZmq10g004h" target="_blank" rel="noreferrer noopener"><strong>5.3下载链接2（安装包）</strong></a></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
@@ -152,9 +162,15 @@
 <p><iframe src="//player.bilibili.com/player.html?bvid=BV1ge4y1a7Q4&amp;page=1" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen"> </iframe></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:verse {"fontSize":"medium"} -->
-<pre class="wp-block-verse has-medium-font-size"><strong>2022.8.13 3.99更新内容</strong></pre>
-<!-- /wp:verse -->
+<!-- wp:heading {"fontSize":"medium"} -->
+<h2 class="wp-block-heading has-medium-font-size"><strong>3.99版本更新内容</strong></h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><!-- wp:list-item -->
+<li><strong>2022.8.13</strong></li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
 
 <!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
 <p class="has-vivid-red-color has-text-color has-medium-font-size"><strong><em>此更新3.99仅限13班定制版点名器，其余版本仍为3.90-3.95（3.90到3.95内容完全一样）</em></strong></p>
@@ -180,9 +196,11 @@
 <h2 class="wp-block-heading has-medium-font-size"><strong>3.9 </strong>版本更新内容</h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph -->
-<p><strong>2022.8.12</strong></p>
-<!-- /wp:paragraph -->
+<!-- wp:list -->
+<ul><!-- wp:list-item -->
+<li><strong>2022.8.12</strong></li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
 
 <!-- wp:paragraph {"fontSize":"medium"} -->
 <p class="has-medium-font-size">①增大界面，增大字体，使文字能更好的在大屏幕上展示</p>
@@ -204,9 +222,11 @@
 <h2 class="wp-block-heading has-medium-font-size">3.0版本更新内容</h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph -->
-<p>2022.7.29</p>
-<!-- /wp:paragraph -->
+<!-- wp:list -->
+<ul><!-- wp:list-item -->
+<li>2022.7.29</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
 
 <!-- wp:paragraph {"fontSize":"medium"} -->
 <p class="has-medium-font-size">①全新界面，新增连抽和历史记录</p>
@@ -293,7 +313,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"width":741,"height":646,"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://cdn.classone.top/images/dm/picture.png" alt="" width="741" height="646"/></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://cdn.cmxz.top/images/dm/picture.png" alt="" width="741" height="646"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -375,6 +395,3 @@
 <!-- wp:verse {"fontSize":"medium"} -->
 <pre class="wp-block-verse has-medium-font-size"></pre>
 <!-- /wp:verse -->
-
-<p><iframe style="overflow-x: hidden; overflow-y: hidden; border: 0xp none #fff; min-height: 240px; width: 100%;" src="https://cdn.classone.top/donate/index.html" frameborder="0" scrolling="no"></iframe></p>
-<p></p>
