@@ -1,3 +1,4 @@
+#5.4 beta2
 # -*- coding: utf-8 -*-
 # 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
@@ -8,15 +9,15 @@ from ctypes import windll
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
-from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt, QTimer, QCoreApplication
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QComboBox, QPushButton, QMessageBox, QListView, QMainWindow, QGridLayout
 from datetime import datetime
 import webbrowser as web
 import matplotlib
 matplotlib.use("QTAgg")
 import matplotlib.pyplot as plt
 
-dmversion = 5.3
+dmversion = 5.4
 
 if sys.platform == "win32" and not ctypes.windll.shell32.IsUserAnAdmin():
     ctypes.windll.shell32.ShellExecuteW(
@@ -29,6 +30,12 @@ running = False
 seed = False
 choud = False
 
+zt = 50
+name_list = []
+file_path = "name/名单1.txt"
+mdcd = 0
+pygame.init()
+pygame.mixer.init()
 
 def make_name_list():
     for i in range(1, 21):
@@ -36,17 +43,12 @@ def make_name_list():
 
 
 def init_name(name_list):
-    with open("名单.txt", "w") as f:
+    global name_path
+    name_path = os.path.join("name", "名单1.txt")# 打开文件并写入内容
+    with open(name_path, "w", encoding="utf8") as f:
         for i in name_list:
-            print(f.write(i))
+            f.write(i)
             f.write("\n")
-
-zt = 50
-name_list = []
-mdcd = 0
-pygame.init()
-pygame.mixer.init()
-
 
 def opentext(path):
     if sys.platform == "win32":
@@ -55,9 +57,91 @@ def opentext(path):
         os.system("vim %s" % path)
 
 
-class Ui_MainWindow(QMainWindow):
+class NameListSelector(QWidget):
     def __init__(self):
         super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        global txtnum, name_list, file_path, namefolder
+        self.setWindowTitle('选择名单')
+        self.setGeometry(100, 100, 500, 200)
+        layout = QVBoxLayout()
+        self.combo_box = QComboBox(self)
+        custom_list_view = QListView(self.combo_box)
+        self.combo_box.setFixedHeight(40)# 设置下拉框选项的样式表
+        custom_list_view.setStyleSheet("QListView::item { height: 40px; }")
+        self.combo_box.setView(custom_list_view)
+        layout.addWidget(self.combo_box)
+        self.button = QPushButton('确定', self)
+        self.button.setFixedHeight(40)  # 设置高度为40像素
+        layout.addWidget(self.button)
+        self.setLayout(layout)
+        self.button.clicked.connect(self.showDialog)
+        # 居中窗口
+        qr = self.frameGeometry()
+        cp = QApplication.primaryScreen().geometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+        namefolder = "name"
+        namefolder1 = os.path.dirname(os.path.abspath(__file__))
+        namefolder_path = os.path.join(namefolder1, namefolder)
+        # 检查名单文件夹是否存在，如果不存在则创建
+        if not os.path.exists(namefolder_path) or not os.path.isdir(namefolder_path):
+            print(f"名单文件夹不存在：{namefolder_path}")
+            os.makedirs(namefolder_path)
+        txtnum = [filename for filename in os.listdir(namefolder) if filename.endswith(".txt")]
+        mdnum = len(txtnum)
+        print(mdnum,txtnum)
+        if not txtnum:
+            name_list = list(make_name_list())
+            init_name(name_list)
+            ctypes.windll.user32.MessageBoxW(
+            0, "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n名字1\n名字2\n名字3\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7-2023.9", "欢迎", 0x40 | 0x30)
+            opentext(name_path)
+            print("首次启动")
+            self.close()
+            print("已关闭")
+        elif int(mdnum) == 1:
+            # 如果只有一个.txt文件，自动加载该文件并关闭窗口，但是有bug
+            file_path = os.path.join("name", txtnum[0])
+            print(file_path)
+            print("只有一个")
+            #self.close()  这个不会正常关闭，原因未知
+            self.combo_box.addItems(txtnum)
+        else:
+            self.combo_box.addItems(txtnum)
+    
+    def showDialog(self):
+        global file_path
+        selected_file = self.combo_box.currentText()
+        if not selected_file:
+            return
+        file_path = os.path.join("name", selected_file)
+        if not os.path.exists(file_path):
+            QMessageBox.warning(self, '警告', '名单文件不存在', QMessageBox.Ok)
+            return
+        try: 
+            self.file_path = file_path
+            self.close()
+        except Exception as e:
+            QMessageBox.warning(self, '警告', f'读取名单文件时发生错误: {str(e)}', QMessageBox.Ok)
+
+def main():
+    app = QApplication([])
+    ex = NameListSelector()
+    ex.show()
+    app.exec_()
+
+    if hasattr(ex, 'file_path'):
+        print(f"所选文件的路径为: {ex.file_path}")
+
+if __name__ == '__main__':
+    main()
+
+class Ui_MainWindow(QMainWindow):
+    def init(self):
+        super().init()
         self.RowLength = 0
         try:
             icon_path = pathq.join(pathq.dirname(__file__), "./yish.ico")  # 任务栏的ico
@@ -69,20 +153,12 @@ class Ui_MainWindow(QMainWindow):
         # self.setupUi(MainWindow())
 
     def setupUi(self, MainWindow):
-        global name_list, mdcd
-        try:
-            with open("名单.txt", encoding="utf8") as f:
-                # strip('\n')去掉字符串中的'\n'
-                name_list = [line.strip("\n") for line in f.readlines()]
-            print(name_list)
-        except FileNotFoundError:
-            name_list = list(make_name_list())
-            init_name(name_list)
-            ctypes.windll.user32.MessageBoxW(
-            0, "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n王小美\n李华\n钟离\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7-2023.7", "欢迎", 0x40 | 0x30)
-            opentext("./名单.txt")
-            print("读取到的有效名单长度 :", mdcd)
+        global mdcd,name_list,file_path
+        with open(file_path, encoding='utf8') as f:
+            name_list = [line.strip('\n') for line in f.readlines()]
+        print(name_list)
         mdcd = len(name_list)
+        print("读取到的有效名单长度 :", mdcd)
         # 以下可直接粘贴生成的setupui代码
         MainWindow.setObjectName("沉梦课堂点名器")
         MainWindow.resize(460, 400)
@@ -443,7 +519,7 @@ class Ui_MainWindow(QMainWindow):
         self.label.setStyleSheet("color:white")
         self.pushButton.setText(_translate("MainWindow", "开始"))
         self.pushButton_2.setText(_translate("MainWindow", "结束"))
-        self.pushButton_3.setText(_translate("MainWindow", "修改名单文件"))
+        self.pushButton_3.setText(_translate("MainWindow", "增加名单文件"))
         self.pushButton_4.setText(_translate("MainWindow", "查看历史记录"))
         self.pushButton_8.setText(_translate("MainWindow", "统计中奖人员"))
         self.pushButton_10.setText(_translate("MainWindow", "背景音乐目录"))
@@ -550,13 +626,13 @@ class Ui_MainWindow(QMainWindow):
     def ren(self):
         button = QMessageBox.question(
             self,
-            "确定要修改名单？",
-            "读取到名单中有 %s 人 <br> 接下来将关闭点名器确保名单能被正常修改，要继续吗？" % mdcd,
+            "确定要增加名单？",
+            "读取到名单中有 %s 人 <br> 接下来将关闭点名器确保名单能被正常修改，要继续吗？<br>在打开的文件夹中新建一个文本文档(.txt)更名为对应的班级，输入名字，一行一个" % mdcd,
             QMessageBox.Ok | QMessageBox.No,
             QMessageBox.Ok,
         )
         if button == QMessageBox.Ok:
-            opentext("./名单.txt")
+            opentext(namefolder)
             sys.exit()
         else:
             pass
@@ -657,6 +733,7 @@ class Ui_MainWindow(QMainWindow):
 
     def setname(self):
         global name
+        
         if len(name_list) == 0:
             init_name(make_name_list())
             reply = QtWidgets.QMessageBox.warning(
