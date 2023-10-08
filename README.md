@@ -1,5 +1,47 @@
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
+<p style="font-size:28px"><a rel="noreferrer noopener" href="https://yish.lanzouw.com/b038hjo8f" data-type="URL" data-id="https://yish.lanzouw.com/b038hjo8f" target="_blank"><strong>最新版下载地址</strong></a>密码:cmti</p>
+<!-- /wp:paragraph -->
 
-<p>https://www.bilibili.com/video/BV1M24y1Q7Jy/?spm_id_from=333.999.0.0</p>
+<!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
+<p class="has-vivid-red-color has-text-color has-medium-font-size">更新时请备份名单，然后卸载旧版本重新安装，否则可能出现错误</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>4.6版本最后支持32位系统<a href="https://github.com/Yish1/ktdmq/releases/download/4.3/4.3.exe">https://github.com/Yish1/ktdmq/releases/download/4.3/4.3.exe</a></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"textColor":"vivid-red"} -->
+<p class="has-vivid-red-color has-text-color">提示：4.8起更换了打包方式，改成安装包的形式，因此你可以在安装4.8后删除4.7，也可以安装到u盘里面便携使用</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"fontSize":"medium"} -->
+<p class="has-medium-font-size"><strong><a rel="noreferrer noopener" href="https://yish.lanzouw.com/izsZF0fv96jg" data-type="URL" data-id="https://yish.lanzouw.com/izsZF0fv96jg" target="_blank">下载通用版4.9（最后的单文件版）</a></strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5.5版本发布说明</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>2023.10.9<br>1.修复多名单选择窗口未按预期显示<br>2.调整布局<br>3.更换检查更新api<br>已知问题<br>1.首次运行的弹窗未适配高dpi<br>2.导出历史记录时选择关闭，会默认选择导出到文本<br>以上问题不会影响体验，将于下个版本中修复</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>下载地址https://yish.lanzouw.com/b038hjo8f<br>密码:cmti</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading {"style":{"typography":{"fontSize":"28px"}}} -->
+<h2 class="wp-block-heading" style="font-size:28px">5.4 测试版发布说明</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"17px"}}} -->
+<p style="font-size:17px">2023.9.10<br>1.新增多名单功能<br>已知问题<br>1.首次打开可能报错（已修复）<br>2.首次打开会有一个空的选择名单界面，关闭即可、<br>3.每次打开都会出现选择名单的界面（即使只有一个名单）<br></p>
+<!-- /wp:paragraph -->
+
 <!-- wp:heading -->
 <h2 class="wp-block-heading">5.3版本发布说明</h2>
 <!-- /wp:heading -->
@@ -16,41 +58,9 @@
 <p>为了统计名单，程序使用了提权代码，可能被杀毒软件误杀，如有疑问请查看<a rel="noreferrer noopener" href="https://github.com/Yish1/Class-Roster-Picker/blob/main/main.py" data-type="URL" data-id="https://github.com/Yish1/Class-Roster-Picker/blob/main/main.py" target="_blank">源码</a></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
-<p style="font-size:28px"><a rel="noreferrer noopener" href="https://yish.lanzouw.com/b038hjo8f" data-type="URL" data-id="https://yish.lanzouw.com/b038hjo8f" target="_blank"><strong>最新版下载地址</strong></a>密码:cmti</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
-<p style="font-size:28px"><a href="https://yish.lanzouw.com/ic3Wk10cdlyh" data-type="URL" data-id="https://yish.lanzouw.com/ic3Wk10cdlyh" target="_blank" rel="noreferrer noopener"><strong>5.3下载链接2（安装包）</strong></a></p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
-<p class="has-vivid-red-color has-text-color has-medium-font-size">更新时请备份名单，然后卸载旧版本重新安装，否则可能出现错误</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
-<p style="font-size:28px"><strong><a rel="noreferrer noopener" href="https://yish.lanzouw.com/izsZF0fv96jg" data-type="URL" data-id="https://yish.lanzouw.com/izsZF0fv96jg" target="_blank">下载通用版4.9（最后的单文件版）</a></strong></p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>下载4.6（最后的32位版本）</p>
-<!-- /wp:paragraph -->
-
 <!-- wp:separator -->
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
 <!-- /wp:separator -->
-
-<!-- wp:paragraph {"textColor":"vivid-red"} -->
-<p class="has-vivid-red-color has-text-color">提示：4.8起更换了打包方式，改成安装包的形式，因此你可以在安装4.8后删除4.7，也可以安装到u盘里面便携使用</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"textColor":"vivid-cyan-blue","fontSize":"large"} -->
-<p class="has-vivid-cyan-blue-color has-text-color has-large-font-size"><strong>4.6版本后暂不支持32位系统！！！</strong></p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>旧版本支持32位系统<a href="https://github.com/Yish1/ktdmq/releases/download/4.3/4.3.exe">https://github.com/Yish1/ktdmq/releases/download/4.3/4.3.exe</a></p>
-<!-- /wp:paragraph -->
 
 <!-- wp:heading -->
 <h2 class="wp-block-heading"><strong>5.2版本发布说明</strong></h2>
@@ -152,9 +162,15 @@
 <p><iframe src="//player.bilibili.com/player.html?bvid=BV1ge4y1a7Q4&amp;page=1" frameborder="no" scrolling="no" allowfullscreen="allowfullscreen"> </iframe></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:verse {"fontSize":"medium"} -->
-<pre class="wp-block-verse has-medium-font-size"><strong>2022.8.13 3.99更新内容</strong></pre>
-<!-- /wp:verse -->
+<!-- wp:heading {"fontSize":"medium"} -->
+<h2 class="wp-block-heading has-medium-font-size"><strong>3.99版本更新内容</strong></h2>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><!-- wp:list-item -->
+<li><strong>2022.8.13</strong></li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
 
 <!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
 <p class="has-vivid-red-color has-text-color has-medium-font-size"><strong><em>此更新3.99仅限13班定制版点名器，其余版本仍为3.90-3.95（3.90到3.95内容完全一样）</em></strong></p>
@@ -180,9 +196,11 @@
 <h2 class="wp-block-heading has-medium-font-size"><strong>3.9 </strong>版本更新内容</h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph -->
-<p><strong>2022.8.12</strong></p>
-<!-- /wp:paragraph -->
+<!-- wp:list -->
+<ul><!-- wp:list-item -->
+<li><strong>2022.8.12</strong></li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
 
 <!-- wp:paragraph {"fontSize":"medium"} -->
 <p class="has-medium-font-size">①增大界面，增大字体，使文字能更好的在大屏幕上展示</p>
@@ -204,9 +222,11 @@
 <h2 class="wp-block-heading has-medium-font-size">3.0版本更新内容</h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph -->
-<p>2022.7.29</p>
-<!-- /wp:paragraph -->
+<!-- wp:list -->
+<ul><!-- wp:list-item -->
+<li>2022.7.29</li>
+<!-- /wp:list-item --></ul>
+<!-- /wp:list -->
 
 <!-- wp:paragraph {"fontSize":"medium"} -->
 <p class="has-medium-font-size">①全新界面，新增连抽和历史记录</p>
@@ -293,7 +313,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"width":741,"height":646,"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large is-resized"><img src="https://cdn.classone.top/images/dm/picture.png" alt="" width="741" height="646"/></figure>
+<figure class="wp-block-image size-large is-resized"><img src="https://cdn.cmxz.top/images/dm/picture.png" alt="" width="741" height="646"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:paragraph -->
@@ -375,6 +395,3 @@
 <!-- wp:verse {"fontSize":"medium"} -->
 <pre class="wp-block-verse has-medium-font-size"></pre>
 <!-- /wp:verse -->
-
-<p><iframe style="overflow-x: hidden; overflow-y: hidden; border: 0xp none #fff; min-height: 240px; width: 100%;" src="https://cdn.classone.top/donate/index.html" frameborder="0" scrolling="no"></iframe></p>
-<p></p>
