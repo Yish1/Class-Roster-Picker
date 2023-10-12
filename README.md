@@ -18,16 +18,36 @@
 <p class="has-medium-font-size"><strong><a rel="noreferrer noopener" href="https://yish.lanzouw.com/izsZF0fv96jg" data-type="URL" data-id="https://yish.lanzouw.com/izsZF0fv96jg" target="_blank">下载通用版4.9（最后的单文件版）</a></strong></p>
 <!-- /wp:paragraph -->
 
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+
 <!-- wp:heading -->
-<h2 class="wp-block-heading">5.5版本发布说明</h2>
+<h2 class="wp-block-heading">5.52版本发布说明</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>2023.10.9<br>1.修复多名单选择窗口未按预期显示<br>2.调整布局<br>3.更换检查更新api<br>已知问题<br>1.首次运行的弹窗未适配高dpi<br>2.导出历史记录时选择关闭，会默认选择导出到文本<br>以上问题不会影响体验，将于下个版本中修复</p>
+<p>2023.10.12<br>1.修复多名单选择后未切换问题(该死的Global忘记加上去了)<br>2.新增检查更新开关Allowcheck.ini文件中改为0就可以关闭检查更新<br>3.优化首次启动界面</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
 <p>下载地址https://yish.lanzouw.com/b038hjo8f<br>密码:cmti</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading"><s>5.5版本发布说明</s></h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"textColor":"vivid-red"} -->
+<p class="has-vivid-red-color has-text-color">5.5版本多名单存在严重BUG导致切换名单，正在紧急修复，稍后推送5.52版本，请不要再使用5.5版本</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p><s>2023.10.9<br>1.修复多名单选择窗口未按预期显示<br>2.调整布局<br>3.更换检查更新api<br>已知问题<br>1.首次运行的弹窗未适配高dpi<br>2.导出历史记录时选择关闭，会默认选择导出到文本<br>以上问题不会影响体验，将于下个版本中修复</s></p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
