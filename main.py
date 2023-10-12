@@ -1,4 +1,4 @@
-#5.5
+#5.5.2
 # -*- coding: utf-8 -*-
 # 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
@@ -16,7 +16,7 @@ import matplotlib
 matplotlib.use("QTAgg")
 import matplotlib.pyplot as plt
 
-dmversion = 5.5
+dmversion = 5.52
 
 if sys.platform == "win32" and not ctypes.windll.shell32.IsUserAnAdmin():
     ctypes.windll.shell32.ShellExecuteW(
@@ -40,7 +40,6 @@ pygame.mixer.init()
 def make_name_list():
     for i in range(1, 21):
         yield str(i).rjust(2, "0")
-
 
 def init_name(name_list):
     global name_path
@@ -70,8 +69,14 @@ def name_list_selector():
     if not txtnum:
         name_list = list(make_name_list())
         init_name(name_list)
-        ctypes.windll.user32.MessageBoxW(
-        0, "欢迎使用沉梦课堂点名器！ \n这是你第一次打开或者是名单被删除、移动。\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n名字1\n名字2\n名字3\n需要帮助请点击关于。      \n 制作：Yish_ ，QQB，limuy2022   2022.7-2023.9", "欢迎", 0x40 | 0x30)
+        app = QApplication(sys.argv)
+        welcom = QMessageBox()
+        welcom.setWindowTitle("欢迎使用")
+        welcom.setText("欢迎使用沉梦课堂点名器！\n本程序支持单抽，连抽。同时提供单抽时背景音乐、多名单支持、数据导出等功能。\n\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n名字1\n名字2\n名字3\n名字4\n名字5\n名字6\n......\n\n需要帮助请点击关于。\n\n沉梦小站")
+        # 设置消息框的图标和按钮
+        welcom.setIconPixmap(QIcon('yish.ico').pixmap(64, 64))  # 64x64 大小的图标
+        welcom.setStandardButtons(QMessageBox.Ok)
+        welcom.exec_()
         opentext(name_path)
         print("这应该是首次启动")
 
@@ -100,7 +105,7 @@ def name_list_selector():
         # 加载名单文件
         combo_box.addItems(txtnum)
         def showlist():
-            global selected_file
+            global selected_file,file_path
             selected_file = combo_box.currentText()
             file_path = os.path.join("name", selected_file)
             if not os.path.exists(file_path):
@@ -508,38 +513,50 @@ class Ui_MainWindow(QMainWindow):
         self.listWidget.addItem(f"选择了{selected_file},共有:{mdcd}人")
 
         try:
-            updatecheck = "https://cdn.cmxz.top/programs/dm/api/check.html"
-            page = requests.get(updatecheck, timeout=2)
-            newversion = float(page.text)
-            print("云端版本号为:", newversion)
-            findnewversion = "检测到新版本！请点击左上角“更新”下载新版"
-            if newversion > dmversion:  # if:条件
-                print("检测到新版本:", newversion, "当前版本为:", dmversion)
-                self.pushButton_9.setText(_translate("MainWindow", "更新"))
-                self.wide = 460
-                MainWindow.resize(self.wide, self.high)
-                self.high = 705
-                MainWindow.resize(self.wide, self.high)
-                updatabutton = QMessageBox.question(
-                    self,
-                    "检测到新版本",
-                    "云端最新版本为%s，要现在下载新版本吗？<br>您也可以稍后点击点名器左上角'更新'按钮升级新版本" % newversion,
-                    QMessageBox.Ok | QMessageBox.No,
-                    QMessageBox.Ok,
-                )
-                if updatabutton == QMessageBox.Ok:
-                    web.open_new("https://cmxz.top/ktdmq")
+            with open('allowcheck.ini', 'r') as file:
+                allowcheck_value = int(file.read())
+                if allowcheck_value == 1:
+                    try:
+                        updatecheck = "https://cdn.cmxz.top/programs/dm/api/check.html"
+                        page = requests.get(updatecheck, timeout=1.5)
+                        newversion = float(page.text)
+                        print("云端版本号为:", newversion)
+                        findnewversion = "检测到新版本！请点击左上角“更新”下载新版"
+                        if newversion > dmversion:  # if:条件
+                            print("检测到新版本:", newversion, "当前版本为:", dmversion)
+                            self.pushButton_9.setText(_translate("MainWindow", "更新"))
+                            self.wide = 460
+                            MainWindow.resize(self.wide, self.high)
+                            self.high = 705
+                            MainWindow.resize(self.wide, self.high)
+                            updatabutton = QMessageBox.question(self,"检测到新版本","云端最新版本为%s，要现在下载新版本吗？<br>您也可以稍后点击点名器左上角'更新'按钮升级新版本" % newversion,
+                            QMessageBox.Ok | QMessageBox.No,QMessageBox.Ok,)
+                            if updatabutton == QMessageBox.Ok:
+                                web.open_new("https://cmxz.top/ktdmq")
+                            else:
+                                pass
+                                self.listWidget.addItem(findnewversion)
+                        else:
+                            print("当前已经是最新版本:")
+                            self.pushButton_9.setText(_translate("MainWindow", "关于"))
+                    except:
+                        print("网络异常,无法检测更新")
+                        self.pushButton_9.setText(_translate("MainWindow", "关于"))
+                        noconnect = "网络连接异常，检查更新失败"
+                        self.listWidget.addItem(noconnect)
+
+                elif allowcheck_value == 0:
+                    print("检查更新已关闭")
+
                 else:
-                    pass
-                self.listWidget.addItem(findnewversion)
-            else:
-                print("当前已经是最新版本:")
-                self.pushButton_9.setText(_translate("MainWindow", "关于"))
-        except:
-            print("网络异常,无法检测更新")
+                    print("config包含未知数值，已开启检查更新")
+
+        except FileNotFoundError:
+            print("找不到allowcheck.ini文件，请确保它位于与Python脚本相同的目录下。")
             self.pushButton_9.setText(_translate("MainWindow", "关于"))
-            noconnect = "网络连接异常，检查更新失败"
-            self.listWidget.addItem(noconnect)
+        except ValueError:
+            print("allowcheck.ini文件中的内容不是一个有效的整数。")
+            self.pushButton_9.setText(_translate("MainWindow", "关于"))
 
     def ten(self):
         lenth = len(name_list)
@@ -650,19 +667,19 @@ class Ui_MainWindow(QMainWindow):
         ax.set_title('点名器中奖统计', fontsize=45)  # 设置标题字体大小
         ax.tick_params(axis='x', rotation=90 , labelsize=18)           
         # 弹窗选择保存选项
-        msg_box = QMessageBox()
-        msg_box.setWindowTitle("保存选项")
-        msg_box.setText("请选择保存方式")
-        save_button = msg_box.addButton("保存为柱形图", QMessageBox.YesRole)
-        cancel_button = msg_box.addButton("保存为文本", QMessageBox.NoRole)
-        msg_box.setDefaultButton(cancel_button)
-        msg_box.exec_()
-        if msg_box.clickedButton() == save_button:
+        historysave = QMessageBox()
+        historysave.setWindowTitle("保存选项")
+        historysave.setText("请选择保存方式")
+        save_button = historysave.addButton("保存为柱形图", QMessageBox.YesRole)
+        cancel_button = historysave.addButton("保存为文本", QMessageBox.NoRole)
+        historysave.setDefaultButton(cancel_button)
+        historysave.exec_()
+        if historysave.clickedButton() == save_button:
             # 保存图表
             plt.savefig('中奖统计图.png')
             QMessageBox.information(self, "保存结果", "图表已保存到'中奖统计图.png'")
             opentext("中奖统计图.png")
-        elif msg_box.clickedButton() == cancel_button:
+        elif historysave.clickedButton() == cancel_button:
             # 保存文本
             cresult = "中奖名单统计(统计会覆盖上一次结果):\n"
             for name, count in sorted_counts:
@@ -671,6 +688,8 @@ class Ui_MainWindow(QMainWindow):
                 file.write(cresult)
             QMessageBox.information(self, "保存结果", "统计结果已保存到'中奖统计.txt'")
             os.system('start ./中奖统计.txt')
+        else:
+            pass
 
     def showHistory(self):
         global seed
