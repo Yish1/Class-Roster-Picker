@@ -23,6 +23,22 @@
 <!-- /wp:separator -->
 
 <!-- wp:heading -->
+<h2 class="wp-block-heading">5.6版本发布说明</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>2023.10.13<br>1.优化多名单体验<br>2.新增检查更新开关，Allowcheck.ini文件中改为0就可以关闭检查更新<br>3.调整部分按钮功能<br>4.优化界面<br>5.精简打包输出</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
+<p class="has-vivid-red-color has-text-color has-medium-font-size">停更通知：如果没有严重Bug被发现、或者新的想法出现，那么我们将不会再更新点名器了</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading -->
 <h2 class="wp-block-heading">5.52版本发布说明</h2>
 <!-- /wp:heading -->
 
