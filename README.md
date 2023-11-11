@@ -1,6 +1,48 @@
+<!-- wp:list {"ordered":true} -->
+<ol><!-- wp:list-item -->
+<li><strong>点名功能：可以单人抽取或选择抽取多人(不重复)，实现随机点名的功能。</strong></li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><strong>名单管理：软件提供了名单管理功能，用户可以通过编辑名单功能来自定义点名名单。</strong></li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><strong>多名单功能： 用户可以创建多个名单并切换名单，实现在不同场景下使用不同名单的需求。</strong></li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><strong>自动检查更新： 软件支持自动检查更新，用户可以通过配置文件关闭更新提示。</strong></li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><strong>UI优化和用户体验：软件界面经过多次优化，基本达到能看的程度...</strong></li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><strong>导出功能： 用户可以将点名的历史记录导出为图表或文本，方便记录和分析。</strong></li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><strong>背景音乐：软件支持单抽时的背景音乐，用户可以在按照提示开启该功能。</strong></li>
+<!-- /wp:list-item -->
+
+<!-- wp:list-item -->
+<li><strong>零付费，零广告，完全开源，教师可私信免费获取定制版本</strong></li>
+<!-- /wp:list-item --></ol>
+<!-- /wp:list -->
+
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
 <p style="font-size:28px"><a rel="noreferrer noopener" href="https://yish.lanzouw.com/b038hjo8f" data-type="URL" data-id="https://yish.lanzouw.com/b038hjo8f" target="_blank"><strong>最新版下载地址</strong></a>密码:cmti</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
+<p class="has-vivid-red-color has-text-color has-medium-font-size">停更通知：如果没有严重Bug被发现、或者新的想法出现，那么我们将不会再更新点名器了，感谢您的支持！</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
 
 <!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
 <p class="has-vivid-red-color has-text-color has-medium-font-size">更新时请备份名单，然后卸载旧版本重新安装，否则可能出现错误</p>
@@ -23,15 +65,23 @@
 <!-- /wp:separator -->
 
 <!-- wp:heading -->
+<h2 class="wp-block-heading">5.7版本发布说明</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>(Optional可选更新，不会推送)<br>2023.11.11<br>1.使用nuitka方法代替pyinstaller，大幅降低启动时间(5.6启动2.3秒，5.7启动1.1秒)，也减少了空间占用<br>2.由于nuitka下pygame库大量调用wind32api、wind2con等会导致杀毒软件误报，请信任处理<br>3.此版本仅做优化，没有任何新功能，可选择性升级<br>4.修复统计历史记录时，关闭弹窗仍会保存为文本的问题<br>5.在nuitka中，使用了 --windows-uac-admin方法，使提权代码不再必须<br>6.调整了一些弹窗逻辑</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading -->
 <h2 class="wp-block-heading">5.6版本发布说明</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
 <p>2023.10.13<br>1.优化多名单体验<br>2.新增检查更新开关，Allowcheck.ini文件中改为0就可以关闭检查更新<br>3.调整部分按钮功能<br>4.优化界面<br>5.精简打包输出</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
-<p class="has-vivid-red-color has-text-color has-medium-font-size">停更通知：如果没有严重Bug被发现、或者新的想法出现，那么我们将不会再更新点名器了</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
@@ -77,6 +127,10 @@
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"17px"}}} -->
 <p style="font-size:17px">2023.9.10<br>1.新增多名单功能<br>已知问题<br>1.首次打开可能报错（已修复）<br>2.首次打开会有一个空的选择名单界面，关闭即可、<br>3.每次打开都会出现选择名单的界面（即使只有一个名单）<br></p>
 <!-- /wp:paragraph -->
+
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
 
 <!-- wp:heading -->
 <h2 class="wp-block-heading">5.3版本发布说明</h2>
@@ -134,6 +188,10 @@
 <p>6.点名器已经没有什么更新空间了，后续会制作其它的小工具，感谢各位的支持！</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+
 <!-- wp:heading {"style":{"typography":{"fontSize":"28px"}}} -->
 <h2 class="wp-block-heading" style="font-size:28px">5.1版本发布说明</h2>
 <!-- /wp:heading -->
@@ -146,6 +204,10 @@
 <p><a href="https://github.com/Yish1/Class-Roster-Picker/releases/download/5.2/5.1.linux_x86.zip" data-type="URL" data-id="https://github.com/Yish1/Class-Roster-Picker/releases/download/5.2/5.1.linux_x86.zip" target="_blank" rel="noreferrer noopener">5.1下载</a></p>
 <!-- /wp:paragraph -->
 
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+
 <!-- wp:heading {"style":{"typography":{"fontSize":"28px"}}} -->
 <h2 class="wp-block-heading" style="font-size:28px">5.0版本发布说明</h2>
 <!-- /wp:heading -->
@@ -154,9 +216,9 @@
 <p>5.0版本更新内容2022.12.22<br>1.调整UI布局以便显示更长名字<br>2.优化弹窗<br>3.新增单抽时背景音乐，开启方式请查看文件目录下的说明<br>4.新增名单长度读取<br>5.精简代码<br>软件完全免费并开源，意味着任何人都能查看这个工具的源代码，如果你是付费购买的，那说明你已经被骗了，请尝试立即退款并举报<br>经网友反馈360可能会误杀此工具，请将点名器加入信任区（开源软件，代码供网友随时检查）</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:paragraph -->
-<p></p>
-<!-- /wp:paragraph -->
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
 
 <!-- wp:heading -->
 <h2 class="wp-block-heading">4.9版本更新内容</h2>
@@ -166,6 +228,10 @@
 <p>2022.10.3<br>1.调整UI颜色<br>2.优化部分弹窗提示效果<br>3.优化更新提示<br>4.优化连抽体验<br>5.精简代码</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+
 <!-- wp:heading -->
 <h2 class="wp-block-heading">4.8版本更新内容</h2>
 <!-- /wp:heading -->
@@ -174,6 +240,10 @@
 <p>2022.10.1<br>1.新增桌面高考倒计时(仅限定制版，通用版没有)<br>2.进一步修复高DPi问题<br>3.优化自动更新体验<br>4.更换打包方式，使程序更快启动</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+
 <!-- wp:heading -->
 <h2 class="wp-block-heading">4.7版本更新内容</h2>
 <!-- /wp:heading -->
@@ -181,6 +251,10 @@
 <!-- wp:paragraph -->
 <p>2022.9.25<br>1.新增自动检查更新<br>2.优化体验</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
 
 <!-- wp:heading -->
 <h2 class="wp-block-heading">4.6版本更新内容</h2>
@@ -365,59 +439,115 @@
 <!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"100%"} -->
 <div class="wp-block-column" style="flex-basis:100%"><!-- wp:heading -->
-<h2 class="wp-block-heading">5.1部分源码展示</h2>
+<h2 class="wp-block-heading">5.6部分源码展示</h2>
 <!-- /wp:heading --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
 <!-- wp:code -->
-<pre class="wp-block-code"><code>   def countname(self):
-        name_counts = {}  # 存储名字出现次数的字典
-        with open("点名器中奖名单.txt") as file:
-            for line in file:
-                if "幸运儿是：" in line:
-                    cnames = line.split("幸运儿是：")&#91;1].strip().strip("&#91;]'")
-                    cnames = cnames.split("', '")
-                    for cname in cnames:
-                        if cname not in name_counts:
-                            name_counts&#91;cname] = 1
-                        else:
-                            name_counts&#91;cname] += 1
-        sorted_counts = sorted(name_counts.items(), key=lambda x: x&#91;1], reverse=True)
-        names = &#91;name for name, count in sorted_counts]
-        counts = &#91;count for name, count in sorted_counts]
-        # 生成柱状图
-        plt.rcParams&#91;"font.family"] = "Microsoft YaHei"
-        plt.style.use("dark_background")
-        fig, ax = plt.subplots(figsize=(7680 / 300, 4320 / 300))
-        bars = ax.bar(names, counts, color="cyan")
-        ax.bar_label(bars, fmt="%d", fontsize=12)  # 在柱子上方标记数据
-        ax.set_xlabel("名字")
-        ax.set_ylabel("次数")
-        ax.set_title("点名器中奖统计", fontsize=24)  # 设置标题字体大小
-        ax.tick_params(axis="x", rotation=90)
-        # 弹窗选择保存选项
-        msg_box = QMessageBox()
-        msg_box.setWindowTitle("保存选项")
-        msg_box.setText("请选择保存方式")
-        save_button = msg_box.addButton("保存为柱形图", QMessageBox.YesRole)
-        cancel_button = msg_box.addButton("保存为文本", QMessageBox.NoRole)
-        msg_box.setDefaultButton(cancel_button)
-        msg_box.exec_()
-        if msg_box.clickedButton() == save_button:
-            # 保存图表
-            plt.savefig("中奖统计图.png")
-            QMessageBox.information(self, "保存结果", "图表已保存到'中奖统计图.png'")
-            plt.show()
-        elif msg_box.clickedButton() == cancel_button:
-            # 保存文本
-            cresult = "中奖名单统计(统计会覆盖上一次结果):\n"
-            for name, count in sorted_counts:
-                cresult += f"{name} 出现了 {count} 次\n"
-            with open("中奖统计.txt", "w") as file:
-                file.write(cresult)
-            QMessageBox.information(self, "保存结果", "统计结果已保存到'中奖统计.txt'")
-            opentext("./中奖统计.txt")</code></pre>
+<pre class="wp-block-code"><code>def name_list_selector():
+    global txtnum, name_list, file_path, namefolder, mdnum
+    namefolder = "name"
+    namefolder1 = os.path.dirname(os.path.abspath(__file__))
+    namefolder_path = os.path.join(namefolder1, namefolder)
+    if not os.path.exists(namefolder_path) or not os.path.isdir(namefolder_path):
+        print(f"名单文件夹不存在，已经在这个位置创建：{namefolder_path}")
+        os.makedirs(namefolder_path)
+    txtnum = &#91;filename for filename in os.listdir(namefolder) if filename.endswith(".txt")]
+    ifonefile = f"{namefolder_path}\\{', '.join(txtnum)}"
+    mdnum = len(txtnum)
+    if not txtnum:
+        name_list = list(make_name_list())
+        init_name(name_list)
+        app = QApplication(sys.argv)
+        welcom = QMessageBox()
+        welcom.setWindowTitle("欢迎使用")
+        welcom.setText("欢迎使用沉梦课堂点名器！\n本程序支持单抽，连抽。同时提供单抽时背景音乐、多名单支持、数据导出等功能。\n\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n名字1\n名字2\n名字3\n名字4\n名字5\n名字6\n......\n\n需要帮助请点击关于。\n\n沉梦小站")
+        # 设置消息框的图标和按钮
+        welcom.setIconPixmap(QIcon('yish.ico').pixmap(64, 64))  # 64x64 大小的图标
+        welcom.setStandardButtons(QMessageBox.Ok)
+        welcom.exec_()
+        opentext(name_path)
+        print("这应该是首次启动")
+
+    if mdnum &gt; 0:
+        # 创建窗口和UI元素
+        app1 = QApplication(&#91;])
+        window = QWidget()
+        window.setWindowTitle('选择名单')
+        window.setGeometry(100, 100, 500, 200)
+        layout = QVBoxLayout()
+        combo_box = QComboBox(window)
+        custom_list_view = QListView(combo_box)
+        combo_box.setFixedHeight(40)
+        custom_list_view.setStyleSheet("QListView::item { height: 40px; }")
+        combo_box.setView(custom_list_view)
+        layout.addWidget(combo_box)
+        button = QPushButton('确定', window)
+        button.setFixedHeight(40)
+        layout.addWidget(button)
+        window.setLayout(layout)
+        screen = QDesktopWidget().screenGeometry()
+        window_width, window_height = window.sizeHint().width(), window.sizeHint().height()
+        x = int((screen.width() - window_width) // 2.25)
+        y = int((screen.height() - window_height) // 2.25)
+        window.setGeometry(x, y, 500, 200)
+        add_button = QPushButton('新增名单', window)
+        add_button.setFixedHeight(40)
+        layout.addWidget(add_button)
+        delete_button = QPushButton('删除名单', window)
+        delete_button.setFixedHeight(40)
+        layout.addWidget(delete_button)
+
+        def add_new_list():
+            newfilename, ok_pressed = QInputDialog.getText(window, "新增名单", "请输入名单名称:")
+            if ok_pressed and newfilename:
+                print(f"新增名单名称是: {newfilename}")
+                newnamepath = os.path.join("name", f"{newfilename}.txt")# 打开文件并写入内容
+                with open(newnamepath, "w", encoding="utf8") as f:
+                    pass
+                message = f"已创建名为 '{newfilename}.txt' 的文件，路径为: {newnamepath}"
+                QMessageBox.information(window, "新建成功", message, QMessageBox.Ok)
+                opentext(newnamepath)
+                txtnum = &#91;filename for filename in os.listdir("name") if filename.endswith(".txt")]
+                combo_box.clear()  # 清空下拉框的选项
+                combo_box.addItems(txtnum)  # 添加新的文件名到下拉框
+        add_button.clicked.connect(add_new_list)
+        
+        def delete_list():
+            target_filename, ok_pressed = QInputDialog.getText(window, "删除名单", "请输入要删除的名单名称:")
+            if ok_pressed and target_filename:
+                target_filepath = os.path.join("name", f"{target_filename}.txt")
+                if os.path.exists(target_filepath):
+                    os.remove(target_filepath)  # 删除文件
+                    message = f"已成功删除名为 '{target_filename}.txt' 的文件。"
+                    QMessageBox.information(window, "删除成功", message, QMessageBox.Ok)
+                    txtnum = &#91;filename for filename in os.listdir("name") if filename.endswith(".txt")]
+                    combo_box.clear()  # 清空下拉框的选项
+                    combo_box.addItems(txtnum)  # 添加新的文件名到下拉框
+                else:
+                    QMessageBox.warning(window, '警告', '名单文件不存在', QMessageBox.Ok)
+        delete_button.clicked.connect(delete_list)
+
+        combo_box.addItems(txtnum)
+        def showlist():
+            global selected_file,file_path
+            selected_file = combo_box.currentText()
+            file_path = os.path.join("name", selected_file)
+            if not os.path.exists(file_path):
+                QMessageBox.warning(window, '警告', '名单文件不存在', QMessageBox.Ok)
+            else:
+                print(f"所选文件的路径为: {file_path}")
+                window.close()
+        button.clicked.connect(showlist)
+        # 显示窗口
+        window.show()
+        app1.exec_()
+    else:
+        pass
+
+if __name__ == '__main__':
+    name_list_selector()</code></pre>
 <!-- /wp:code -->
 
 <!-- wp:paragraph -->
