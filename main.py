@@ -1,28 +1,26 @@
-#5.6
+# 5.7
 # -*- coding: utf-8 -*-
 # 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
 # 源码需要沉淀，下面的源码就是时间的沉淀
 
-import sys, random, os, requests, ctypes, pygame
+import matplotlib.pyplot as plt
+import sys
+import random
+import os
+import requests
+import pygame
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import *
+from PyQt5.QtGui import QCursor, QIcon, QPixmap
 from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QComboBox, QPushButton, QDesktopWidget, QMessageBox, QListView, QMainWindow, QGridLayout,QInputDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QComboBox, QPushButton, QDesktopWidget, QMessageBox, QListView, QMainWindow, QGridLayout, QInputDialog
 from datetime import datetime
 import webbrowser as web
 import matplotlib
 matplotlib.use("QTAgg")
-import matplotlib.pyplot as plt
 
-dmversion = 5.6
-
-if sys.platform == "win32" and not ctypes.windll.shell32.IsUserAnAdmin():
-    ctypes.windll.shell32.ShellExecuteW(
-       None, "runas", sys.executable, __file__, None, 1
-    )
-    sys.exit()# 在编辑器中请注释掉这句，否则不能运行调试，编译完后需要加上这句，否则打包后会启动两次点名器
+dmversion = 5.7
 
 big = False
 running = False
@@ -31,23 +29,26 @@ choud = False
 
 zt = 50
 name_list = []
-file_path = "name/名单1.txt"
+file_path = "name/默认名单.txt"
 selected_file = "默认名单"
 mdcd = 0
 pygame.init()
 pygame.mixer.init()
 
+
 def make_name_list():
     for i in range(1, 21):
         yield str(i).rjust(2, "0")
 
+
 def init_name(name_list):
     global name_path
-    name_path = os.path.join("name", "名单1.txt")# 打开文件并写入内容
+    name_path = os.path.join("name", "默认名单.txt")  # 打开文件并写入内容
     with open(name_path, "w", encoding="utf8") as f:
         for i in name_list:
             f.write(i)
             f.write("\n")
+
 
 def opentext(path):
     if sys.platform == "win32":
@@ -55,15 +56,30 @@ def opentext(path):
     else:
         os.system("vim %s" % path)
 
+
 def name_list_selector():
     global txtnum, name_list, file_path, namefolder, mdnum
+    try:
+        with open('allownameselect.ini', 'r') as file:
+            allownameselect_value = int(file.read())
+            if allownameselect_value == 1:
+                select = 1
+                print("已配置为名单数量大于1时显示选择窗口")
+            else:
+                select = 0
+                print("配置文件仅支持0或1，0或其他数字默认为0")
+    except:
+        allownameselect_value = 0
+        print("配置文件错误或不存在，默认名单数量大于0时显示选择窗口")
+        select = 0
     namefolder = "name"
     namefolder1 = os.path.dirname(os.path.abspath(__file__))
     namefolder_path = os.path.join(namefolder1, namefolder)
     if not os.path.exists(namefolder_path) or not os.path.isdir(namefolder_path):
         print(f"名单文件夹不存在，已经在这个位置创建：{namefolder_path}")
         os.makedirs(namefolder_path)
-    txtnum = [filename for filename in os.listdir(namefolder) if filename.endswith(".txt")]
+    txtnum = [filename for filename in os.listdir(
+        namefolder) if filename.endswith(".txt")]
     ifonefile = f"{namefolder_path}\\{', '.join(txtnum)}"
     mdnum = len(txtnum)
     if not txtnum:
@@ -80,11 +96,11 @@ def name_list_selector():
         opentext(name_path)
         print("这应该是首次启动")
 
-    if mdnum > 0:
+    if mdnum > select:
         # 创建窗口和UI元素
         app1 = QApplication([])
         window = QWidget()
-        window.setWindowTitle('选择名单')
+        window.setWindowTitle('名单管理')
         window.setGeometry(100, 100, 500, 200)
         layout = QVBoxLayout()
         combo_box = QComboBox(window)
@@ -110,38 +126,48 @@ def name_list_selector():
         layout.addWidget(delete_button)
 
         def add_new_list():
-            newfilename, ok_pressed = QInputDialog.getText(window, "新增名单", "请输入名单名称:")
+            newfilename, ok_pressed = QInputDialog.getText(
+                window, "新增名单", "请输入名单名称:")
             if ok_pressed and newfilename:
                 print(f"新增名单名称是: {newfilename}")
-                newnamepath = os.path.join("name", f"{newfilename}.txt")# 打开文件并写入内容
+                newnamepath = os.path.join(
+                    "name", f"{newfilename}.txt")  # 打开文件并写入内容
                 with open(newnamepath, "w", encoding="utf8") as f:
                     pass
                 message = f"已创建名为 '{newfilename}.txt' 的文件，路径为: {newnamepath}"
-                QMessageBox.information(window, "新建成功", message, QMessageBox.Ok)
+                QMessageBox.information(
+                    window, "新建成功", message, QMessageBox.Ok)
                 opentext(newnamepath)
-                txtnum = [filename for filename in os.listdir("name") if filename.endswith(".txt")]
+                txtnum = [filename for filename in os.listdir(
+                    "name") if filename.endswith(".txt")]
                 combo_box.clear()  # 清空下拉框的选项
                 combo_box.addItems(txtnum)  # 添加新的文件名到下拉框
         add_button.clicked.connect(add_new_list)
-        
+
         def delete_list():
-            target_filename, ok_pressed = QInputDialog.getText(window, "删除名单", "请输入要删除的名单名称:")
+            target_filename, ok_pressed = QInputDialog.getText(
+                window, "删除名单", "请输入要删除的名单名称:")
             if ok_pressed and target_filename:
-                target_filepath = os.path.join("name", f"{target_filename}.txt")
+                target_filepath = os.path.join(
+                    "name", f"{target_filename}.txt")
                 if os.path.exists(target_filepath):
                     os.remove(target_filepath)  # 删除文件
                     message = f"已成功删除名为 '{target_filename}.txt' 的文件。"
-                    QMessageBox.information(window, "删除成功", message, QMessageBox.Ok)
-                    txtnum = [filename for filename in os.listdir("name") if filename.endswith(".txt")]
+                    QMessageBox.information(
+                        window, "删除成功", message, QMessageBox.Ok)
+                    txtnum = [filename for filename in os.listdir(
+                        "name") if filename.endswith(".txt")]
                     combo_box.clear()  # 清空下拉框的选项
                     combo_box.addItems(txtnum)  # 添加新的文件名到下拉框
                 else:
-                    QMessageBox.warning(window, '警告', '名单文件不存在', QMessageBox.Ok)
+                    QMessageBox.warning(
+                        window, '警告', '名单文件不存在', QMessageBox.Ok)
         delete_button.clicked.connect(delete_list)
 
         combo_box.addItems(txtnum)
+
         def showlist():
-            global selected_file,file_path
+            global selected_file, file_path
             selected_file = combo_box.currentText()
             file_path = os.path.join("name", selected_file)
             if not os.path.exists(file_path):
@@ -156,15 +182,18 @@ def name_list_selector():
     else:
         pass
 
+
 if __name__ == '__main__':
     name_list_selector()
+
 
 class Ui_MainWindow(QMainWindow):
     def init(self):
         super().init()
         self.RowLength = 0
         try:
-            icon_path = pathq.join(pathq.dirname(__file__), "./yish.ico")  # 任务栏的ico
+            icon_path = pathq.join(pathq.dirname(
+                __file__), "./yish.ico")  # 任务栏的ico
             icon = QIcon()
             icon.addPixmap(QPixmap(icon_path))
             MainWindow.setWindowIcon(icon)
@@ -173,7 +202,9 @@ class Ui_MainWindow(QMainWindow):
         # self.setupUi(MainWindow())
 
     def setupUi(self, MainWindow):
-        global mdcd,name_list,file_path
+        global mdcd, name_list, file_path
+        if not os.path.exists(file_path):
+            sys.exit()
         with open(file_path, encoding='utf8') as f:
             name_list = [line.strip('\n') for line in f.readlines()]
         print(name_list)
@@ -238,7 +269,8 @@ class Ui_MainWindow(QMainWindow):
         self.label_4.setFont(font)
 
         self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_5.setGeometry(QtCore.QRect(20, 320, 111, 35))  # 查看点过的名字
+        self.pushButton_5.setGeometry(
+            QtCore.QRect(20, 320, 111, 35))  # 查看点过的名字
         font = QtGui.QFont()
         font.setFamily("宋体")
         font.setPointSize(9)
@@ -289,16 +321,19 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_7.setFont(font)
         self.pushButton_7.setObjectName("pushButton_7")
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(550, 240, 100, 25))  # 修改名单按钮
+        self.pushButton_3.setGeometry(
+            QtCore.QRect(550, 240, 100, 25))  # 修改名单按钮
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(690, 215, 100, 25))  # 历史记录按钮
+        self.pushButton_4.setGeometry(
+            QtCore.QRect(690, 215, 100, 25))  # 历史记录按钮
         self.pushButton_4.setObjectName("pushButton_4")
         self.pushButton_8 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_8.setGeometry(QtCore.QRect(550, 290, 100, 25))  # 统计按钮
         self.pushButton_8.setObjectName("pushButton_8")
         self.pushButton_10 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_10.setGeometry(QtCore.QRect(690, 265, 100, 25))  # 背景音乐按钮
+        self.pushButton_10.setGeometry(
+            QtCore.QRect(690, 265, 100, 25))  # 背景音乐按钮
         self.pushButton_10.setObjectName("pushButton_10")
         self.pushButton_11 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_11.setGeometry(QtCore.QRect(550, 190, 100, 25))  # 应用中心
@@ -309,9 +344,12 @@ class Ui_MainWindow(QMainWindow):
         font.setPointSize(20)
         self.listWidget_2.setFont(font)
         self.listWidget_2.setFocusPolicy(QtCore.Qt.WheelFocus)
-        self.listWidget_2.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.listWidget_2.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.listWidget_2.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.listWidget_2.setVerticalScrollBarPolicy(
+            QtCore.Qt.ScrollBarAsNeeded)
+        self.listWidget_2.setHorizontalScrollBarPolicy(
+            QtCore.Qt.ScrollBarAsNeeded)
+        self.listWidget_2.setSizeAdjustPolicy(
+            QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.listWidget_2.setObjectName("listWidget_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -365,7 +403,7 @@ class Ui_MainWindow(QMainWindow):
         # 统计名单
         self.pushButton_11.setStyleSheet(
             """QPushButton{background:#6DDF6D;border-radius:5px;}QPushButton:hover{background:green;}"""
-        )#应用中心
+        )  # 应用中心
         self.pushButton_5.setStyleSheet(
             """QPushButton{background:#F7D674;border-radius:5px;}QPushButton:hover{background:yellow;}"""
         )  # 查看点过的名字
@@ -531,7 +569,8 @@ class Ui_MainWindow(QMainWindow):
         self.high = 360
         _translate = QtCore.QCoreApplication.translate
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "沉梦课堂点名器%.1f") % dmversion)  # 任务栏名称
+        MainWindow.setWindowTitle(_translate(
+            "MainWindow", "沉梦课堂点名器%.1f") % dmversion)  # 任务栏名称
         self.label.setText(_translate("MainWindow", "幸运儿是 {}"))
         self.label.setStyleSheet("color:white")
         self.pushButton.setText(_translate("MainWindow", "开始"))
@@ -543,13 +582,14 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_10.setText(_translate("MainWindow", "背景音乐目录"))
         self.pushButton_11.setText(_translate("MainWindow", "获取更多应用"))
         self.label_2.setText(_translate("MainWindow", "点过的姓名："))
-        self.label_4.setText(_translate("MainWindow", "制作：Yish_，QQB，limuy2022  v%.1f") % dmversion)
+        self.label_4.setText(_translate(
+            "MainWindow", "制作：Yish_，QQB，limuy2022  v%.1f") % dmversion)
         self.pushButton_5.setText(_translate("MainWindow", "查看点过的名字"))
         self.pushButton_6.setText(_translate("MainWindow", "连抽模式"))
         self.label_3.setText(_translate("MainWindow", "连抽人数"))
         self.pushButton_7.setText(_translate("MainWindow", "开始"))
         self.listWidget.addItem(f"选择了{selected_file},共有:{mdcd}人")
-        
+
         try:
             with open('allowcheck.ini', 'r') as file:
                 allowcheck_value = int(file.read())
@@ -562,13 +602,14 @@ class Ui_MainWindow(QMainWindow):
                         findnewversion = "检测到新版本！请点击左上角“更新”下载新版"
                         if newversion > dmversion:  # if:条件
                             print("检测到新版本:", newversion, "当前版本为:", dmversion)
-                            self.pushButton_9.setText(_translate("MainWindow", "更新"))
+                            self.pushButton_9.setText(
+                                _translate("MainWindow", "更新"))
                             self.wide = 460
                             MainWindow.resize(self.wide, self.high)
                             self.high = 705
                             MainWindow.resize(self.wide, self.high)
-                            updatabutton = QMessageBox.question(self,"检测到新版本","云端最新版本为%s，要现在下载新版本吗？<br>您也可以稍后点击点名器左上角'更新'按钮升级新版本" % newversion,
-                            QMessageBox.Ok | QMessageBox.No,QMessageBox.Ok,)
+                            updatabutton = QMessageBox.question(self, "检测到新版本", "云端最新版本为%s，要现在下载新版本吗？<br>您也可以稍后点击点名器左上角'更新'按钮升级新版本" % newversion,
+                                                                QMessageBox.Ok | QMessageBox.No, QMessageBox.Ok,)
                             if updatabutton == QMessageBox.Ok:
                                 web.open_new("https://cmxz.top/ktdmq")
                             else:
@@ -656,8 +697,8 @@ class Ui_MainWindow(QMainWindow):
             QMessageBox.Ok,
         )
         if button == QMessageBox.Ok:
-                opentext(file_path)
-                sys.exit()
+            opentext(file_path)
+            sys.exit()
         else:
             pass
 
@@ -665,7 +706,8 @@ class Ui_MainWindow(QMainWindow):
         opentext("./点名器中奖名单.txt")
 
     def bgmusic(self):
-        QMessageBox.information(self, "背景音乐", "若要使用背景音乐功能，请在稍后打开的文件夹中放入mp3格式的背景音乐 \n删除文件夹中的音乐则关闭此功能")
+        QMessageBox.information(
+            self, "背景音乐", "若要使用背景音乐功能，请在稍后打开的文件夹中放入mp3格式的背景音乐 \n删除文件夹中的音乐则关闭此功能")
         folder_name = "dmmusic"
         current_dir = os.path.dirname(os.path.abspath(__file__))
         folder_path = os.path.join(current_dir, folder_name)
@@ -687,7 +729,8 @@ class Ui_MainWindow(QMainWindow):
                             name_counts[cname] = 1
                         else:
                             name_counts[cname] += 1
-        sorted_counts = sorted(name_counts.items(), key=lambda x: x[1], reverse=True)
+        sorted_counts = sorted(name_counts.items(),
+                               key=lambda x: x[1], reverse=True)
         names = [name for name, count in sorted_counts]
         counts = [count for name, count in sorted_counts]
         # 生成柱状图
@@ -699,22 +742,25 @@ class Ui_MainWindow(QMainWindow):
         ax.set_xlabel('名字')
         ax.set_ylabel('次数', fontsize=24)
         ax.set_title('点名器中奖统计', fontsize=45)  # 设置标题字体大小
-        ax.tick_params(axis='x', rotation=90 , labelsize=18)           
+        ax.tick_params(axis='x', rotation=90, labelsize=18)
         # 弹窗选择保存选项
         historysave = QMessageBox()
         historysave.setWindowTitle("保存选项")
         historysave.setText("请选择保存方式")
-        save_button = historysave.addButton("保存为柱形图", QMessageBox.YesRole)
-        cancel_button = historysave.addButton("保存为文本", QMessageBox.NoRole)
-        historysave.setDefaultButton(cancel_button)
+        save_button = historysave.addButton("保存为柱形图", QMessageBox.ActionRole)
+        cancel_button = historysave.addButton("保存为文本", QMessageBox.ActionRole)
+        button = historysave.addButton("取消", QMessageBox.NoRole)
+        button.setVisible(False)
         historysave.exec_()
         if historysave.clickedButton() == save_button:
             # 保存图表
+            print("正在保存为图表")
             plt.savefig('中奖统计图.png')
             QMessageBox.information(self, "保存结果", "图表已保存到'中奖统计图.png'")
             opentext("中奖统计图.png")
         elif historysave.clickedButton() == cancel_button:
             # 保存文本
+            print("正在保存为文本")
             cresult = "中奖名单统计(统计会覆盖上一次结果):\n"
             for name, count in sorted_counts:
                 cresult += f"{name} 出现了 {count} 次\n"
@@ -723,6 +769,7 @@ class Ui_MainWindow(QMainWindow):
             QMessageBox.information(self, "保存结果", "统计结果已保存到'中奖统计.txt'")
             os.system('start ./中奖统计.txt')
         else:
+            print("取消操作")
             pass
 
     def showHistory(self):
@@ -759,7 +806,7 @@ class Ui_MainWindow(QMainWindow):
 
     def setname(self):
         global name
-        
+
         if len(name_list) == 0:
             init_name(make_name_list())
             reply = QtWidgets.QMessageBox.warning(
@@ -829,6 +876,7 @@ class Ui_MainWindow(QMainWindow):
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "还没开始就想结束？", QtWidgets.QMessageBox.Yes
             )
+
     def moreprogram(self):
         url = "https://cmxz.top/downloads"
         web.open_new(url)
@@ -879,9 +927,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     if hasattr(QtCore.Qt, "AA_EnableHighDpiScaling"):
-        QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+        QtWidgets.QApplication.setAttribute(
+            QtCore.Qt.AA_EnableHighDpiScaling, True)
     if hasattr(QtCore.Qt, "AA_UseHighDpiPixmaps"):
-        QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+        QtWidgets.QApplication.setAttribute(
+            QtCore.Qt.AA_UseHighDpiPixmaps, True)
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = MainWindow()  # QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
