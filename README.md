@@ -49,7 +49,7 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
-<p>4.6版本最后支持32位系统<a href="https://github.com/Yish1/ktdmq/releases/download/4.3/4.3.exe">https://github.com/Yish1/ktdmq/releases/download/4.3/4.3.exe</a></p>
+<p>4.6版本最后支持32位系统<s>https://github.com/Yish1/ktdmq/releases/download/4.3/4.3.exe</s>32位版5.8正在准备中，敬请期待</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"textColor":"vivid-red"} -->
@@ -58,6 +58,18 @@
 
 <!-- wp:paragraph {"fontSize":"medium"} -->
 <p class="has-medium-font-size"><strong><a rel="noreferrer noopener" href="https://yish.lanzouw.com/izsZF0fv96jg" data-type="URL" data-id="https://yish.lanzouw.com/izsZF0fv96jg" target="_blank">下载通用版4.9（最后的单文件版）</a></strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:separator -->
+<hr class="wp-block-separator has-alpha-channel-opacity"/>
+<!-- /wp:separator -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">5.8版本发布说明</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>2023.11.19<br>1.新增首次开启时的检查更新开关<br>2.删除使用率较低的功能(保存为图表)<br>3.使用nuitka打包，大幅降低程序占用空间(44mb→29mb)，大幅提升启动速度(2.6s→1.1s)<br>4.优化部分功能逻辑</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
