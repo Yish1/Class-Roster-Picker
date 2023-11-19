@@ -1,10 +1,10 @@
-# 5.7
+# 5.8
 # -*- coding: utf-8 -*-
 # 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
 # 源码需要沉淀，下面的源码就是时间的沉淀
+# 注释随缘写
 
-import matplotlib.pyplot as plt
 import sys
 import random
 import os
@@ -17,10 +17,8 @@ from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QComboBox, QPushButton, QDesktopWidget, QMessageBox, QListView, QMainWindow, QGridLayout, QInputDialog
 from datetime import datetime
 import webbrowser as web
-import matplotlib
-matplotlib.use("QTAgg")
 
-dmversion = 5.7
+dmversion = 5.8
 
 big = False
 running = False
@@ -430,11 +428,11 @@ class Ui_MainWindow(QMainWindow):
         self.close_layout = QGridLayout()  # 创建左侧部件的网格布局层
         self.close_widget.setLayout(self.close_layout)  # 设置左侧部件布局为网格
 
-        self.left_close = QPushButton("✖️")  # 关闭按钮
+        self.left_close = QPushButton("×")  # 关闭按钮
         self.left_close.clicked.connect(MainWindow.close)
-        self.left_visit = QPushButton("")  # 最大化按钮
+        self.left_visit = QPushButton("□")  # 最大化按钮
         self.left_visit.clicked.connect(MainWindow.big)
-        self.left_mini = QPushButton("➖")  # 最小化按钮
+        self.left_mini = QPushButton("-")  # 最小化按钮
         self.left_mini.clicked.connect(MainWindow.mini)
         self.close_layout.addWidget(self.left_mini, 0, 0, 1, 1)
         self.close_layout.addWidget(self.left_close, 0, 2, 1, 1)
@@ -625,13 +623,56 @@ class Ui_MainWindow(QMainWindow):
                 elif allowcheck_value == 0:
                     print("检查更新已关闭")
 
-                else:
-                    print("config包含未知数值，更新已关闭")
-
         except FileNotFoundError:
-            print("找不到allowcheck.ini文件，请确保它位于与点名器相同的目录下。")
+            # 检查更新开关
+            ifupdate = QMessageBox()
+            ifupdate.setWindowTitle("检查更新")
+            ifupdate.setText(
+                "需要开启检查更新功能吗？\n新版本会带来新功能、优化以及修复错误。\n在服务器发布新版本后，会在您打开点名器时收到更新的提示")
+            allow_button = ifupdate.addButton("好的，谢谢你", QMessageBox.ActionRole)
+            cancel_button = ifupdate.addButton("下次一定", QMessageBox.ActionRole)
+            button = ifupdate.addButton("取消", QMessageBox.NoRole)
+            button.setVisible(False)
+            ifupdate.exec_()
+            if ifupdate.clickedButton() == allow_button:
+                # 同意
+                print("检查更新已开启")
+                with open('allowcheck.ini', "a", encoding='utf-8') as f:
+                    f.write("1")
+                QMessageBox.information(
+                    self, "检查更新", "检查更新功能已经开启，您可以删除目录下的allowcheck.ini重新设置此功能。")
+            elif ifupdate.clickedButton() == cancel_button:
+                # 不同意
+                with open('allowcheck.ini', "a", encoding='utf-8') as f:
+                    f.write("0")
+                ifupdate1 = QMessageBox()
+                ifupdate1.setWindowTitle("真的不需要吗（π一π）")
+                ifupdate1.setText(
+                    "我们的每一次的更新都是很有意义的，能给您带来更好的体验，真的不开启检查更新功能吗？\no(╥﹏╥)o\no(╥﹏╥)o\no(╥﹏╥)o")
+                allow_button1 = ifupdate1.addButton(
+                    "行吧，我准许了", QMessageBox.ActionRole)
+                allow_button2 = ifupdate1.addButton(
+                    "算了，我同意了", QMessageBox.ActionRole)
+                cancel_button1 = ifupdate1.addButton(
+                    "不要，我不要啊", QMessageBox.ActionRole)
+                allow_button3 = ifupdate1.addButton(
+                    "行了，快开启吧", QMessageBox.ActionRole)
+                button1 = ifupdate1.addButton("取消", QMessageBox.NoRole)
+                button1.setVisible(False)
+                ifupdate1.exec_()
+                if ifupdate1.clickedButton() == allow_button1 or ifupdate1.clickedButton() == allow_button2 or ifupdate1.clickedButton() == allow_button3:
+                    # 梅开二度
+                    print("检查更新已开启")
+                    with open('allowcheck.ini', "a", encoding='utf-8') as f:
+                        f.write("1")
+                    QMessageBox.information(
+                        self, "检查更新", "检查更新功能已经开启，您可以删除目录下的allowcheck.ini重新设置此功能。")
+                else:
+                    pass
         except ValueError:
-            print("allowcheck.ini文件中的内容不是一个有效的整数。")
+            QMessageBox.information(
+                self, "检查更新", "目录下的allowcheck.ini中不是一个有效的值")
+            os.remove("allowcheck.ini")
 
     def ten(self):
         lenth = len(name_list)
@@ -704,7 +745,7 @@ class Ui_MainWindow(QMainWindow):
 
     def dmhistory(self):
         opentext("./点名器中奖名单.txt")
-
+        
     def bgmusic(self):
         QMessageBox.information(
             self, "背景音乐", "若要使用背景音乐功能，请在稍后打开的文件夹中放入mp3格式的背景音乐 \n删除文件夹中的音乐则关闭此功能")
@@ -731,46 +772,15 @@ class Ui_MainWindow(QMainWindow):
                             name_counts[cname] += 1
         sorted_counts = sorted(name_counts.items(),
                                key=lambda x: x[1], reverse=True)
-        names = [name for name, count in sorted_counts]
-        counts = [count for name, count in sorted_counts]
-        # 生成柱状图
-        plt.rcParams["font.family"] = "Microsoft YaHei"
-        plt.style.use("dark_background")
-        fig, ax = plt.subplots(figsize=(7680 / 200, 4320 / 200))
-        bars = ax.bar(names, counts, color='cyan')
-        ax.bar_label(bars, fmt='%d', fontsize=14)  # 在柱子上方标记数据
-        ax.set_xlabel('名字')
-        ax.set_ylabel('次数', fontsize=24)
-        ax.set_title('点名器中奖统计', fontsize=45)  # 设置标题字体大小
-        ax.tick_params(axis='x', rotation=90, labelsize=18)
-        # 弹窗选择保存选项
-        historysave = QMessageBox()
-        historysave.setWindowTitle("保存选项")
-        historysave.setText("请选择保存方式")
-        save_button = historysave.addButton("保存为柱形图", QMessageBox.ActionRole)
-        cancel_button = historysave.addButton("保存为文本", QMessageBox.ActionRole)
-        button = historysave.addButton("取消", QMessageBox.NoRole)
-        button.setVisible(False)
-        historysave.exec_()
-        if historysave.clickedButton() == save_button:
-            # 保存图表
-            print("正在保存为图表")
-            plt.savefig('中奖统计图.png')
-            QMessageBox.information(self, "保存结果", "图表已保存到'中奖统计图.png'")
-            opentext("中奖统计图.png")
-        elif historysave.clickedButton() == cancel_button:
-            # 保存文本
-            print("正在保存为文本")
-            cresult = "中奖名单统计(统计会覆盖上一次结果):\n"
-            for name, count in sorted_counts:
-                cresult += f"{name} 出现了 {count} 次\n"
+        # 保存文本
+        print("正在保存为文本")
+        cresult = "中奖名单统计(统计会覆盖上一次结果):\n"
+        for name, count in sorted_counts:
+            cresult += f"{name} 出现了 {count} 次\n"
             with open('中奖统计.txt', 'w') as file:
                 file.write(cresult)
-            QMessageBox.information(self, "保存结果", "统计结果已保存到'中奖统计.txt'")
-            os.system('start ./中奖统计.txt')
-        else:
-            print("取消操作")
-            pass
+        QMessageBox.information(self, "保存结果", "统计结果已保存到'中奖统计.txt'")
+        os.system('start ./中奖统计.txt')
 
     def showHistory(self):
         global seed
