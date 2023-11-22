@@ -32,13 +32,18 @@
 <!-- /wp:list-item --></ol>
 <!-- /wp:list -->
 
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"28px"}}} -->
-<p style="font-size:28px"><a rel="noreferrer noopener" href="https://yish.lanzouw.com/b038hjo8f" data-type="URL" data-id="https://yish.lanzouw.com/b038hjo8f" target="_blank"><strong>最新版下载地址</strong></a>密码:cmti</p>
-<!-- /wp:paragraph -->
+<!-- wp:code {"style":{"typography":{"fontSize":"28px"}}} -->
+<pre class="wp-block-code" style="font-size:28px"><code><strong>最新版下载地址</strong>：
+https:&#47;&#47;yish.lanzouw.com/b038hjo8f
+密码:cmti
+</code></pre>
+<!-- /wp:code -->
 
-<!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
-<p class="has-vivid-red-color has-text-color has-medium-font-size">停更通知：如果没有严重Bug被发现、或者新的想法出现，那么我们将不会再更新点名器了，感谢您的支持！</p>
-<!-- /wp:paragraph -->
+<!-- wp:code {"style":{"typography":{"fontSize":"24px"}}} -->
+<pre class="wp-block-code" style="font-size:24px"><code>32位版本下载(支持旧版系统)：
+https:&#47;&#47;yish.lanzouw.com/iJRop1fncvzi
+密码:1zq5</code></pre>
+<!-- /wp:code -->
 
 <!-- wp:separator -->
 <hr class="wp-block-separator has-alpha-channel-opacity"/>
@@ -46,10 +51,6 @@
 
 <!-- wp:paragraph {"textColor":"vivid-red","fontSize":"medium"} -->
 <p class="has-vivid-red-color has-text-color has-medium-font-size">更新时请备份名单，然后卸载旧版本重新安装，否则可能出现错误</p>
-<!-- /wp:paragraph -->
-
-<!-- wp:paragraph -->
-<p>4.6版本最后支持32位系统<s>https://github.com/Yish1/ktdmq/releases/download/4.3/4.3.exe</s>32位版5.8正在准备中，敬请期待</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"textColor":"vivid-red"} -->
@@ -69,7 +70,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>2023.11.19<br>1.新增首次开启时的检查更新开关<br>2.删除使用率较低的功能(保存为图表)<br>3.使用nuitka打包，大幅降低程序占用空间(44mb→29mb)，大幅提升启动速度(2.6s→1.1s)<br>4.优化部分功能逻辑</p>
+<p>2023.11.19<br>1.新增首次开启时的检查更新开关<br>2.删除使用率较低的功能(保存为图表)<br>3.使用nuitka打包，大幅降低程序占用空间(44mb→29mb)，大幅提升启动速度(2.6s→1.1s)<br>4.优化部分功能逻辑<br>5.支持32位系统 (By QQB 11.22，基于Python3.8)</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:separator -->
