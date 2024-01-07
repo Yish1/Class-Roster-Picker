@@ -1,4 +1,4 @@
-# 5.8
+# 5.9
 # -*- coding: utf-8 -*-
 # 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
@@ -7,18 +7,25 @@
 
 import sys
 import random
+import difflib
 import os
 import requests
 import pygame
+import hashlib
+import glob,ctypes
+import pyttsx3
+import pyttsx3.drivers
+import pyttsx3.drivers.sapi5
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QCursor, QIcon, QPixmap
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QComboBox, QPushButton, QDesktopWidget, QMessageBox, QListView, QMainWindow, QGridLayout, QInputDialog
-from datetime import datetime
+from datetime import datetime,timedelta
+from Crypto.Cipher import ARC4
 import webbrowser as web
 
-dmversion = 5.8
+dmversion = 5.9
 
 big = False
 running = False
@@ -29,6 +36,7 @@ zt = 50
 name_list = []
 file_path = "name/默认名单.txt"
 selected_file = "默认名单"
+is_first_run = "0"
 mdcd = 0
 pygame.init()
 pygame.mixer.init()
@@ -55,8 +63,64 @@ def opentext(path):
         os.system("vim %s" % path)
 
 
+# 六个重要参数,阅读的文字,语言(0-英文/1-中文),语速,音量(0-1),保存的文件名(以.mp3收尾),是否发言(0否1是)
+def ttsread(text, language, rate, volume):
+    try:
+        with open('allownametts.ini', 'r') as file:
+            allownametts = int(file.read())
+            if allownametts == 1:
+                print("语音播报已开启")
+                engine = pyttsx3.init()  # 初始化语音引擎
+                engine.setProperty('rate', rate)  # 设置语速
+                # 速度调试结果:50戏剧化的慢,200正常,350用心听小说,500敷衍了事
+                engine.setProperty('volume', volume)  # 设置音量
+                voices = engine.getProperty('voices')  # 获取当前语音的详细信息
+                if int(language) == 0:
+                    # 设置第一个语音合成器 #改变索引，改变声音。0中文,1英文(只有这两个选择)
+                    engine.setProperty('voice', voices[0].id)
+                elif int(language) == 1:
+                    engine.setProperty('voice', voices[1].id)
+                engine.say(text)  # pyttsx3->将结果念出来
+                engine.runAndWait()  # pyttsx3结束语句(必须加)
+                engine.stop()  # pyttsx3结束语句(必须加)
+            else:
+                allownametts = 0
+                print("语音播报已关闭")
+
+    except FileNotFoundError:
+        # 语音播报开关
+        ifvoice = QMessageBox()
+        ifvoice.setWindowTitle("语音播报")
+        ifvoice.setText(
+            "需要开启语音播报功能吗？\n单抽后会播报抽取结果。\n")
+        allow_button = ifvoice.addButton("好的", QMessageBox.ActionRole)
+        cancel_button = ifvoice.addButton("下次一定", QMessageBox.ActionRole)
+        button = ifvoice.addButton("取消", QMessageBox.NoRole)
+        button.setVisible(False)
+        ifvoice.exec_()
+        if ifvoice.clickedButton() == allow_button:
+            # 同意
+            print("语音播报已开启")
+            with open('allownametts.ini', "w", encoding='utf-8') as f:
+                f.write("1")
+            QMessageBox.information(
+                None, "语音播报", "语音播报已经开启，您可以删除目录下的allownametts.ini重新设置此功能。")
+        elif ifvoice.clickedButton() == cancel_button:
+            # 不同意
+            with open('allownametts.ini', "w", encoding='utf-8') as f:
+                f.write("0")
+                print("语音播报已禁用")
+            QMessageBox.information(
+                None, "语音播报", "语音播报已禁用，您可以删除目录下的allownametts.ini重新设置此功能。")
+
+    except ValueError:
+        QMessageBox.information(
+            None, "语音播报", "目录下的allownametts.ini中不是一个有效的值")
+        if os.path.exists("allownametts.ini"):
+            os.remove("allownametts.ini")
+
 def name_list_selector():
-    global txtnum, name_list, file_path, namefolder, mdnum
+    global txtnum, name_list, file_path, namefolder, mdnum,is_first_run
     try:
         with open('allownameselect.ini', 'r') as file:
             allownameselect_value = int(file.read())
@@ -71,14 +135,9 @@ def name_list_selector():
         print("配置文件错误或不存在，默认名单数量大于0时显示选择窗口")
         select = 0
     namefolder = "name"
-    namefolder1 = os.path.dirname(os.path.abspath(__file__))
-    namefolder_path = os.path.join(namefolder1, namefolder)
-    if not os.path.exists(namefolder_path) or not os.path.isdir(namefolder_path):
-        print(f"名单文件夹不存在，已经在这个位置创建：{namefolder_path}")
-        os.makedirs(namefolder_path)
+    os.makedirs("name", exist_ok=True)
     txtnum = [filename for filename in os.listdir(
         namefolder) if filename.endswith(".txt")]
-    ifonefile = f"{namefolder_path}\\{', '.join(txtnum)}"
     mdnum = len(txtnum)
     if not txtnum:
         name_list = list(make_name_list())
@@ -86,12 +145,20 @@ def name_list_selector():
         app = QApplication(sys.argv)
         welcom = QMessageBox()
         welcom.setWindowTitle("欢迎使用")
-        welcom.setText("欢迎使用沉梦课堂点名器！\n本程序支持单抽，连抽。同时提供单抽时背景音乐、多名单支持、数据导出等功能。\n\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n名字1\n名字2\n名字3\n名字4\n名字5\n名字6\n......\n\n需要帮助请点击关于。\n\n沉梦小站")
+        welcom.setText("欢迎使用沉梦课堂点名器！\n本程序支持单抽，连抽。同时提供单抽时背景音乐、多名单支持、数据导出等功能。\n\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n名字1\n名字2\n名字3\n名字4\n名字5\n名字6\n......\n\n请在名单管理器中处理好名单，下次运行将开启名单校验功能。\n\n如需帮助请点击关于按钮。\n\n沉梦小站")
         # 设置消息框的图标和按钮
-        welcom.setIconPixmap(QIcon('yish.ico').pixmap(64, 64))  # 64x64 大小的图标
+        welcom.setIconPixmap(QIcon('picker.ico').pixmap(64, 64))  # 64x64 大小的图标
         welcom.setStandardButtons(QMessageBox.Ok)
         welcom.exec_()
+        is_first_run = '1'
         opentext(name_path)
+        # 显示另一个弹窗
+        second_message = QMessageBox()
+        second_message.setWindowTitle("提示")
+        second_message.setText("！！！请在名单管理器中处理好名单，下次运行将开启名单校验功能！！！")
+        second_message.setStandardButtons(QMessageBox.Ok)
+        second_message.exec_()
+        name_list_selector()
         print("这应该是首次启动")
 
     if mdnum > select:
@@ -116,16 +183,21 @@ def name_list_selector():
         x = int((screen.width() - window_width) // 2.25)
         y = int((screen.height() - window_height) // 2.25)
         window.setGeometry(x, y, 500, 200)
+        layout.addStretch()
+        layout.addSpacing(40)
         add_button = QPushButton('新增名单', window)
         add_button.setFixedHeight(40)
         layout.addWidget(add_button)
         delete_button = QPushButton('删除名单', window)
         delete_button.setFixedHeight(40)
         layout.addWidget(delete_button)
+        change_button = QPushButton('修改名单', window)
+        change_button.setFixedHeight(40)
+        layout.addWidget(change_button)
 
         def add_new_list():
             newfilename, ok_pressed = QInputDialog.getText(
-                window, "新增名单", "请输入名单名称:")
+                window, "新增名单", "请输入名单名称:(文件名即可，无需输入.txt)")
             if ok_pressed and newfilename:
                 print(f"新增名单名称是: {newfilename}")
                 newnamepath = os.path.join(
@@ -144,7 +216,7 @@ def name_list_selector():
 
         def delete_list():
             target_filename, ok_pressed = QInputDialog.getText(
-                window, "删除名单", "请输入要删除的名单名称:")
+                window, "删除名单", "请输入要删除的名单名称:(文件名即可，无需输入.txt)")
             if ok_pressed and target_filename:
                 target_filepath = os.path.join(
                     "name", f"{target_filename}.txt")
@@ -162,6 +234,19 @@ def name_list_selector():
                         window, '警告', '名单文件不存在', QMessageBox.Ok)
         delete_button.clicked.connect(delete_list)
 
+        def change_name_list():
+            target_filename, ok_pressed = QInputDialog.getText(
+                window, "修改名单", "请输入要修改的名单名称:(文件名即可，无需输入.txt)")
+            if ok_pressed and target_filename:
+                target_filepath = os.path.join(
+                    "name", f"{target_filename}.txt")
+                if os.path.exists(target_filepath):
+                    opentext(target_filepath)
+                else:
+                    QMessageBox.warning(
+                        window, '警告', '名单文件不存在', QMessageBox.Ok)
+        change_button.clicked.connect(change_name_list)       
+
         combo_box.addItems(txtnum)
 
         def showlist():
@@ -171,7 +256,7 @@ def name_list_selector():
             if not os.path.exists(file_path):
                 QMessageBox.warning(window, '警告', '名单文件不存在', QMessageBox.Ok)
             else:
-                print(f"所选文件的路径为: {file_path}")
+                print(f"所选文件的路径为: {file_path}\n")
                 window.close()
         button.clicked.connect(showlist)
         # 显示窗口
@@ -185,13 +270,205 @@ if __name__ == '__main__':
     name_list_selector()
 
 
+def cs_sha256():
+    delrecordfile = 0
+    app = QApplication([])
+    os.makedirs('data', exist_ok=True)
+    ctypes.windll.kernel32.SetFileAttributesW('data', 2)
+    os.makedirs('bak', exist_ok=True)
+    ctypes.windll.kernel32.SetFileAttributesW('bak', 2)
+
+    for filename1 in os.listdir('name'):
+        if filename1.endswith('.txt'):
+            file_path = os.path.join('name', filename1)
+            output_file_path = os.path.join('data', filename1 + '.cmxz')
+
+            if not os.path.exists(output_file_path):
+                sha256_value = calculate_sha256(file_path)
+                with open(output_file_path, 'w') as f:
+                    f.write(sha256_value)
+                print(f'已保存标识符值：{output_file_path}')
+                fileoperation('name',filename1,'encrypt')
+            else:
+                sha256_value = calculate_sha256(file_path)
+                with open(output_file_path, 'r') as f:
+                    saved_sha256_value = f.read().strip()
+
+                if sha256_value == saved_sha256_value:
+                    print(f'{filename1} 的标识符值与记录一致。')
+                    fileoperation('name',filename1,'encrypt')
+
+                else:
+                    print(f'警告：{filename1} 的标识符值与记录不一致。')
+                    fileoperation('bak',filename1,'decrypt')
+                    with open(file_path, 'r',encoding='utf-8',errors='ignore') as original_file, open(processed_file_path,'r',encoding='utf-8', errors='ignore') as bak_file:
+                        original_content = original_file.read()
+                        bak_content = bak_file.read()
+
+                        if original_content == bak_content:
+                            print('文件内容一致。')
+                        else:
+                            print('文件内容不一致。以下是修改的内容：')
+                            diff = difflib.unified_diff(bak_content.splitlines(), original_content.splitlines())
+                            diff_str = '\n'.join(diff)
+                            msg_box = QMessageBox()
+                            msg_box.setIcon(QMessageBox.Warning)
+                            msg_box.setWindowTitle("警告")
+                            msg_box.setText(f'警告：{filename1} 最近被修改，加号是新增的，减号是减少的\n\n符号后面如果是空的请无视(由名单格式不规范造成)\n\n请以名字前符号为准！！！\n\n此记录会在 2天后 不再展示。\n{diff_str}')
+                            msg_box.exec_()
+                            delrecordfile = delrecordfile + 1#确保在最后一次循环才执行manage_deadline(filename1)
+               
+    if delrecordfile > 0:
+        manage_deadline("0")
+
+def calculate_sha256(file_path):
+    sha256_hash = hashlib.sha256()
+    with open(file_path, 'rb') as f:
+        for byte_block in iter(lambda: f.read(4096), b""):
+            sha256_hash.update(byte_block)
+    return sha256_hash.hexdigest()
+
+def fileoperation(folder_path,filename,operation):
+    enfilename = filename + ".cmxz"
+    file_path = os.path.join(folder_path, filename)
+    if operation == 'encrypt':
+        if filename.endswith('.txt'):
+            process_file(file_path, 'encrypt')
+    elif operation == 'decrypt':
+        if enfilename.endswith('.cmxz'):
+            file_path = os.path.join(folder_path, enfilename)
+            process_file(file_path, 'decrypt')
+        return processed_file_path
+
+def process_file(file_path, operation):
+    global processed_file_path
+    try:
+        with open(file_path, 'rb') as f:
+            data = f.read()
+    except FileNotFoundError:
+        # 文件不存在时弹窗提示
+        bpp = QApplication([])
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Warning)
+        msg_box.setWindowTitle("警告")
+        msg_box.setText(f'警告：{file_path} 的备份被删除，此名单可能已经被修改！')
+        msg_box.exec_()
+    cipher = ARC4.new(b'cmxztopktdmq')
+    if operation == 'encrypt':
+        try:
+            processed_data = cipher.encrypt(data)
+            processed_file_path = os.path.join(
+                'bak', os.path.basename(file_path) + '.cmxz')
+            if os.path.exists(processed_file_path):
+                print(f'加密文件已存在: {processed_file_path}')
+                return processed_file_path
+        except:
+            print("加密文件不存在")
+
+    elif operation == 'decrypt':
+        try:
+            processed_data = cipher.decrypt(data)
+            original_filename = os.path.basename(file_path)[:-5]
+            processed_file_path = os.path.join('bak', original_filename)
+        except:
+            print("解密文件不存在")
+                    
+    try:
+        with open(processed_file_path, 'wb') as f:
+            f.write(processed_data)
+
+        print(f'文件{operation}成功: {processed_file_path}')
+        return processed_file_path
+    except:
+        manage_deadline("1")
+
+def manage_deadline(now):
+    timefile_path = os.path.join('bak', 'adeadline.txt')
+    current_date = datetime.now().date()
+
+
+    def write_to_file():
+        # 获取默认截止日期并写入文件
+        global result_time
+        deadline_date = datetime.now() + timedelta(days=2)
+        result_time = deadline_date
+        if now != "1":
+            with open(timefile_path, 'w') as file:
+                file.write(deadline_date.strftime('%Y-%m-%d'))
+            fileoperation('bak', 'adeadline.txt', 'encrypt')
+            os.remove(timefile_path)
+        else:
+            print("名单校验已重置")
+
+    def read_from_file():
+        # 从文件中读取截止日期
+        if os.path.exists(timefile_path + '.cmxz'):
+            fileoperation('bak','adeadline.txt','decrypt')
+            with open(timefile_path, 'r') as file:
+                date_str = file.read().strip()
+                if date_str:
+                    return datetime.strptime(date_str, '%Y-%m-%d').date()
+            return None
+
+    def remove_directory(data_folder):
+        txt_files = glob.glob(os.path.join(data_folder, '*.txt'))
+        # 获取指定文件夹中所有扩展名为 .cmxz 的文件列表
+        cmxz_files = glob.glob(os.path.join(data_folder, '*.cmxz'))       
+        all_files = txt_files + cmxz_files
+        # 循环删除文件
+        for file_path in all_files:
+            try:
+                os.remove(file_path)
+                print(f"Deleted: {file_path}")
+            except OSError as e:
+                print(f"Error: {e.filename} - {e.strerror}")
+
+
+    deadline_date = read_from_file()
+
+    if deadline_date:
+        # 如果截止日期已过，删除数据文件夹
+        if current_date > deadline_date:
+            print(f"截止日期({deadline_date})已过。删除数据文件夹。")
+            try:
+                # 递归删除目录及其内容
+                remove_directory("data")
+                remove_directory("bak")
+                print("数据文件夹已删除。")
+            except OSError as e:
+                print(f"删除数据文件夹时发生错误: {e}")
+        else:
+            print(f"截止日期是{deadline_date}。尚未过期。暂不重置校验")
+            if now == "1":
+                remove_directory("data")#异常处理
+                remove_directory("bak")
+            try:
+                os.remove(timefile_path)
+            except:
+                pass
+    else:
+        # 如果没有截止日期，生成随机日期并写入文件
+        if now == "1":
+            remove_directory("data")#异常处理
+            remove_directory("bak")
+        write_to_file()
+        print(f"生成了一个随机截止日期: {result_time}。写入文件。")
+
+
+if __name__ == '__main__':
+    if is_first_run != "1":
+        cs_sha256()
+    else:
+        pass
+    
+
 class Ui_MainWindow(QMainWindow):
     def init(self):
         super().init()
         self.RowLength = 0
         try:
             icon_path = pathq.join(pathq.dirname(
-                __file__), "./yish.ico")  # 任务栏的ico
+                __file__), "./picker.ico")  # 任务栏的ico
             icon = QIcon()
             icon.addPixmap(QPixmap(icon_path))
             MainWindow.setWindowIcon(icon)
@@ -205,7 +482,7 @@ class Ui_MainWindow(QMainWindow):
             sys.exit()
         with open(file_path, encoding='utf8') as f:
             name_list = [line.strip('\n') for line in f.readlines()]
-        print(name_list)
+        print("\n",name_list)
         mdcd = len(name_list)
         print("读取到的有效名单长度 :", mdcd)
         # 以下可直接粘贴生成的setupui代码
@@ -637,13 +914,13 @@ class Ui_MainWindow(QMainWindow):
             if ifupdate.clickedButton() == allow_button:
                 # 同意
                 print("检查更新已开启")
-                with open('allowcheck.ini', "a", encoding='utf-8') as f:
+                with open('allowcheck.ini', "w", encoding='utf-8') as f:
                     f.write("1")
                 QMessageBox.information(
                     self, "检查更新", "检查更新功能已经开启，您可以删除目录下的allowcheck.ini重新设置此功能。")
             elif ifupdate.clickedButton() == cancel_button:
                 # 不同意
-                with open('allowcheck.ini', "a", encoding='utf-8') as f:
+                with open('allowcheck.ini', "w", encoding='utf-8') as f:
                     f.write("0")
                 ifupdate1 = QMessageBox()
                 ifupdate1.setWindowTitle("真的不需要吗（π一π）")
@@ -663,7 +940,7 @@ class Ui_MainWindow(QMainWindow):
                 if ifupdate1.clickedButton() == allow_button1 or ifupdate1.clickedButton() == allow_button2 or ifupdate1.clickedButton() == allow_button3:
                     # 梅开二度
                     print("检查更新已开启")
-                    with open('allowcheck.ini', "a", encoding='utf-8') as f:
+                    with open('allowcheck.ini', "w", encoding='utf-8') as f:
                         f.write("1")
                     QMessageBox.information(
                         self, "检查更新", "检查更新功能已经开启，您可以删除目录下的allowcheck.ini重新设置此功能。")
@@ -672,7 +949,8 @@ class Ui_MainWindow(QMainWindow):
         except ValueError:
             QMessageBox.information(
                 self, "检查更新", "目录下的allowcheck.ini中不是一个有效的值")
-            os.remove("allowcheck.ini")
+            if os.path.exists("allowcheck.ini"):
+                os.remove("allowcheck.ini")
 
     def ten(self):
         lenth = len(name_list)
@@ -733,7 +1011,7 @@ class Ui_MainWindow(QMainWindow):
         button = QMessageBox.question(
             self,
             "确定要修改名单？",
-            "读取到名单中有 %s 人 <br> 接下来将关闭点名器确保名单能被正常修改，要继续吗？<br>在打开的文件中输入名字，一行一个" % mdcd,
+            "读取到名单中有 %s 人 <br> 接下来将关闭点名器确保名单能被正常修改，名单修改后会触发名单校验功能，名单被修改的部分将会被展示两天，要继续吗？<br>在打开的文件中输入名字，一行一个" % mdcd,
             QMessageBox.Ok | QMessageBox.No,
             QMessageBox.Ok,
         )
@@ -745,17 +1023,12 @@ class Ui_MainWindow(QMainWindow):
 
     def dmhistory(self):
         opentext("./点名器中奖名单.txt")
-        
+
+
     def bgmusic(self):
         QMessageBox.information(
             self, "背景音乐", "若要使用背景音乐功能，请在稍后打开的文件夹中放入mp3格式的背景音乐 \n删除文件夹中的音乐则关闭此功能")
-        folder_name = "dmmusic"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        folder_path = os.path.join(current_dir, folder_name)
-        if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
-            print(f"音乐文件夹不存在，正在创建...：{folder_path}")
-            os.makedirs(folder_path)  # 创建音乐文件夹
-            return
+        os.makedirs('dmmusic', exist_ok=True)
         opentext("dmmusic")
 
     def countname(self):
@@ -836,14 +1109,10 @@ class Ui_MainWindow(QMainWindow):
             self.timer.timeout.connect(self.setname)
             self.timer.start(50)
             running = True
-            # 定义文件夹的相对路径
             folder_name = "dmmusic"
             current_dir = os.path.dirname(os.path.abspath(__file__))
             folder_path = os.path.join(current_dir, folder_name)
-            if not os.path.exists(folder_path) or not os.path.isdir(folder_path):
-                print(f"音乐文件夹不存在或路径不正确,但已创建：{folder_path}")
-                os.makedirs(folder_path)  # 创建音乐文件夹
-                return
+            os.makedirs('dmmusic', exist_ok=True)
             # 获取文件夹中的文件列表
             file_list = os.listdir(folder_path)
             if not file_list:
@@ -878,10 +1147,10 @@ class Ui_MainWindow(QMainWindow):
                 print("无法写入历史记录")
             print(today, "幸运儿是： %s " % name)
             try:
-                pygame.mixer.music.fadeout(1000)
+                pygame.mixer.music.fadeout(800)
             except pygame.error as e:
                 print(f"停止音乐播放时发生错误：{str(e)}")
-
+            ttsread(text=f"恭喜 {name}", language=0, rate=200, volume=1)
         else:
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "还没开始就想结束？", QtWidgets.QMessageBox.Yes
