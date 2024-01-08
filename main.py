@@ -1,4 +1,4 @@
-# 5.9
+# 5.91
 # -*- coding: utf-8 -*-
 # 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！
 # ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
@@ -12,20 +12,19 @@ import os
 import requests
 import pygame
 import hashlib
-import glob,ctypes
-import pyttsx3
-import pyttsx3.drivers
-import pyttsx3.drivers.sapi5
+import glob
+import ctypes
+import win32com.client
 from os import path as pathq
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QCursor, QIcon, QPixmap
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QComboBox, QPushButton, QDesktopWidget, QMessageBox, QListView, QMainWindow, QGridLayout, QInputDialog
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 from Crypto.Cipher import ARC4
 import webbrowser as web
 
-dmversion = 5.9
+dmversion = 5.91
 
 big = False
 running = False
@@ -63,26 +62,14 @@ def opentext(path):
         os.system("vim %s" % path)
 
 
-# 六个重要参数,阅读的文字,语言(0-英文/1-中文),语速,音量(0-1),保存的文件名(以.mp3收尾),是否发言(0否1是)
-def ttsread(text, language, rate, volume):
+def ttsread(text):
     try:
         with open('allownametts.ini', 'r') as file:
             allownametts = int(file.read())
             if allownametts == 1:
                 print("语音播报已开启")
-                engine = pyttsx3.init()  # 初始化语音引擎
-                engine.setProperty('rate', rate)  # 设置语速
-                # 速度调试结果:50戏剧化的慢,200正常,350用心听小说,500敷衍了事
-                engine.setProperty('volume', volume)  # 设置音量
-                voices = engine.getProperty('voices')  # 获取当前语音的详细信息
-                if int(language) == 0:
-                    # 设置第一个语音合成器 #改变索引，改变声音。0中文,1英文(只有这两个选择)
-                    engine.setProperty('voice', voices[0].id)
-                elif int(language) == 1:
-                    engine.setProperty('voice', voices[1].id)
-                engine.say(text)  # pyttsx3->将结果念出来
-                engine.runAndWait()  # pyttsx3结束语句(必须加)
-                engine.stop()  # pyttsx3结束语句(必须加)
+                speaker = win32com.client.Dispatch("SAPI.SpVoice")
+                speaker.Speak(text)
             else:
                 allownametts = 0
                 print("语音播报已关闭")
@@ -119,8 +106,9 @@ def ttsread(text, language, rate, volume):
         if os.path.exists("allownametts.ini"):
             os.remove("allownametts.ini")
 
+
 def name_list_selector():
-    global txtnum, name_list, file_path, namefolder, mdnum,is_first_run
+    global txtnum, name_list, file_path, namefolder, mdnum, is_first_run
     try:
         with open('allownameselect.ini', 'r') as file:
             allownameselect_value = int(file.read())
@@ -245,7 +233,7 @@ def name_list_selector():
                 else:
                     QMessageBox.warning(
                         window, '警告', '名单文件不存在', QMessageBox.Ok)
-        change_button.clicked.connect(change_name_list)       
+        change_button.clicked.connect(change_name_list)
 
         combo_box.addItems(txtnum)
 
@@ -288,7 +276,7 @@ def cs_sha256():
                 with open(output_file_path, 'w') as f:
                     f.write(sha256_value)
                 print(f'已保存标识符值：{output_file_path}')
-                fileoperation('name',filename1,'encrypt')
+                fileoperation('name', filename1, 'encrypt')
             else:
                 sha256_value = calculate_sha256(file_path)
                 with open(output_file_path, 'r') as f:
@@ -296,12 +284,12 @@ def cs_sha256():
 
                 if sha256_value == saved_sha256_value:
                     print(f'{filename1} 的标识符值与记录一致。')
-                    fileoperation('name',filename1,'encrypt')
+                    fileoperation('name', filename1, 'encrypt')
 
                 else:
                     print(f'警告：{filename1} 的标识符值与记录不一致。')
-                    fileoperation('bak',filename1,'decrypt')
-                    with open(file_path, 'r',encoding='utf-8',errors='ignore') as original_file, open(processed_file_path,'r',encoding='utf-8', errors='ignore') as bak_file:
+                    fileoperation('bak', filename1, 'decrypt')
+                    with open(file_path, 'r', encoding='utf-8', errors='ignore') as original_file, open(processed_file_path, 'r', encoding='utf-8', errors='ignore') as bak_file:
                         original_content = original_file.read()
                         bak_content = bak_file.read()
 
@@ -309,17 +297,21 @@ def cs_sha256():
                             print('文件内容一致。')
                         else:
                             print('文件内容不一致。以下是修改的内容：')
-                            diff = difflib.unified_diff(bak_content.splitlines(), original_content.splitlines())
+                            diff = difflib.unified_diff(
+                                bak_content.splitlines(), original_content.splitlines())
                             diff_str = '\n'.join(diff)
                             msg_box = QMessageBox()
                             msg_box.setIcon(QMessageBox.Warning)
                             msg_box.setWindowTitle("警告")
-                            msg_box.setText(f'警告：{filename1} 最近被修改，加号是新增的，减号是减少的\n\n符号后面如果是空的请无视(由名单格式不规范造成)\n\n请以名字前符号为准！！！\n\n此记录会在 2天后 不再展示。\n{diff_str}')
+                            msg_box.setText(
+                                f'警告：{filename1} 最近被修改，加号是新增的，减号是减少的\n\n符号后面如果是空的请无视(由名单格式不规范造成)\n\n请以名字前符号为准！！！\n\n此记录会在 2天后 不再展示。\n{diff_str}')
                             msg_box.exec_()
-                            delrecordfile = delrecordfile + 1#确保在最后一次循环才执行manage_deadline(filename1)
-               
+                            # 确保在最后一次循环才执行manage_deadline(filename1)
+                            delrecordfile = delrecordfile + 1
+
     if delrecordfile > 0:
         manage_deadline("0")
+
 
 def calculate_sha256(file_path):
     sha256_hash = hashlib.sha256()
@@ -328,7 +320,8 @@ def calculate_sha256(file_path):
             sha256_hash.update(byte_block)
     return sha256_hash.hexdigest()
 
-def fileoperation(folder_path,filename,operation):
+
+def fileoperation(folder_path, filename, operation):
     enfilename = filename + ".cmxz"
     file_path = os.path.join(folder_path, filename)
     if operation == 'encrypt':
@@ -339,6 +332,7 @@ def fileoperation(folder_path,filename,operation):
             file_path = os.path.join(folder_path, enfilename)
             process_file(file_path, 'decrypt')
         return processed_file_path
+
 
 def process_file(file_path, operation):
     global processed_file_path
@@ -372,7 +366,7 @@ def process_file(file_path, operation):
             processed_file_path = os.path.join('bak', original_filename)
         except:
             print("解密文件不存在")
-                    
+
     try:
         with open(processed_file_path, 'wb') as f:
             f.write(processed_data)
@@ -382,10 +376,10 @@ def process_file(file_path, operation):
     except:
         manage_deadline("1")
 
+
 def manage_deadline(now):
     timefile_path = os.path.join('bak', 'adeadline.txt')
     current_date = datetime.now().date()
-
 
     def write_to_file():
         # 获取默认截止日期并写入文件
@@ -403,7 +397,7 @@ def manage_deadline(now):
     def read_from_file():
         # 从文件中读取截止日期
         if os.path.exists(timefile_path + '.cmxz'):
-            fileoperation('bak','adeadline.txt','decrypt')
+            fileoperation('bak', 'adeadline.txt', 'decrypt')
             with open(timefile_path, 'r') as file:
                 date_str = file.read().strip()
                 if date_str:
@@ -413,7 +407,7 @@ def manage_deadline(now):
     def remove_directory(data_folder):
         txt_files = glob.glob(os.path.join(data_folder, '*.txt'))
         # 获取指定文件夹中所有扩展名为 .cmxz 的文件列表
-        cmxz_files = glob.glob(os.path.join(data_folder, '*.cmxz'))       
+        cmxz_files = glob.glob(os.path.join(data_folder, '*.cmxz'))
         all_files = txt_files + cmxz_files
         # 循环删除文件
         for file_path in all_files:
@@ -422,7 +416,6 @@ def manage_deadline(now):
                 print(f"Deleted: {file_path}")
             except OSError as e:
                 print(f"Error: {e.filename} - {e.strerror}")
-
 
     deadline_date = read_from_file()
 
@@ -440,7 +433,7 @@ def manage_deadline(now):
         else:
             print(f"截止日期是{deadline_date}。尚未过期。暂不重置校验")
             if now == "1":
-                remove_directory("data")#异常处理
+                remove_directory("data")  # 异常处理
                 remove_directory("bak")
             try:
                 os.remove(timefile_path)
@@ -449,7 +442,7 @@ def manage_deadline(now):
     else:
         # 如果没有截止日期，生成随机日期并写入文件
         if now == "1":
-            remove_directory("data")#异常处理
+            remove_directory("data")  # 异常处理
             remove_directory("bak")
         write_to_file()
         print(f"生成了一个随机截止日期: {result_time}。写入文件。")
@@ -460,7 +453,7 @@ if __name__ == '__main__':
         cs_sha256()
     else:
         pass
-    
+
 
 class Ui_MainWindow(QMainWindow):
     def init(self):
@@ -482,7 +475,7 @@ class Ui_MainWindow(QMainWindow):
             sys.exit()
         with open(file_path, encoding='utf8') as f:
             name_list = [line.strip('\n') for line in f.readlines()]
-        print("\n",name_list)
+        print("\n", name_list)
         mdcd = len(name_list)
         print("读取到的有效名单长度 :", mdcd)
         # 以下可直接粘贴生成的setupui代码
@@ -1024,7 +1017,6 @@ class Ui_MainWindow(QMainWindow):
     def dmhistory(self):
         opentext("./点名器中奖名单.txt")
 
-
     def bgmusic(self):
         QMessageBox.information(
             self, "背景音乐", "若要使用背景音乐功能，请在稍后打开的文件夹中放入mp3格式的背景音乐 \n删除文件夹中的音乐则关闭此功能")
@@ -1150,7 +1142,7 @@ class Ui_MainWindow(QMainWindow):
                 pygame.mixer.music.fadeout(800)
             except pygame.error as e:
                 print(f"停止音乐播放时发生错误：{str(e)}")
-            ttsread(text=f"恭喜 {name}", language=0, rate=200, volume=1)
+            ttsread(text=f"恭喜 {name}")
         else:
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "还没开始就想结束？", QtWidgets.QMessageBox.Yes
