@@ -1,10 +1,4 @@
-# 5.91
 # -*- coding: utf-8 -*-
-# 颜色可以是英文（white），或是#ffffff，UI的注释我写了出来！！
-# ui美化：(line93:#任务栏的ico)(line427:#任务栏名称)
-# 源码需要沉淀，下面的源码就是时间的沉淀
-# 注释随缘写
-
 import sys
 import random
 import difflib
@@ -24,7 +18,7 @@ from datetime import datetime, timedelta
 from Crypto.Cipher import ARC4
 import webbrowser as web
 
-dmversion = 5.91
+dmversion = 5.92
 
 big = False
 running = False
@@ -62,18 +56,11 @@ def opentext(path):
         os.system("vim %s" % path)
 
 
-def ttsread(text):
+def ttsinitialize():
+    global allownametts
     try:
         with open('allownametts.ini', 'r') as file:
             allownametts = int(file.read())
-            if allownametts == 1:
-                print("语音播报已开启")
-                speaker = win32com.client.Dispatch("SAPI.SpVoice")
-                speaker.Speak(text)
-            else:
-                allownametts = 0
-                print("语音播报已关闭")
-
     except FileNotFoundError:
         # 语音播报开关
         ifvoice = QMessageBox()
@@ -82,30 +69,53 @@ def ttsread(text):
             "需要开启语音播报功能吗？\n单抽后会播报抽取结果。\n")
         allow_button = ifvoice.addButton("好的", QMessageBox.ActionRole)
         cancel_button = ifvoice.addButton("下次一定", QMessageBox.ActionRole)
+        dictation_button = ifvoice.addButton("听写模式(不会读\"恭喜\")", QMessageBox.ActionRole)
         button = ifvoice.addButton("取消", QMessageBox.NoRole)
         button.setVisible(False)
         ifvoice.exec_()
         if ifvoice.clickedButton() == allow_button:
             # 同意
-            print("语音播报已开启")
+            allownametts = 1
             with open('allownametts.ini', "w", encoding='utf-8') as f:
                 f.write("1")
             QMessageBox.information(
                 None, "语音播报", "语音播报已经开启，您可以删除目录下的allownametts.ini重新设置此功能。")
         elif ifvoice.clickedButton() == cancel_button:
+            allownametts = 0
             # 不同意
             with open('allownametts.ini', "w", encoding='utf-8') as f:
                 f.write("0")
-                print("语音播报已禁用")
             QMessageBox.information(
                 None, "语音播报", "语音播报已禁用，您可以删除目录下的allownametts.ini重新设置此功能。")
-
+        elif ifvoice.clickedButton() == dictation_button:
+            allownametts = 2
+            # 听写模式
+            with open('allownametts.ini', "w", encoding='utf-8') as f:
+                f.write("2")
+            QMessageBox.information(
+                None, "语音播报", "语音播报（听写模式）已启用，您可以删除目录下的allownametts.ini重新设置此功能。")
     except ValueError:
         QMessageBox.information(
             None, "语音播报", "目录下的allownametts.ini中不是一个有效的值")
         if os.path.exists("allownametts.ini"):
             os.remove("allownametts.ini")
+            ttsinitialize()
+    
 
+
+def ttsread(text):
+    global allownametts
+    if allownametts == 1:
+        print("语音播报已开启")
+        speaker = win32com.client.Dispatch("SAPI.SpVoice")
+        speaker.Speak(text)
+    elif allownametts == 2:
+        print("语音播报（听写模式）已开启")
+        speaker = win32com.client.Dispatch("SAPI.SpVoice")
+        speaker.Speak(text)
+    else:
+        allownametts == 0
+        print("语音播报已关闭")
 
 def name_list_selector():
     global txtnum, name_list, file_path, namefolder, mdnum, is_first_run
@@ -1122,7 +1132,7 @@ class Ui_MainWindow(QMainWindow):
                 print(f"无法播放音乐文件：{file_path}，错误信息：{str(e)}")
 
     def stop(self):
-        global running, a
+        global running,allownametts
         if running:
             self.timer.stop()
             running = False
@@ -1142,7 +1152,17 @@ class Ui_MainWindow(QMainWindow):
                 pygame.mixer.music.fadeout(800)
             except pygame.error as e:
                 print(f"停止音乐播放时发生错误：{str(e)}")
-            ttsread(text=f"恭喜 {name}")
+            ttsinitialize()
+            if allownametts == 1:
+                ttsread(text=f"恭喜 {name}")
+            elif allownametts == 2:
+                ttsread(text=name)
+            elif allownametts == 0:
+                pass
+            else:
+                if os.path.exists("allownametts.ini"):
+                    os.remove("allownametts.ini")
+                ttsinitialize()
         else:
             reply = QtWidgets.QMessageBox.warning(
                 self, "警告", "还没开始就想结束？", QtWidgets.QMessageBox.Yes
