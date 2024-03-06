@@ -117,6 +117,21 @@ def ttsread(text):
         allownametts == 0
         print("语音播报已关闭")
 
+def first_run():
+    global is_first_run
+    init_name(make_name_list())
+    app = QApplication(sys.argv)
+    welcom = QMessageBox()
+    welcom.setWindowTitle("欢迎使用")
+    welcom.setText("欢迎使用沉梦课堂点名器！\n本程序支持单抽，连抽。同时提供单抽时背景音乐、多名单支持、数据导出等功能。\n\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n名字1\n名字2\n名字3\n名字4\n名字5\n名字6\n......\n\n请在名单管理器中处理好名单，下次运行将开启名单校验功能。\n\n如需帮助请点击关于按钮。\n\n沉梦小站")
+    # 设置消息框的图标和按钮
+    welcom.setIconPixmap(QIcon('picker.ico').pixmap(64, 64))  # 64x64 大小的图标
+    welcom.setStandardButtons(QMessageBox.Ok)
+    welcom.exec_()
+    is_first_run = '1'
+    opentext(name_path)
+    print("这应该是首次启动")
+    return
 def name_list_selector():
     global txtnum, name_list, file_path, namefolder, mdnum, is_first_run
     try:
@@ -130,35 +145,15 @@ def name_list_selector():
                 print("配置文件仅支持0或1，0或其他数字默认为0")
     except:
         allownameselect_value = 0
-        print("配置文件错误或不存在，默认名单数量大于0时显示选择窗口")
+        print("名单管理器配置文件错误或不存在，默认名单数量大于0时显示选择窗口")
         select = 0
     namefolder = "name"
     os.makedirs("name", exist_ok=True)
+    if not os.path.exists(namefolder) or not os.listdir(namefolder):
+        first_run()
     txtnum = [filename for filename in os.listdir(
         namefolder) if filename.endswith(".txt")]
     mdnum = len(txtnum)
-    if not txtnum:
-        name_list = list(make_name_list())
-        init_name(name_list)
-        app = QApplication(sys.argv)
-        welcom = QMessageBox()
-        welcom.setWindowTitle("欢迎使用")
-        welcom.setText("欢迎使用沉梦课堂点名器！\n本程序支持单抽，连抽。同时提供单抽时背景音乐、多名单支持、数据导出等功能。\n\n请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n名字1\n名字2\n名字3\n名字4\n名字5\n名字6\n......\n\n请在名单管理器中处理好名单，下次运行将开启名单校验功能。\n\n如需帮助请点击关于按钮。\n\n沉梦小站")
-        # 设置消息框的图标和按钮
-        welcom.setIconPixmap(QIcon('picker.ico').pixmap(64, 64))  # 64x64 大小的图标
-        welcom.setStandardButtons(QMessageBox.Ok)
-        welcom.exec_()
-        is_first_run = '1'
-        opentext(name_path)
-        # 显示另一个弹窗
-        second_message = QMessageBox()
-        second_message.setWindowTitle("提示")
-        second_message.setText("！！！请在名单管理器中处理好名单，下次运行将开启名单校验功能！！！")
-        second_message.setStandardButtons(QMessageBox.Ok)
-        second_message.exec_()
-        name_list_selector()
-        print("这应该是首次启动")
-
     if mdnum > select:
         # 创建窗口和UI元素
         app1 = QApplication([])
@@ -261,12 +256,7 @@ def name_list_selector():
         window.show()
         app1.exec_()
     else:
-        pass
-
-
-if __name__ == '__main__':
-    name_list_selector()
-
+        pass 
 
 def cs_sha256():
     delrecordfile = 0
@@ -456,13 +446,6 @@ def manage_deadline(now):
             remove_directory("bak")
         write_to_file()
         print(f"生成了一个随机截止日期: {result_time}。写入文件。")
-
-
-if __name__ == '__main__':
-    if is_first_run != "1":
-        cs_sha256()
-    else:
-        pass
 
 
 class Ui_MainWindow(QMainWindow):
@@ -1217,6 +1200,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
 if __name__ == "__main__":
+    if is_first_run != "1":
+        name_list_selector()
+        cs_sha256()
+    elif is_first_run == "1":
+        first_run()
+        name_list_selector()
+    else:
+        pass
     if hasattr(QtCore.Qt, "AA_EnableHighDpiScaling"):
         QtWidgets.QApplication.setAttribute(
             QtCore.Qt.AA_EnableHighDpiScaling, True)
