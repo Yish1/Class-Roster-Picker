@@ -1,0 +1,472 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 课堂点名器\n"
+"POT-Creation-Date: 2024-03-17 14:24+0800\n"
+"PO-Revision-Date: 2024-03-17 14:25+0800\n"
+"Last-Translator: \n"
+"Language-Team: cmxz.top\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: 5.92.py:46
+msgid "默认名单"
+msgstr ""
+
+#: 5.92.py:84 5.92.py:100 5.92.py:107 5.92.py:114 5.92.py:117
+msgid "语音播报"
+msgstr ""
+
+#: 5.92.py:85
+msgid ""
+"需要开启语音播报功能吗？\n"
+"单抽后会播报抽取结果。\n"
+msgstr ""
+
+#: 5.92.py:87
+msgid "好的"
+msgstr ""
+
+#: 5.92.py:88 5.92.py:923
+msgid "下次一定"
+msgstr ""
+
+#: 5.92.py:90
+msgid "听写模式(不会读\"恭喜\")"
+msgstr ""
+
+#: 5.92.py:91 5.92.py:924 5.92.py:950
+msgid "取消"
+msgstr ""
+
+#: 5.92.py:100
+msgid "语音播报已经开启，您可以删除目录下的allownametts.ini重新设置此功能。"
+msgstr ""
+
+#: 5.92.py:107
+msgid "语音播报已禁用，您可以删除目录下的allownametts.ini重新设置此功能。"
+msgstr ""
+
+#: 5.92.py:114
+msgid "语音播报（听写模式）已启用，您可以删除目录下的allownametts.ini重新设置此功能。"
+msgstr ""
+
+#: 5.92.py:117
+msgid "目录下的allownametts.ini中不是一个有效的值"
+msgstr ""
+
+#: 5.92.py:126
+msgid "语音播报已开启"
+msgstr ""
+
+#: 5.92.py:130
+msgid "语音播报（听写模式）已开启"
+msgstr ""
+
+#: 5.92.py:135
+msgid "语音播报已关闭"
+msgstr ""
+
+#: 5.92.py:143
+msgid "欢迎使用"
+msgstr ""
+
+#: 5.92.py:144
+msgid ""
+"欢迎使用沉梦课堂点名器！\n"
+"本程序支持单抽，连抽。同时提供单抽时背景音乐、多名单支持、数据导出等功能。\n"
+"\n"
+"请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入一个名字，像下面这样）：\n"
+"名字1\n"
+"名字2\n"
+"名字3\n"
+"名字4\n"
+"名字5\n"
+"名字6\n"
+"......\n"
+"\n"
+"请在名单管理器中处理好名单，下次运行将开启名单校验功能。\n"
+"\n"
+"如需帮助请点击关于按钮。\n"
+"\n"
+"沉梦小站"
+msgstr ""
+
+#: 5.92.py:151
+msgid "这应该是首次启动"
+msgstr ""
+
+#: 5.92.py:162
+msgid "已配置为名单数量大于1时显示选择窗口"
+msgstr ""
+
+#: 5.92.py:165
+msgid "配置文件仅支持0或1，0或其他数字默认为0"
+msgstr ""
+
+#: 5.92.py:168
+msgid "名单管理器配置文件错误或不存在，默认名单数量大于0时显示选择窗口"
+msgstr ""
+
+#: 5.92.py:181
+msgid "名单管理"
+msgstr ""
+
+#: 5.92.py:190
+msgid "确定"
+msgstr ""
+
+#: 5.92.py:201 5.92.py:213
+msgid "新增名单"
+msgstr ""
+
+#: 5.92.py:204 5.92.py:234
+msgid "删除名单"
+msgstr ""
+
+#: 5.92.py:207 5.92.py:254
+msgid "修改名单"
+msgstr ""
+
+#: 5.92.py:213
+msgid "请输入名单名称:(文件名即可，无需输入.txt)"
+msgstr ""
+
+#: 5.92.py:220
+msgid "已创建名为 '%s.txt' 的文件，路径为: %s"
+msgstr ""
+
+#: 5.92.py:224
+msgid "新建成功"
+msgstr ""
+
+#: 5.92.py:234
+msgid "请输入要删除的名单名称:(文件名即可，无需输入.txt)"
+msgstr ""
+
+#: 5.92.py:240
+msgid "已成功删除名为 '%s.txt' 的文件。"
+msgstr ""
+
+#: 5.92.py:242
+msgid "删除成功"
+msgstr ""
+
+#: 5.92.py:249 5.92.py:262 5.92.py:272
+msgid "名单文件不存在"
+msgstr ""
+
+#: 5.92.py:249 5.92.py:262 5.92.py:272 5.92.py:329 5.92.py:371 5.92.py:976
+#: 5.92.py:1002 5.92.py:1007 5.92.py:1013 5.92.py:1108 5.92.py:1179
+msgid "警告"
+msgstr ""
+
+#: 5.92.py:254
+msgid "请输入要修改的名单名称:(文件名即可，无需输入.txt)"
+msgstr ""
+
+#: 5.92.py:321
+msgid "文件内容一致。"
+msgstr ""
+
+#: 5.92.py:323
+msgid "文件内容不一致。以下是修改的内容："
+msgstr ""
+
+#: 5.92.py:331
+msgid ""
+"警告：%s 最近被修改，加号是新增的，减号是减少的\n"
+"\n"
+"符号后面如果是空的请无视(由名单格式不规范造成)\n"
+"\n"
+"请以名字前符号为准！！！\n"
+"\n"
+"此记录会在 2天后 不再展示。\n"
+"%s"
+msgstr ""
+
+#: 5.92.py:372
+msgid "警告：%s 的备份被删除，此名单可能已经被修改！"
+msgstr ""
+
+#: 5.92.py:384
+msgid "加密文件不存在"
+msgstr ""
+
+#: 5.92.py:392
+msgid "解密文件不存在"
+msgstr ""
+
+#: 5.92.py:419
+msgid "名单校验已重置"
+msgstr ""
+
+#: 5.92.py:454
+msgid "数据文件夹已删除。"
+msgstr ""
+
+#: 5.92.py:497
+msgid "读取到的有效名单长度 :"
+msgstr ""
+
+#: 5.92.py:499
+msgid "沉梦课堂点名器"
+msgstr ""
+
+#: 5.92.py:858 5.92.py:990 5.92.py:1155
+msgid "沉梦课堂点名器%.1f"
+msgstr ""
+
+#: 5.92.py:859
+msgid "幸运儿是 {}"
+msgstr ""
+
+#: 5.92.py:861 5.92.py:875
+msgid "开始"
+msgstr ""
+
+#: 5.92.py:862
+msgid "关于"
+msgstr ""
+
+#: 5.92.py:863
+msgid "结束"
+msgstr ""
+
+#: 5.92.py:864
+msgid "修改名单文件"
+msgstr ""
+
+#: 5.92.py:865
+msgid "查看历史记录"
+msgstr ""
+
+#: 5.92.py:866
+msgid "统计中奖人员"
+msgstr ""
+
+#: 5.92.py:867
+msgid "背景音乐目录"
+msgstr ""
+
+#: 5.92.py:868
+msgid "获取更多应用"
+msgstr ""
+
+#: 5.92.py:869
+msgid "点过的姓名："
+msgstr ""
+
+#: 5.92.py:872
+msgid "查看点过的名字"
+msgstr ""
+
+#: 5.92.py:873
+msgid "连抽模式"
+msgstr ""
+
+#: 5.92.py:874
+msgid "连抽人数"
+msgstr ""
+
+#: 5.92.py:876
+msgid "选择了%s,共有:%s人"
+msgstr ""
+
+#: 5.92.py:887
+msgid "检测到新版本！请点击左上角“更新”下载新版"
+msgstr ""
+
+#: 5.92.py:889
+msgid "检测到新版本:"
+msgstr ""
+
+#: 5.92.py:890
+msgid "当前版本为:"
+msgstr ""
+
+#: 5.92.py:892
+msgid "更新"
+msgstr ""
+
+#: 5.92.py:897
+msgid "云端最新版本为%s，要现在下载新版本吗？<br>您也可以稍后点击点名器左上角'更新'按钮升级新版本"
+msgstr ""
+
+#: 5.92.py:897
+msgid "检测到新版本"
+msgstr ""
+
+#: 5.92.py:905
+msgid "当前已经是最新版本:"
+msgstr ""
+
+#: 5.92.py:907
+msgid "网络异常,无法检测更新"
+msgstr ""
+
+#: 5.92.py:908
+msgid "网络连接异常，检查更新失败"
+msgstr ""
+
+#: 5.92.py:912
+msgid "检查更新已关闭"
+msgstr ""
+
+#: 5.92.py:917 5.92.py:933 5.92.py:959 5.92.py:964
+msgid "检查更新"
+msgstr ""
+
+#: 5.92.py:919
+msgid ""
+"需要开启检查更新功能吗？\n"
+"新版本会带来新功能、优化以及修复错误。\n"
+"在服务器发布新版本后，会在您打开点名器时收到更新的提示"
+msgstr ""
+
+#: 5.92.py:921
+msgid "好的，谢谢你"
+msgstr ""
+
+#: 5.92.py:929 5.92.py:955
+msgid "检查更新已开启"
+msgstr ""
+
+#: 5.92.py:933 5.92.py:959
+msgid "检查更新功能已经开启，您可以删除目录下的allowcheck.ini重新设置此功能。"
+msgstr ""
+
+#: 5.92.py:939
+msgid "真的不需要吗（π一π）"
+msgstr ""
+
+#: 5.92.py:941
+msgid ""
+"我们的每一次的更新都是很有意义的，能给您带来更好的体验，真的不开启检查更新功能吗？\n"
+"o(╥﹏╥)o\n"
+"o(╥﹏╥)o\n"
+"o(╥﹏╥)o"
+msgstr ""
+
+#: 5.92.py:943
+msgid "行吧，我准许了"
+msgstr ""
+
+#: 5.92.py:945
+msgid "算了，我同意了"
+msgstr ""
+
+#: 5.92.py:947
+msgid "不要，我不要啊"
+msgstr ""
+
+#: 5.92.py:949
+msgid "行了，快开启吧"
+msgstr ""
+
+#: 5.92.py:964
+msgid "目录下的allowcheck.ini中不是一个有效的值"
+msgstr ""
+
+#: 5.92.py:976
+msgid "啥玩意呀？请输入数字!!!"
+msgstr ""
+
+#: 5.92.py:992 5.92.py:1048
+msgid "点名器中奖名单.txt"
+msgstr ""
+
+#: 5.92.py:995 5.92.py:1160
+msgid "无法写入历史记录"
+msgstr ""
+
+#: 5.92.py:1002
+msgid "你见过负数个人么???????"
+msgstr ""
+
+#: 5.92.py:1007
+msgid "人都被你吃了？？？"
+msgstr ""
+
+#: 5.92.py:1014
+msgid "你的名单中只有 %s 人 <br>连抽模式下不会重复抽取，请不要超过名单最大人数！"
+msgstr ""
+
+#: 5.92.py:1026
+msgid "确定要修改名单？"
+msgstr ""
+
+#: 5.92.py:1027
+msgid "读取到名单中有 %s 人 <br> 接下来将关闭点名器确保名单能被正常修改，名单修改后会触发名单校验功能，名单被修改的部分将会被展示两天，要继续吗？<br>在打开的文件中输入名字，一行一个"
+msgstr ""
+
+#: 5.92.py:1038
+msgid "./点名器中奖名单.txt"
+msgstr ""
+
+#: 5.92.py:1042
+msgid "背景音乐"
+msgstr ""
+
+#: 5.92.py:1042
+msgid ""
+"若要使用背景音乐功能，请在稍后打开的文件夹中放入mp3格式的背景音乐 \n"
+"删除文件夹中的音乐则关闭此功能"
+msgstr ""
+
+#: 5.92.py:1061
+msgid "正在保存为文本"
+msgstr ""
+
+#: 5.92.py:1062
+msgid "中奖名单统计(统计会覆盖上一次结果):\n"
+msgstr ""
+
+#: 5.92.py:1064
+msgid "%s 出现了 %s 次\n"
+msgstr ""
+
+#: 5.92.py:1067
+msgid "保存结果"
+msgstr ""
+
+#: 5.92.py:1067
+msgid "统计结果已保存到'中奖统计.txt'"
+msgstr ""
+
+#: 5.92.py:1108
+msgid "名单文件为空，请输入名字（一行一个）后再重新打开本软件"
+msgstr ""
+
+#: 5.92.py:1113
+msgid "恭喜 {}！"
+msgstr ""
+
+#: 5.92.py:1132
+msgid "要使用背景音乐功能，请在 %s 中放入mp3格式的音乐"
+msgstr ""
+
+#: 5.92.py:1139
+msgid "播放音乐：%s"
+msgstr ""
+
+#: 5.92.py:1143
+msgid "无法播放音乐文件：%s，错误信息：{str(e)}"
+msgstr ""
+
+#: 5.92.py:1168
+msgid "恭喜 %s"
+msgstr ""
+
+#: 5.92.py:1179
+msgid "还没开始就想结束？"
+msgstr ""
