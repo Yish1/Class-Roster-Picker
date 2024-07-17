@@ -10,7 +10,6 @@ import gettext
 import glob
 import ctypes
 import win32com.client
-#import ptvsd  # QThread断点工具
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QCursor, QIcon, QPixmap
 from PyQt5.QtCore import Qt, QTimer
@@ -868,7 +867,7 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_11.setText(_translate("MainWindow", _("获取更多应用")))
         self.label_2.setText(_translate("MainWindow", _("点过的姓名：")))
         self.label_4.setText(_translate(
-            "MainWindow", "制作：Yish_，QQB，limuy2022  v%.1f") % dmversion)
+            "MainWindow", "制作：Yish_，QQB，limuy2022  v%s") % dmversion)
         self.pushButton_5.setText(_translate("MainWindow", _("查看点过的名字")))
         self.pushButton_6.setText(_translate("MainWindow", _("连抽模式")))
         self.label_3.setText(_translate("MainWindow", _("连抽人数")))

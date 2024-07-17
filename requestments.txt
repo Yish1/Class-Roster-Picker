@@ -1,0 +1,6 @@
+requests
+pygame
+pywin32
+PyQt5
+datetime
+pycryptodome
