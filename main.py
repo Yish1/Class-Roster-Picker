@@ -854,7 +854,7 @@ class Ui_MainWindow(QMainWindow):
         _translate = QtCore.QCoreApplication.translate
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate(
-            "MainWindow", _("沉梦课堂点名器%.1f")) % dmversion)  # 任务栏名称
+            "MainWindow", _("沉梦课堂点名器%s")) % dmversion)  # 任务栏名称
         self.label.setText(_translate("MainWindow", _("幸运儿是 {}")))
         self.label.setStyleSheet("color:white")
         self.pushButton.setText(_translate("MainWindow", _("开始")))
@@ -982,7 +982,7 @@ class Ui_MainWindow(QMainWindow):
             try:
                 print(
                     today,
-                    _("沉梦课堂点名器%.1f") % dmversion,
+                    _("沉梦课堂点名器%s") % dmversion,
                     "幸运儿是： %s " % name_set,
                     file=open(_("点名器中奖名单.txt"), "a"),
                 )
@@ -1105,7 +1105,7 @@ class Ui_MainWindow(QMainWindow):
             )
             sys.exit()
         name = random.choice(name_list)
-        self.label.setText(_("🎉 {}！").format(name))
+        self.label.setText(_("🎉 {}").format(name))
 
     def start(self):
         global running
@@ -1147,7 +1147,7 @@ class Ui_MainWindow(QMainWindow):
             try:
                 print(
                     today,
-                    _("沉梦课堂点名器%.1f") % dmversion,
+                    _("沉梦课堂点名器%s") % dmversion,
                     "幸运儿是： %s " % name,
                     file=open("点名器中奖名单.txt", "a"),
                 )
