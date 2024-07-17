@@ -2,14 +2,15 @@
 # Copyright (C) YEAR ORGANIZATION
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
+"Project-Id-Version: 课堂点名器\n"
 "POT-Creation-Date: 2024-07-17 11:31+0800\n"
-"PO-Revision-Date: 2024-07-17 11:36+0800\n"
+"PO-Revision-Date: 2024-07-17 11:49+0800\n"
 "Last-Translator: \n"
 "Language-Team: cmxz.top\n"
-"Language: en_US\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: E:\github\Class-Roster-Picker\main.py:46
 msgid "默认名单"
-msgstr "Default_list"
+msgstr "預設名單"
 
 #: E:\github\Class-Roster-Picker\main.py:84
 #: E:\github\Class-Roster-Picker\main.py:100
@@ -27,82 +28,88 @@ msgstr "Default_list"
 #: E:\github\Class-Roster-Picker\main.py:114
 #: E:\github\Class-Roster-Picker\main.py:117
 msgid "语音播报"
-msgstr "voice broadcast"
+msgstr "語音播報"
 
 #: E:\github\Class-Roster-Picker\main.py:85
 msgid ""
 "需要开启语音播报功能吗？\n"
 "单抽后会播报抽取结果。\n"
 msgstr ""
-"Do you need to turn on the voice broadcast feature?\n"
-"After a single draw, the draw results will be announced.\n"
+"需要開啟語音播報功能嗎？\n"
+"單抽後會播報抽取結果。\n"
 
 #: E:\github\Class-Roster-Picker\main.py:87
 msgid "好的"
-msgstr "Ok"
+msgstr "好的"
 
 #: E:\github\Class-Roster-Picker\main.py:88
 #: E:\github\Class-Roster-Picker\main.py:919
 msgid "下次一定"
-msgstr "Next time."
+msgstr "下次一定"
 
 #: E:\github\Class-Roster-Picker\main.py:90
 msgid "听写模式(不会读\"恭喜\")"
-msgstr "Dictation mode (don't read \"congratulations\")"
+msgstr "聽寫模式(不會唸\"恭喜\")"
 
 #: E:\github\Class-Roster-Picker\main.py:91
 #: E:\github\Class-Roster-Picker\main.py:920
 #: E:\github\Class-Roster-Picker\main.py:946
 msgid "取消"
-msgstr "Cancel"
+msgstr "取消"
 
 #: E:\github\Class-Roster-Picker\main.py:100
-msgid "语音播报已经开启，您可以删除目录下的allownametts.ini重新设置此功能。"
+msgid ""
+"语音播报已经开启，您可以删除目录下的allownametts."
+"ini重新设置此功能。"
 msgstr ""
-"Voice broadcast is already enabled, you can reset this feature by deleting "
-"allownametts.ini in the directory."
+"語音播報已經開啟，您可以刪除目錄下的allownametts."
+"ini重新設定此功能。"
 
 #: E:\github\Class-Roster-Picker\main.py:107
-msgid "语音播报已禁用，您可以删除目录下的allownametts.ini重新设置此功能。"
+msgid ""
+"语音播报已禁用，您可以删除目录下的allownametts."
+"ini重新设置此功能。"
 msgstr ""
-"Voice broadcast is disabled, you can reset this feature by deleting "
-"allownametts.ini in the directory."
+"語音播報已停用，您可以刪除目錄下的allownametts."
+"ini重新設定此功能。"
 
 #: E:\github\Class-Roster-Picker\main.py:114
 msgid ""
-"语音播报（听写模式）已启用，您可以删除目录下的allownametts.ini重新设置此功"
-"能。"
+"语音播报（听写模式）已启用，您可以删除目录下的"
+"allownametts.ini重新设置此功能。"
 msgstr ""
-"Voice broadcast (dictation mode) is enabled, you can reset this feature by "
-"deleting allownametts.ini in the directory."
+"語音播報（聽寫模式）已啟用，您可以刪除目錄下的"
+"allownametts.ini重新設定此功能。"
 
 #: E:\github\Class-Roster-Picker\main.py:117
 msgid "目录下的allownametts.ini中不是一个有效的值"
-msgstr "allowednametts.ini in the directory contains an invalid value"
+msgstr "目錄下的allownametts.ini中不是一个有效的值"
 
 #: E:\github\Class-Roster-Picker\main.py:126
 msgid "语音播报已开启"
-msgstr "The voice broadcast is turn on."
+msgstr "語音播報已開啟"
 
 #: E:\github\Class-Roster-Picker\main.py:130
 msgid "语音播报（听写模式）已开启"
-msgstr "Voice broadcast (dictation mode) is turned on"
+msgstr "語音播報（聽寫模式）已開啟"
 
 #: E:\github\Class-Roster-Picker\main.py:135
 msgid "语音播报已关闭"
-msgstr "The voice broadcast is turn off."
+msgstr "語音播報已關閉"
 
 #: E:\github\Class-Roster-Picker\main.py:143
 msgid "欢迎使用"
-msgstr "Welcome"
+msgstr "歡迎使用"
 
 #: E:\github\Class-Roster-Picker\main.py:144
 msgid ""
 "欢迎使用沉梦课堂点名器！\n"
-"本程序支持单抽，连抽。同时提供单抽时背景音乐、多名单支持、数据导出等功能。\n"
+"本程序支持单抽，连抽。同时提供单抽时背景音乐、多"
+"名单支持、数据导出等功能。\n"
 "\n"
-"请及时修改目录下的名单文件，请确保格式正确（将原本的1-20的数字删除，一行输入"
-"一个名字，像下面这样）：\n"
+"请及时修改目录下的名单文件，请确保格式正确（将原"
+"本的1-20的数字删除，一行输入一个名字，像下面这"
+"样）：\n"
 "名字1\n"
 "名字2\n"
 "名字3\n"
@@ -111,111 +118,109 @@ msgid ""
 "名字6\n"
 "......\n"
 "\n"
-"请在名单管理器中处理好名单，下次运行将开启名单校验功能。\n"
+"请在名单管理器中处理好名单，下次运行将开启名单校"
+"验功能。\n"
 "\n"
 "如需帮助请点击关于按钮。\n"
 "\n"
 "沉梦小站"
 msgstr ""
-"Welcome to the Deep Dream Class Roster Picker !\n"
-"This program supports single draws, consecutive draws. It also provides "
-"functions such as background music during single draws, support for multiple "
-"lists, and data export.\n"
+"歡迎使用沉夢課堂點名器！\n"
+"本程序支持單抽，連抽。同時提供單抽時背景音樂、多"
+"名單支援、資料匯出等功能。\n"
 "\n"
-"Please make sure to update the name list file in the directory in a timely "
-"manner, ensuring the correct format (delete the original numbers 1-20, input "
-"one name per line, like below):\n"
-"John\n"
-"Mike\n"
-"Bob\n"
-"Name 4\n"
-"Name 5\n"
-"Name 6\n"
-"......\n"
+"請及時修改目錄下的名單文件，請確保格式正確（將原"
+"本的1-20的數字刪除，一行輸入一個名字，像下面這"
+"樣）：\n"
+"名字1\n"
+"名字2\n"
+"名字3\n"
+"名字4\n"
+"名字5\n"
+"名字6\n"
+".....\n"
 "\n"
-"You can manage the list in the list manager, and next time you run, the list "
-"validation function will be enabled.\n"
+"請在名單管理器中處理好名單，下次執行將開啟名單校"
+"驗功能。\n"
 "\n"
-"If you need assistance, please click the \"About\" button.\n"
+"如需協助請點擊關於按鈕。\n"
 "\n"
-"Deep Dream Blog"
+"沉夢小站"
 
 #: E:\github\Class-Roster-Picker\main.py:151
 msgid "这应该是首次启动"
-msgstr "This should be the first run"
+msgstr "這應該是首次啟動"
 
 #: E:\github\Class-Roster-Picker\main.py:162
 msgid "已配置为名单数量大于1时显示选择窗口"
-msgstr ""
-"Configured to display the selection window when the number of lists is "
-"greater than 1"
+msgstr "已配置為名單數量大於1時顯示選擇窗口"
 
 #: E:\github\Class-Roster-Picker\main.py:165
 msgid "配置文件仅支持0或1，0或其他数字默认为0"
-msgstr ""
-"Configuration files support only 0 or 1, 0 or other numbers default to 0"
+msgstr "設定檔僅支援0或1，0或其他數字預設為0"
 
 #: E:\github\Class-Roster-Picker\main.py:168
-msgid "名单管理器配置文件错误或不存在，默认名单数量大于0时显示选择窗口"
+msgid ""
+"名单管理器配置文件错误或不存在，默认名单数量大于0"
+"时显示选择窗口"
 msgstr ""
-"List Manager configuration file error or non-existent, default list number "
-"greater than 0 shows selection window"
+"名單管理器設定檔錯誤或不存在，預設名單數量大於0時"
+"顯示選擇窗口"
 
 #: E:\github\Class-Roster-Picker\main.py:181
 msgid "名单管理"
-msgstr "List management"
+msgstr "名單管理"
 
 #: E:\github\Class-Roster-Picker\main.py:190
 msgid "确定"
-msgstr "OK"
+msgstr "確認"
 
 #: E:\github\Class-Roster-Picker\main.py:201
 #: E:\github\Class-Roster-Picker\main.py:213
 msgid "新增名单"
-msgstr "Add list"
+msgstr "新增名單"
 
 #: E:\github\Class-Roster-Picker\main.py:204
 #: E:\github\Class-Roster-Picker\main.py:234
 msgid "删除名单"
-msgstr "Del list"
+msgstr "刪除名單"
 
 #: E:\github\Class-Roster-Picker\main.py:207
 msgid "修改名单"
-msgstr "Edit list"
+msgstr "修改名單"
 
 #: E:\github\Class-Roster-Picker\main.py:213
 msgid "请输入名单名称:(文件名即可，无需输入.txt)"
-msgstr ""
-"Please enter the name of the list: (filename is sufficient, no need to "
-"enter .txt)"
+msgstr "請輸入名單名稱:(檔名即可，無須輸入.txt)"
 
 #: E:\github\Class-Roster-Picker\main.py:220
 msgid "已创建名为 '%s.txt' 的文件，路径为: %s"
-msgstr "A file named '%s.txt' has been created, located at: %s"
+msgstr "已建立名為 '%s.txt' 的文件，路徑為: %s"
 
 #: E:\github\Class-Roster-Picker\main.py:224
 msgid "新建成功"
-msgstr "Created file successfully"
+msgstr "新建成功"
 
 #: E:\github\Class-Roster-Picker\main.py:234
-msgid "请输入要删除的名单名称:(文件名即可，无需输入.txt)"
+msgid ""
+"请输入要删除的名单名称:(文件名即可，无需输入.txt)"
 msgstr ""
-"Please enter the name of the list to be deleted:(file name is sufficient, no "
-"need to enter .txt)"
+"請輸入要刪除的名單名稱:(檔案名稱即可，無需輸入."
+"txt)"
 
 #: E:\github\Class-Roster-Picker\main.py:240
 msgid "已成功删除名为 '%s.txt' 的文件。"
-msgstr "The file named '%s.txt' has been successfully deleted."
+msgstr "已成功刪除名為 '%s.txt' 的檔案。"
 
 #: E:\github\Class-Roster-Picker\main.py:242
 msgid "删除成功"
-msgstr "Successfully deleted"
+msgstr "刪除成功"
 
 #: E:\github\Class-Roster-Picker\main.py:249
 #: E:\github\Class-Roster-Picker\main.py:260
 #: E:\github\Class-Roster-Picker\main.py:269
 msgid "名单文件不存在"
-msgstr "Name list file does not exist"
+msgstr "名單文件不存在"
 
 #: E:\github\Class-Roster-Picker\main.py:249
 #: E:\github\Class-Roster-Picker\main.py:260
@@ -229,16 +234,15 @@ msgstr "Name list file does not exist"
 #: E:\github\Class-Roster-Picker\main.py:1104
 #: E:\github\Class-Roster-Picker\main.py:1175
 msgid "警告"
-msgstr "Warning"
+msgstr "警告"
 
 #: E:\github\Class-Roster-Picker\main.py:318
 msgid "文件内容一致。"
-msgstr "The name list file content is consistent."
+msgstr "文件內容一致。"
 
 #: E:\github\Class-Roster-Picker\main.py:320
 msgid "文件内容不一致。以下是修改的内容："
-msgstr ""
-"The name list file content is inconsistent. Here are the modifications:"
+msgstr "文件內容不一致。以下是修改的內容："
 
 #: E:\github\Class-Roster-Picker\main.py:331
 msgid ""
@@ -247,227 +251,226 @@ msgid ""
 "此记录会在 2天后 不再展示。\n"
 "%s"
 msgstr ""
-"Warning: %s has been recently modified. Plus indicates additions, and minus "
-"indicates reductions.\n"
+"警告：%s 最近被修改，加號是新增的，減號是減少的\n"
 "\n"
-"This record will no longer be displayed after 2 days.\n"
+"此記錄會在 2天後 不再展示。\n"
 "%s"
 
 #: E:\github\Class-Roster-Picker\main.py:372
-msgid "警告：%s 的备份被删除，此名单可能已经被修改！"
+msgid ""
+"警告：%s 的备份被删除，此名单可能已经被修改！"
 msgstr ""
-"Warning: The backup of %s has been deleted. This list may have been modified!"
+"警告：%s 的備份已刪除，此名單可能已被修改！"
 
 #: E:\github\Class-Roster-Picker\main.py:384
 msgid "加密文件不存在"
-msgstr "Encrypted file does not exist"
+msgstr "加密檔案不存在"
 
 #: E:\github\Class-Roster-Picker\main.py:392
 msgid "解密文件不存在"
-msgstr "Decryption file does not exist"
+msgstr "解密檔案不存在"
 
 #: E:\github\Class-Roster-Picker\main.py:419
 msgid "名单校验已重置"
-msgstr "Name list validation has been reset"
+msgstr "名單校驗已重置"
 
 #: E:\github\Class-Roster-Picker\main.py:454
 msgid "数据文件夹已删除。"
-msgstr "The data folder has been deleted."
+msgstr "資料資料夾已刪除。"
 
 #: E:\github\Class-Roster-Picker\main.py:497
 msgid "读取到的有效名单长度 :"
-msgstr "Length of valid list read :"
+msgstr "讀取到的有效名單長度 :"
 
 #: E:\github\Class-Roster-Picker\main.py:499
 msgid "沉梦课堂点名器"
-msgstr "Class_roster_picker"
+msgstr "沉夢課堂點名器"
 
 #: E:\github\Class-Roster-Picker\main.py:858
 #: E:\github\Class-Roster-Picker\main.py:986
 #: E:\github\Class-Roster-Picker\main.py:1151
 msgid "沉梦课堂点名器%.1f"
-msgstr "Class_roster_picker%.1f"
+msgstr "沉夢課堂點名器%.1f"
 
 #: E:\github\Class-Roster-Picker\main.py:859
 msgid "幸运儿是 {}"
-msgstr "Lucky one is {}"
+msgstr "幸運兒是 {}"
 
 #: E:\github\Class-Roster-Picker\main.py:861
 #: E:\github\Class-Roster-Picker\main.py:875
 msgid "开始"
-msgstr "Start"
+msgstr "開始"
 
 #: E:\github\Class-Roster-Picker\main.py:862
 msgid "关于"
-msgstr "About"
+msgstr "關於"
 
 #: E:\github\Class-Roster-Picker\main.py:863
 msgid "结束"
-msgstr "Stop"
+msgstr "結束"
 
 #: E:\github\Class-Roster-Picker\main.py:864
 msgid "修改名单文件"
-msgstr "Edit name file"
+msgstr "修改名單文件"
 
 #: E:\github\Class-Roster-Picker\main.py:865
 msgid "查看历史记录"
-msgstr "View History"
+msgstr "查看歷史記錄"
 
 #: E:\github\Class-Roster-Picker\main.py:866
 msgid "统计中奖人员"
-msgstr "Result Stats"
+msgstr "統計中獎人員"
 
 #: E:\github\Class-Roster-Picker\main.py:867
 msgid "背景音乐目录"
-msgstr "Music Dir"
+msgstr "背景音樂目錄"
 
 #: E:\github\Class-Roster-Picker\main.py:868
 msgid "获取更多应用"
-msgstr "More Apps"
+msgstr "取得更多應用"
 
 #: E:\github\Class-Roster-Picker\main.py:869
 msgid "点过的姓名："
-msgstr "Names have been called："
+msgstr "點過的姓名："
 
 #: E:\github\Class-Roster-Picker\main.py:872
 msgid "查看点过的名字"
-msgstr "History"
+msgstr "看點過的名字"
 
 #: E:\github\Class-Roster-Picker\main.py:873
 msgid "连抽模式"
-msgstr "More"
+msgstr "連抽模式"
 
 #: E:\github\Class-Roster-Picker\main.py:874
 msgid "连抽人数"
-msgstr "Draw Count"
+msgstr "連抽人數"
 
-# ：: 5.92.py:858
 #: E:\github\Class-Roster-Picker\main.py:876
 msgid "选择了%s,共有:%s人"
-msgstr "Selected %s, Total of %s people."
+msgstr "選了%s,共有:%s人"
 
 #: E:\github\Class-Roster-Picker\main.py:887
 msgid "检测到新版本！请点击左上角“更新”下载新版"
-msgstr ""
-"A new version has been detected! Please click \"Update\" in the upper left "
-"corner to download the new version."
+msgstr "偵測到新版本！請點選左上角「更新」下載新版"
 
 #: E:\github\Class-Roster-Picker\main.py:889
 msgid "检测到新版本:"
-msgstr "New version detected."
+msgstr "偵測到新版本:"
 
 #: E:\github\Class-Roster-Picker\main.py:890
 msgid "当前版本为:"
-msgstr "The current version is."
+msgstr "目前版本為:"
 
 #: E:\github\Class-Roster-Picker\main.py:892
 msgid "更新"
-msgstr "Update"
+msgstr "更新"
 
 #: E:\github\Class-Roster-Picker\main.py:893
 msgid ""
-"云端最新版本为%s，要现在下载新版本吗？<br>您也可以稍后点击点名器左上角'更"
-"新'按钮升级新版本"
+"云端最新版本为%s，要现在下载新版本吗？<br>您也可"
+"以稍后点击点名器左上角'更新'按钮升级新版本"
 msgstr ""
-"The latest version in the cloud is %s. Do you want to download the new "
-"version now?<br>Alternatively, you can click the 'Update' button in the top "
-"left corner of the attendance caller later to upgrade to the new version."
+"雲端最新版本為%s，現在要下載新版本嗎？<br>您也可"
+"以稍後點選點名器左上角'更新'按鈕升級新版本"
 
 #: E:\github\Class-Roster-Picker\main.py:893
 msgid "检测到新版本"
-msgstr "New version detected"
+msgstr "偵測到新版本"
 
 #: E:\github\Class-Roster-Picker\main.py:901
 msgid "当前已经是最新版本:"
-msgstr "Currently in the latest version."
+msgstr "目前已經是最新版本:"
 
 #: E:\github\Class-Roster-Picker\main.py:903
 msgid "网络异常,无法检测更新"
-msgstr "Network error,unable to check for updates."
+msgstr "網路異常,無法偵測更新"
 
 #: E:\github\Class-Roster-Picker\main.py:904
 msgid "网络连接异常，检查更新失败"
-msgstr "Network error,unable to check for updates."
+msgstr "網路連線異常，檢查更新失敗"
 
 #: E:\github\Class-Roster-Picker\main.py:908
 msgid "检查更新已关闭"
-msgstr "Update checking disabled"
+msgstr "檢查更新已關閉"
 
 #: E:\github\Class-Roster-Picker\main.py:913
 #: E:\github\Class-Roster-Picker\main.py:929
 #: E:\github\Class-Roster-Picker\main.py:955
 #: E:\github\Class-Roster-Picker\main.py:960
 msgid "检查更新"
-msgstr "Check for updates"
+msgstr "檢查更新"
 
 #: E:\github\Class-Roster-Picker\main.py:915
 msgid ""
 "需要开启检查更新功能吗？\n"
 "新版本会带来新功能、优化以及修复错误。\n"
-"在服务器发布新版本后，会在您打开点名器时收到更新的提示"
+"在服务器发布新版本后，会在您打开点名器时收到更新"
+"的提示"
 msgstr ""
-"Do you want to enable the update check function? \n"
-"New versions may bring new features, optimizations, and bug fixes. \n"
-"You'll receive a prompt for updates when you open the software after a new "
-"version is released on the server."
+"需要開啟檢查更新功能嗎？\n"
+"新版本會帶來新功能、最佳化以及修復錯誤。\n"
+"伺服器發布新版本後，會在您開啟點名器時收到更新的"
+"提示"
 
 #: E:\github\Class-Roster-Picker\main.py:917
 msgid "好的，谢谢你"
-msgstr "Okay. Thank you"
+msgstr "好的，謝謝你"
 
 #: E:\github\Class-Roster-Picker\main.py:925
 #: E:\github\Class-Roster-Picker\main.py:951
 msgid "检查更新已开启"
-msgstr "Checking for updates is enable"
+msgstr "檢查更新已開啟"
 
 #: E:\github\Class-Roster-Picker\main.py:929
 #: E:\github\Class-Roster-Picker\main.py:955
-msgid "检查更新功能已经开启，您可以删除目录下的allowcheck.ini重新设置此功能。"
+msgid ""
+"检查更新功能已经开启，您可以删除目录下的"
+"allowcheck.ini重新设置此功能。"
 msgstr ""
-"Check for updates is enabled, you can reset this feature by deleting "
-"allowcheck.ini in the directory."
+"檢查更新功能已開啟，您可以刪除目錄下的allowcheck."
+"ini重新設定此功能。"
 
 #: E:\github\Class-Roster-Picker\main.py:935
 msgid "真的不需要吗（π一π）"
-msgstr "Do you really not need it? (π一π)"
+msgstr "真的不需要嗎（π一π）"
 
 #: E:\github\Class-Roster-Picker\main.py:937
 msgid ""
-"我们的每一次的更新都是很有意义的，能给您带来更好的体验，真的不开启检查更新功"
-"能吗？\n"
+"我们的每一次的更新都是很有意义的，能给您带来更好"
+"的体验，真的不开启检查更新功能吗？\n"
 "o(╥﹏╥)o\n"
 "o(╥﹏╥)o\n"
 "o(╥﹏╥)o"
 msgstr ""
-"Each of our updates is meaningful and can bring you a better experience, Are "
-"you sure to disable the update check feature?\n"
+"我們的每一次的更新都是很有意義的，能帶給您更好的"
+"體驗，真的不開啟檢查更新功能嗎？\n"
 "o(╥﹏╥)o\n"
 "o(╥﹏╥)o\n"
 "o(╥﹏╥)o"
 
 #: E:\github\Class-Roster-Picker\main.py:939
 msgid "行吧，我准许了"
-msgstr "All right, I'll allow it"
+msgstr "行吧，我準許了"
 
 #: E:\github\Class-Roster-Picker\main.py:941
 msgid "算了，我同意了"
-msgstr "OFC, I agree"
+msgstr "算了，我同意了"
 
 #: E:\github\Class-Roster-Picker\main.py:943
 msgid "不要，我不要啊"
-msgstr "No, I don't want it"
+msgstr "不要，我不要啊"
 
 #: E:\github\Class-Roster-Picker\main.py:945
 msgid "行了，快开启吧"
-msgstr "All right, turn it on"
+msgstr "行了，快開啟吧"
 
 #: E:\github\Class-Roster-Picker\main.py:960
 msgid "目录下的allowcheck.ini中不是一个有效的值"
-msgstr "allowcheck.ini in the directory contains an invalid value"
+msgstr "目錄下的allowcheck.ini中不是一個有效的值"
 
 #: E:\github\Class-Roster-Picker\main.py:972
 msgid "啥玩意呀？请输入数字!!!"
-msgstr "What the heck? Please enter the numbers!!!!!"
+msgstr "啥玩意呀？請輸入數字!!!"
 
 #: E:\github\Class-Roster-Picker\main.py:988
 #: E:\github\Class-Roster-Picker\main.py:1044
@@ -477,39 +480,39 @@ msgstr "点名器中奖名单.txt"
 #: E:\github\Class-Roster-Picker\main.py:991
 #: E:\github\Class-Roster-Picker\main.py:1156
 msgid "无法写入历史记录"
-msgstr "Unable to write history"
+msgstr "無法寫入歷史記錄"
 
 #: E:\github\Class-Roster-Picker\main.py:998
 msgid "你见过负数个人么???????"
-msgstr "Have you ever seen a negative number of individuals ???????"
+msgstr "你看過負數個人麼???????"
 
 #: E:\github\Class-Roster-Picker\main.py:1003
 msgid "人都被你吃了？？？"
-msgstr "Did you eat all the people?"
+msgstr "人都被你吃了？ ？ ？"
 
 #: E:\github\Class-Roster-Picker\main.py:1010
 msgid ""
-"你的名单中只有 %s 人 <br>连抽模式下不会重复抽取，请不要超过名单最大人数！"
+"你的名单中只有 %s 人 <br>连抽模式下不会重复抽取，"
+"请不要超过名单最大人数！"
 msgstr ""
-"You have only %s people on your list <br>The drawing will not be repeated in "
-"consecutive mode, so please do not exceed the maximum number of people on "
-"your list!"
+"你的名單中只有%s 人<br>連抽模式下不會重複抽取，請"
+"不要超過名單最大人數！"
 
 #: E:\github\Class-Roster-Picker\main.py:1022
 msgid "确定要修改名单？"
-msgstr "Are you sure you want to modify the list?"
+msgstr "確定要修改名單？"
 
 #: E:\github\Class-Roster-Picker\main.py:1023
 msgid ""
-"读取到名单中有 %s 人 <br> 接下来将关闭点名器确保名单能被正常修改，名单修改后"
-"会触发名单校验功能，名单被修改的部分将会被展示两天，要继续吗？<br>在打开的文"
-"件中输入名字，一行一个"
+"读取到名单中有 %s 人 <br> 接下来将关闭点名器确保"
+"名单能被正常修改，名单修改后会触发名单校验功能，"
+"名单被修改的部分将会被展示两天，要继续吗？<br>在"
+"打开的文件中输入名字，一行一个"
 msgstr ""
-"The list contains %s individuals. <br> Next, the attendance caller will be "
-"closed to ensure that the list can be modified properly. The list validation "
-"function will be triggered after the list is modified. The modified portion "
-"of the list will be displayed for two days. Do you want to continue? <br> "
-"Enter names in the opened file, one per line."
+"讀取到名單中有%s 人<br>接下來將關閉點名器確保名單"
+"能被正常修改，名單修改後會觸發名單校驗功能，名單"
+"被修改的部分將會被展示兩天，要繼續嗎？<br>在打開"
+"的文件中輸入名字，一行一個"
 
 #: E:\github\Class-Roster-Picker\main.py:1034
 msgid "./点名器中奖名单.txt"
@@ -517,79 +520,75 @@ msgstr "./点名器中奖名单.txt"
 
 #: E:\github\Class-Roster-Picker\main.py:1038
 msgid "背景音乐"
-msgstr "Background music (BGM)"
+msgstr "背景音樂"
 
 #: E:\github\Class-Roster-Picker\main.py:1038
 msgid ""
-"若要使用背景音乐功能，请在稍后打开的文件夹中放入mp3格式的背景音乐 \n"
+"若要使用背景音乐功能，请在稍后打开的文件夹中放入"
+"mp3格式的背景音乐 \n"
 "删除文件夹中的音乐则关闭此功能"
 msgstr ""
-"If you want to use the background music function, please put the \"mp3\" "
-"format in the folder that will be opened later.\n"
-"Deleting the music in the folder disables this function"
+"若要使用背景音樂功能，請在稍後開啟的資料夾中放入"
+"mp3格式的背景音樂\n"
+"刪除資料夾中的音樂則關閉此功能"
 
 #: E:\github\Class-Roster-Picker\main.py:1057
 msgid "正在保存为文本"
-msgstr "Being saved as text"
+msgstr "正在儲存為文本"
 
 #: E:\github\Class-Roster-Picker\main.py:1058
 msgid "中奖名单统计(统计会覆盖上一次结果):\n"
-msgstr "Picker list statistics (statistics will overwrite the last results).\n"
+msgstr "中獎名單統計(統計會覆蓋上一次結果):\n"
 
 #: E:\github\Class-Roster-Picker\main.py:1060
 msgid "%s 出现了 %s 次\n"
-msgstr "%s appeared %s times.\n"
+msgstr "%s 出現了 %s 次\n"
 
 #: E:\github\Class-Roster-Picker\main.py:1063
 msgid "保存结果"
-msgstr "Save the result"
+msgstr "保存結果"
 
 #: E:\github\Class-Roster-Picker\main.py:1063
 msgid "统计结果已保存到'中奖统计.txt'"
-msgstr "Statistics have been saved to '中奖名单.txt'"
+msgstr "統計結果已儲存到'中奖统计.txt'"
 
 #: E:\github\Class-Roster-Picker\main.py:1104
-msgid "名单文件为空，请输入名字（一行一个）后再重新打开本软件"
+msgid ""
+"名单文件为空，请输入名字（一行一个）后再重新打开"
+"本软件"
 msgstr ""
-"The roster file is empty. Please input names (one per line) before reopening "
-"the software."
+"名單檔案為空，請輸入名字（一行一個）後再重新開啟"
+"本軟體"
 
 #: E:\github\Class-Roster-Picker\main.py:1109
 msgid "恭喜 {}！"
-msgstr "🎉 {}!"
+msgstr "恭喜 {}！"
 
 #: E:\github\Class-Roster-Picker\main.py:1128
-msgid "要使用背景音乐功能，请在 %s 中放入mp3格式的音乐"
+msgid ""
+"要使用背景音乐功能，请在 %s 中放入mp3格式的音乐"
 msgstr ""
-"If you want to use the background music function, please put the \"mp3\" "
-"format in the %s that will be opened later."
+"若要使用背景音樂功能，請在 %s 中放入mp3格式的音樂"
 
 #: E:\github\Class-Roster-Picker\main.py:1135
 msgid "播放音乐：%s"
-msgstr "Play music: %s"
+msgstr "播放音樂：%s"
 
 #: E:\github\Class-Roster-Picker\main.py:1139
 msgid "无法播放音乐文件：%s，错误信息：{str(e)}"
-msgstr "Unable to play music file: %s, Error message: {str(e)}"
+msgstr "無法播放音樂檔案：%s，錯誤訊息：{str(e)}"
 
 #: E:\github\Class-Roster-Picker\main.py:1164
 msgid "恭喜 %s"
-msgstr "welcome %s"
+msgstr "恭喜 %s"
 
 #: E:\github\Class-Roster-Picker\main.py:1175
 msgid "还没开始就想结束？"
-msgstr "Are you looking to end before we've even started?"
+msgstr "還沒開始就想結束？"
 
-#~ msgid "请输入要修改的名单名称:(文件名即可，无需输入.txt)"
+#~ msgid ""
+#~ "请输入要修改的名单名称:(文件名即可，无需输入."
+#~ "txt)"
 #~ msgstr ""
-#~ "Please enter the name of the list you want to change: (file name is "
-#~ "sufficient, no need to enter .txt)"
-
-#~ msgid "幸运儿是： %s "
-#~ msgstr "幸运儿是： %s "
-
-#~ msgid "幸运儿是："
-#~ msgstr "幸运儿是："
-
-#~ msgid "中奖统计.txt"
-#~ msgstr "中奖统计.txt"
+#~ "請輸入要修改的名單名稱:(檔名即可，無須輸入."
+#~ "txt)"

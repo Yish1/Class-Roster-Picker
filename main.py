@@ -10,7 +10,7 @@ import gettext
 import glob
 import ctypes
 import win32com.client
-from os import path as pathq
+#import ptvsd  # QThread断点工具
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QCursor, QIcon, QPixmap
 from PyQt5.QtCore import Qt, QTimer
@@ -26,15 +26,15 @@ try:
         os.path.dirname(__file__)), 'locale')
     translate = gettext.translation(
         domain=f"{language_value}", localedir=localedir1, languages=[f"{language_value}"])
-    translate.install()
+    _ = translate.gettext
 except:
     localedir1 = os.path.join(os.path.abspath(
         os.path.dirname(__file__)), 'locale')
     translate = gettext.translation(
         domain="zh_CN", localedir=localedir1, languages=["zh_CN"])
-    translate.install()
+    _ = translate.gettext
 
-dmversion = 5.93
+dmversion = 5.96
 
 big = False
 running = False
@@ -250,18 +250,15 @@ def name_list_selector():
         delete_button.clicked.connect(delete_list)
 
         def change_name_list():
-            target_filename, ok_pressed = QInputDialog.getText(
-                window, _("修改名单"), _("请输入要修改的名单名称:(文件名即可，无需输入.txt)"))
-            if ok_pressed and target_filename:
-                target_filepath = os.path.join(
-                    "name", f"{target_filename}.txt")
-                if os.path.exists(target_filepath):
-                    opentext(target_filepath)
-                else:
-                    QMessageBox.warning(
-                        window, _('警告'), _('名单文件不存在'), QMessageBox.Ok)
+            target_filename = combo_box.currentText()
+            target_filepath = os.path.join(
+                    "name", f"{target_filename}")
+            if os.path.exists(target_filepath):
+                opentext(target_filepath)
+            else:
+                QMessageBox.warning(
+                    window, _('警告'), _('名单文件不存在'), QMessageBox.Ok)
         change_button.clicked.connect(change_name_list)
-
         combo_box.addItems(txtnum)
 
         def showlist():
@@ -321,14 +318,17 @@ def cs_sha256():
                             print(_('文件内容一致。'))
                         else:
                             print(_('文件内容不一致。以下是修改的内容：'))
-                            diff = difflib.unified_diff(
-                                bak_content.splitlines(), original_content.splitlines())
+                            # 去除内容中的空行
+                            bak_lines = [line for line in bak_content.splitlines() if line.strip()]
+                            original_lines = [line for line in original_content.splitlines() if line.strip()]
+                            diff = difflib.unified_diff(bak_lines, original_lines)
                             diff_str = '\n'.join(diff)
+                            diff_str = diff_str[11:]
                             msg_box = QMessageBox()
                             msg_box.setIcon(QMessageBox.Warning)
                             msg_box.setWindowTitle(_("警告"))
                             msg_box.setText(
-                                _('警告：%s 最近被修改，加号是新增的，减号是减少的\n\n符号后面如果是空的请无视(由名单格式不规范造成)\n\n请以名字前符号为准！！！\n\n此记录会在 2天后 不再展示。\n%s') % (filename1, diff_str))
+                                _('警告：%s 最近被修改，加号是新增的，减号是减少的\n\n此记录会在 2天后 不再展示。\n%s') % (filename1, diff_str))
                             msg_box.exec_()
                             # 确保在最后一次循环才执行manage_deadline(filename1)
                             delrecordfile = delrecordfile + 1
@@ -477,7 +477,7 @@ class Ui_MainWindow(QMainWindow):
         super().init()
         self.RowLength = 0
         try:
-            icon_path = pathq.join(pathq.dirname(
+            icon_path = os.path.join(os.path.dirname(
                 __file__), "./picker.ico")  # 任务栏的ico
             icon = QIcon()
             icon.addPixmap(QPixmap(icon_path))
@@ -885,15 +885,11 @@ class Ui_MainWindow(QMainWindow):
                         newversion = float(page.text)
                         print("云端版本号为:", newversion)
                         findnewversion = _("检测到新版本！请点击左上角“更新”下载新版")
-                        if newversion > dmversion:  # if:条件
+                        if newversion > dmversion:
                             print(_("检测到新版本:"), newversion,
                                   _("当前版本为:"), dmversion)
                             self.pushButton_9.setText(
                                 _translate("MainWindow", _("更新")))
-                            # self.wide = 460
-                            # MainWindow.resize(self.wide, self.high)
-                            # self.high = 705
-                            # MainWindow.resize(self.wide, self.high)
                             updatabutton = QMessageBox.question(self, _("检测到新版本"), _("云端最新版本为%s，要现在下载新版本吗？<br>您也可以稍后点击点名器左上角'更新'按钮升级新版本") % newversion,
                                                                 QMessageBox.Ok | QMessageBox.No, QMessageBox.Ok,)
                             if updatabutton == QMessageBox.Ok:
@@ -1110,7 +1106,7 @@ class Ui_MainWindow(QMainWindow):
             )
             sys.exit()
         name = random.choice(name_list)
-        self.label.setText(_("恭喜 {}！").format(name))
+        self.label.setText(_("🎉 {}！").format(name))
 
     def start(self):
         global running
@@ -1120,7 +1116,7 @@ class Ui_MainWindow(QMainWindow):
         else:
             self.timer = QTimer(self)
             self.timer.timeout.connect(self.setname)
-            self.timer.start(50)
+            self.timer.start(15)
             running = True
             folder_name = "dmmusic"
             current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -1225,7 +1221,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def mini(self):
         self.showMinimized()
-
 
 if __name__ == "__main__":
     if is_first_run != "1":
